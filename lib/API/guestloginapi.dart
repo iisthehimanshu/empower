@@ -12,6 +12,7 @@ class guestApi {
     );
     if (response.statusCode == 200) {
       Map<String, dynamic> responseBody = json.decode(response.body);
+      print("GUEST API");
       return guestloginmodel.fromJson(responseBody);
     } else {
       print(response.statusCode);

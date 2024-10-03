@@ -2,43 +2,43 @@ import 'dart:collection';
 
 import 'package:empower/elements/DaySelection.dart';
 import 'package:empower/elements/card.dart';
-import 'package:empower/scheduleSearchBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'api/scheduleapi.dart';
-import 'apimodels/schedulemodel.dart';
+import 'api/ScheduleAPI.dart';
+import 'apimodels/Schedulemodel.dart';
 import 'elements/dayWidget.dart';
 
-class schedule extends StatefulWidget {
-  const schedule({super.key});
+class ScheduleScreen extends StatefulWidget {
+  const ScheduleScreen({super.key});
 
   @override
-  State<schedule> createState() => _scheduleState();
+  State<ScheduleScreen> createState() => _ScheduleScreenState();
 }
 
-class _scheduleState extends State<schedule> with SingleTickerProviderStateMixin{
-  scheduleModel? schedule;
+class _ScheduleScreenState extends State<ScheduleScreen> with SingleTickerProviderStateMixin{
+  ScheduleModel? schedule;
   List<DateTime> days = [];
   HashMap<DateTime,List<Widget>> cards = HashMap();
   late TabController tabBarController;
+  List<Widget> currentCards = []; // List to store the filtered cards
+
 
 
   @override
   void initState() {
-    // TODO: implement initState
     tabBarController = TabController(length: 2, vsync: this);
     fetchSchedule();
     super.initState();
   }
 
   Future<void> fetchSchedule() async {
-    schedule = await scheduleapi.fetchschedule();
+    schedule = await ScheduleAPI.fetchschedule();
     makeDatesWidget(schedule!);
     populateCards(schedule!);
   }
 
-  void makeDatesWidget(scheduleModel schedule){
+  void makeDatesWidget(ScheduleModel schedule){
     Set<DateTime> uniquedays = Set();
     if (schedule.data != null) {
       for (Data event in schedule.data!) {
@@ -62,13 +62,21 @@ class _scheduleState extends State<schedule> with SingleTickerProviderStateMixin
     });
   }
 
-  void populateCards(scheduleModel schedule){
+  void populateCards(ScheduleModel schedule){
     if(schedule.data != null){
       for(Data event in schedule.data!){
         cards.putIfAbsent(DateTime.parse(event.eventDate!), ()=>[]);
         cards[DateTime.parse(event.eventDate!)]!.add(card(event));
       }
     }
+    filterCardsForDay(days.length-(days.length-1));
+  }
+  // Method to filter cards for the selected day
+  void filterCardsForDay(int selectedIndex) {
+    DateTime selectedDay = days[selectedIndex];
+    setState(() {
+      currentCards = cards[selectedDay] ?? [];
+    });
   }
 
   @override
@@ -77,11 +85,28 @@ class _scheduleState extends State<schedule> with SingleTickerProviderStateMixin
     double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Schedule",
+            style: const TextStyle(
+              fontFamily: "Roboto",
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Color(0xffffffff),
+              height: 23/16,
+            ),
+            textAlign: TextAlign.left,
+          ),
+          centerTitle: true,
+          backgroundColor:Color(0xff48246C),
+          actions: [
+            IconButton(onPressed: (){}, icon: Icon(Icons.search,color: Colors.white,))
+          ],
+        ),
         body: Container(
           child: Column(
             children: [
-              scheduleSearchBar(),
-              DaySelection(days),
+              DaySelection(days, onDateSelected: filterCardsForDay),
               TabBar(
                 controller: tabBarController,
                 tabs: const [
@@ -111,11 +136,22 @@ class _scheduleState extends State<schedule> with SingleTickerProviderStateMixin
                             ),
                           ),
                           SizedBox(height: 20,),
-                          SingleChildScrollView(
-                            child: Column(
-                              children: cards,
+                          const SizedBox(height: 20),
+                          Expanded(
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500), // Animation duration
+                              transitionBuilder: (Widget child, Animation<double> animation) {
+                                return FadeTransition(opacity: animation, child: child); // Fade transition
+                              },
+                              child: ListView.builder(
+                                key: ValueKey<List<Widget>>(currentCards), // Unique key for changes
+                                itemCount: currentCards.length,
+                                itemBuilder: (context, index) {
+                                  return currentCards[index]; // Display cards
+                                },
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

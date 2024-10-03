@@ -1,12 +1,12 @@
 import 'package:intl/intl.dart';
 
-class scheduleModel {
+class ScheduleModel {
   List<Data>? data;
   bool? status;
 
-  scheduleModel({this.data, this.status});
+  ScheduleModel({this.data, this.status});
 
-  scheduleModel.fromJson(Map<String, dynamic> json) {
+  ScheduleModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../apimodels/schedulemodel.dart';
+import '../apimodels/Schedulemodel.dart';
 
 class card extends StatelessWidget {
   Data data;
