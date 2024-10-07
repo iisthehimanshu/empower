@@ -2,8 +2,7 @@ import 'dart:async';
 import 'dart:ui' as img;
 import 'dart:ui';
 
-import 'package:empower/Empower/DATABASE/BOX/SavedCardBox.dart';
-import 'package:empower/Empower/DATABASE/DATABASEMODEL/SavedCardsModel.dart';
+import 'package:empower/Empower/DATABASE/DATABASEMODEL/ScheduleApiModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -25,6 +24,7 @@ import 'dart:typed_data';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'APIModel/CardData.dart';
 import 'APIModel/Schedulemodel.dart';
 
 class SessionDetail extends StatefulWidget {
@@ -40,12 +40,12 @@ class SessionDetail extends StatefulWidget {
   late String category;
   late String notificationMessage;
   late String moderator;
-  late List<SubEvents>? subevents;
+  late List<dynamic>? subevents;
   late String? filename;
   late String? description;
   late String? eventType;
   late String? bookingType;
-  late Data? dataForHiveStorageAndFurtherUse;
+  late CardData? dataForHiveStorageAndFurtherUse;
 
 
 
@@ -462,7 +462,6 @@ class SessionDetailState extends State<SessionDetail> {
             logo.height +
             140)
             .toInt());
-    //33194d
     // Convert the image to PNG format
     final ByteData? byteData =
     await capturedImage.toByteData(format: ui.ImageByteFormat.png);
@@ -643,45 +642,16 @@ class SessionDetailState extends State<SessionDetail> {
 
   List<Widget> subeventwidgetlist = [];
   bool savedCard = false;
-  final savedCardBox = SavedCardBox.getData();
-
-
+  static var testBox = Hive.box('testingSave');
 
 
   @override
   void initState() {
     super.initState();
-    // if (widget.subevents != null) {
-    //   parsesubevents(widget.subevents!);
-    // }
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    final currentCardData = SavedCardsModel(cardData: {"":widget.dataForHiveStorageAndFurtherUse!});
-    savedCardBox.put("",currentCardData);
-    currentCardData.save();
-    savedCard = savedCardBox.containsKey(widget.eventid)? true: false;
-
   }
 
-  // void parsesubevents(List<SubEvents> subevents) {
-  //   for (int i = 0; i < subevents.length; i++) {
-  //     subeventwidgetlist.add(card(
-  //       eventname: subevents[i].name!,
-  //       ownername: "",
-  //       date: subevents[i].date!,
-  //       time: "${subevents[i].startTime!} - ${subevents[i].endTime!}",
-  //       venue: widget.loc,
-  //       hash: widget.hash,
-  //       seats: "",
-  //       eventid: subevents[i].sId!,
-  //       subevents: null,
-  //       category: widget.category,
-  //       filename: widget.filename,
-  //       description: widget.description,
-  //       eventType: widget.eventType,
-  //       bookingType: widget.bookingType,
-  //     ));
-  //   }
-  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -731,22 +701,28 @@ class SessionDetailState extends State<SessionDetail> {
             InkWell(
               child: Semantics(
                 label: 'Favourite',
-                child: savedCardBox.containsKey(widget.eventid)? Icon( Icons.bookmark_add_outlined,size: 34,color: Colors.red,) :
-                Icon(Icons.bookmark_add_outlined,size: 34,color: Colors.black26,),
+                child: Icon(
+                  // Check if the event ID exists in the bookmarked cards
+                  testBox.containsKey(widget.eventid)
+                      ? Icons.bookmark_rounded // If event is bookmarked, show filled icon
+                      : Icons.bookmark_outline_rounded, // Otherwise, show outlined icon
+                  size: 34,
+                  color: testBox.containsKey(widget.eventid)
+                      ? Colors.yellow // If bookmarked, color is yellow
+                      : Colors.black26, // Otherwise, color is black26
+                ),
               ),
-              onTap: () async{
-                print("savedCardBox.keys");
-                print(savedCardBox.keys);
-                if(savedCard){
-                  await savedCardBox.delete(widget.eventid);
-                }else {
+              onTap: () async {
+                if(testBox.containsKey(widget.eventid)){
+                  testBox.delete(widget.eventid);
+                }else{
+                  testBox.put(widget.eventid, widget.eventid);
+                }
 
-
-                  // currentCardData.save();
-                }// Add your favorite button onPressed logic here
-                //log('Favouties Database Size ${value.length}');
+                setState(() {}); // Ensure UI updates after the bookmark state change
               },
             ),
+
 
             // InkWell(
             //   onTap: () async {

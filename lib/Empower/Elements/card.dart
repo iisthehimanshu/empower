@@ -1,11 +1,12 @@
 import 'package:empower/Empower/APIModel/Schedulemodel.dart';
 import 'package:flutter/material.dart';
 
+import '../APIModel/CardData.dart';
 import '../SessionDetail.dart';
 
 
 class card extends StatelessWidget {
-  Data data;
+  CardData data;
   card(this.data, {super.key});
 
   List<Widget> getGenere(){
@@ -74,7 +75,7 @@ class card extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         Navigator.push(context,
-          MaterialPageRoute(builder: (context)=>SessionDetail(title: data.eventName??"", date: data.eventDate??"", startDate: "", endDate: "", time: data.startTime??"", loc: data.venueName??"", hash: [""], seats: "", eventid: "", category: data.categories??"", subevents: data.subEvents?? <SubEvents>[]
+          MaterialPageRoute(builder: (context)=>SessionDetail(title: data.eventName??"", date: data.eventDate??"", startDate: "", endDate: "", time: data.startTime??"", loc: data.venueName??"", hash: [""], seats: "", eventid: data.sId!, category: data.categories??"", subevents: data.subEvents?? <dynamic>[]
               , filename: data.filename??"", eventType: data.eventType??"", bookingType: data.bookingType??"", description:"", moderator: data.moderator??"",dataForHiveStorageAndFurtherUse: data,))
         );
 

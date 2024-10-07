@@ -1,32 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'SavedCardsModel.dart';
+part of 'ScheduleApiModel.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SavedCardsModelAdapter extends TypeAdapter<SavedCardsModel> {
+class ScheduleApiModelAdapter extends TypeAdapter<ScheduleApiModel> {
   @override
-  final int typeId = 20;
+  final int typeId = 18;
 
   @override
-  SavedCardsModel read(BinaryReader reader) {
+  ScheduleApiModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SavedCardsModel(
-      cardData: (fields[0] as Map).cast<String, Data>(),
+    return ScheduleApiModel(
+      responseBody: (fields[0] as Map).cast<String, dynamic>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, SavedCardsModel obj) {
+  void write(BinaryWriter writer, ScheduleApiModel obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj.cardData);
+      ..write(obj.responseBody);
   }
 
   @override
@@ -35,7 +35,7 @@ class SavedCardsModelAdapter extends TypeAdapter<SavedCardsModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SavedCardsModelAdapter &&
+      other is ScheduleApiModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

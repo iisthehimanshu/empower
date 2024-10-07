@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'API/ScheduleAPI.dart';
+import 'APIModel/CardData.dart';
 import 'APIModel/Schedulemodel.dart';
 
 
@@ -22,7 +23,7 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
   ScheduleModel? schedule;
   bool isLoading = true;
   HashMap<DateTime, List<Widget>> cards = HashMap();
-  List<Data> keyNoteDataList = [];
+  List<CardData> keyNoteDataList = [];
 
 
   @override

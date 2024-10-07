@@ -19,6 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../Navigation/Navigation.dart';
 import 'Elements/ImageSlider.dart';
 import 'ExhibitorsScreen.dart';
+import 'MyScheduleScreen.dart';
 import 'ScheduleScreen.dart';
 
 
@@ -61,59 +62,12 @@ class _HomePageState extends State<HomePage>{
               children: [
 
 
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   children: [
-                //
-                //     Container(
-                //       margin: EdgeInsets.only(top: 5),
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           Text(
-                //             "Empowe 2023 ",
-                //             style: const TextStyle(
-                //               fontFamily: "Inter",
-                //               fontSize: 14,
-                //               fontWeight: FontWeight.w600,
-                //               color: Color(0xff000000),
-                //               height: 17/14,
-                //             ),
-                //             textAlign: TextAlign.left,
-                //           ),
-                //           Text(
-                //             "IIT Madras",
-                //             style: const TextStyle(
-                //               fontFamily: "Inter",
-                //               fontSize: 12,
-                //               fontWeight: FontWeight.w300,
-                //               color: Color(0xff3e3e3e),
-                //               height: 15/12,
-                //             ),
-                //             textAlign: TextAlign.left,
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //     // Spacer(),
-                //     // Semantics(
-                //     //   label: 'Notification',
-                //     //   child: GestureDetector(
-                //     //     onTap: (){
-                //     //
-                //     //     },
-                //     //     child: Container(
-                //     //       width: 36,
-                //     //       height: 36,
-                //     //       margin: EdgeInsets.only(right: 10),
-                //     //       child: Icon(Icons.notifications_active_outlined),
-                //     //     ),
-                //     //   ),
-                //     // ),
-                //
-                //   ],
-                // ),
+                Container(
+                  margin: EdgeInsets.only(top: 20,left: 20,bottom: 10),
+                    child: Semantics(
+                      label: "Empower 2024",
+                        child: Image.asset("assets/Empowerlogo.png",scale: 1.5,))),
+
                 InkWell(
                   onTap: () {
 
@@ -121,84 +75,85 @@ class _HomePageState extends State<HomePage>{
                         MaterialPageRoute(builder: (context)=> ScheduleScreen()));
 
                   },
-                  child: Container(
-                    width: screenWidth,
-                    margin: EdgeInsets.only(bottom: 4),
-                    // height: 100,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.center,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xffffffff),
-                            Color(0xffffffff)
-                          ],
-                          stops: [0.1, 0.1]
+                  child: Semantics(
+                    child: Container(
+                      width: screenWidth,
+                      margin: EdgeInsets.only(bottom: 4),
+                      // height: 100,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.center,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(0xffffffff),
+                              Color(0xffffffff)
+                            ],
+                            stops: [0.1, 0.1]
+                        ),
                       ),
-                    ),
-                    padding: EdgeInsets.fromLTRB(20, 12, 0, 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            width: screenWidth - 40,
-                            height: screenHeight*0.045,
-                            padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
-                            decoration: BoxDecoration(
-                                border:
-                                Border.all(color: Color(0xffbdbdbd)),
-                                color: Color(0xffffffff),
-                                borderRadius: BorderRadius.circular(4),
-                                boxShadow: [
-                                  // BoxShadow(
-                                  //     color: Colors.black26,
-                                  //     offset: Offset.zero,
-                                  //     spreadRadius: 0,
-                                  //     blurRadius: 4,
-                                  //     blurStyle: BlurStyle.outer)
-                                ]
-                              //borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 11),
-                                  child: Icon(
-                                    Icons.search,
-                                    size: 26,
-                                    color: Color(0xffB3B3B3),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 8),
-                                    child: Text(
-                                      "Search ",
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xffbdbdbd),
-                                        height: 23/14,
-                                      ),
-                                      textAlign: TextAlign.left,
+                      padding: EdgeInsets.fromLTRB(20, 12, 0, 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              width: screenWidth - 40,
+                              height: screenHeight*0.045,
+                              padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
+                              decoration: BoxDecoration(
+                                  border:
+                                  Border.all(color: Color(0xffbdbdbd)),
+                                  color: Color(0xffffffff),
+                                  borderRadius: BorderRadius.circular(4),
+                                  boxShadow: [
+                                    // BoxShadow(
+                                    //     color: Colors.black26,
+                                    //     offset: Offset.zero,
+                                    //     spreadRadius: 0,
+                                    //     blurRadius: 4,
+                                    //     blurStyle: BlurStyle.outer)
+                                  ]
+                                //borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(left: 11),
+                                    child: Icon(
+                                      Icons.search,
+                                      size: 26,
+                                      color: Color(0xffB3B3B3),
                                     ),
                                   ),
-                                ),
-                                Spacer(),
-                                Container(
-                                    margin: EdgeInsets.only(right: 9),
-                                    child: Icon(Icons.mic_none_outlined,
-                                        size: 25,
-                                        color: Color(0xffBDBDBD))),
-
-                              ],
-                            )
-                        ),
-                      ],
+                                  Expanded(
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 8),
+                                      child: Text(
+                                        "Search ",
+                                        style: const TextStyle(
+                                          fontFamily: "Roboto",
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xffbdbdbd),
+                                          height: 23/14,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  // Container(
+                                  //     margin: EdgeInsets.only(right: 9),
+                                  //     child: Icon(Icons.mic_none_outlined,
+                                  //         size: 25,
+                                  //         color: Color(0xffBDBDBD))),
+                                ],
+                              )
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -265,21 +220,26 @@ class _HomePageState extends State<HomePage>{
                           ],
                         ),
                       ),
-                      Column(
-                        children: [
-                          SvgPicture.asset('assets/HomePage_Myschedule.svg'),
-                          Text(
-                            "My schedule",
-                            style: const TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xff000000),
-                              height: 18/12,
-                            ),
-                            textAlign: TextAlign.left,
-                          )
-                        ],
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MyScheduleScreen()));
+                        },
+                        child: Column(
+                          children: [
+                            SvgPicture.asset('assets/HomePage_Myschedule.svg'),
+                            Text(
+                              "My schedule",
+                              style: const TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xff000000),
+                                height: 18/12,
+                              ),
+                              textAlign: TextAlign.left,
+                            )
+                          ],
+                        ),
                       ),
                       InkWell(
                         onTap: (){
@@ -319,25 +279,29 @@ class _HomePageState extends State<HomePage>{
                           )
                         ],
                       ),
-                      InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> ExhibitorsScreen()));
-                        },
-                        child: Column(
-                          children: [
-                            SvgPicture.asset('assets/HomePage_Exhibitor.svg'),
-                            Text(
-                              "Exhibitors",
-                              style: const TextStyle(
-                                fontFamily: "Roboto",
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff000000),
-                                height: 18/12,
-                              ),
-                              textAlign: TextAlign.left,
-                            )
-                          ],
+
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> ExhibitorsScreen()));
+                          },
+                          child: Column(
+                            children: [
+                              SvgPicture.asset('assets/HomePage_Exhibitor.svg',height: 32,),
+                              Text(
+                                "Exhibitors",
+                                style: const TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff000000),
+                                  height: 18/12,
+                                ),
+                                textAlign: TextAlign.left,
+                              )
+                            ],
+                          ),
                         ),
                       )
                     ],
@@ -367,24 +331,37 @@ class _HomePageState extends State<HomePage>{
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Image.asset("assets/HomePage_google_logo.png",scale: 25,),
-                      Image.asset("assets/HomePage_microsoftLogo.png",scale: 3,)
+                      Image.asset("assets/HomePage_microsoftLogo.png",scale: 3,),
+                      Image.asset("assets/sponsor1.jpg",scale: 5,),
+                      Image.asset("assets/sponsor2.png",scale: 12,)
                     ],
                   ),
                 ),
-                // Container(
-                //   margin: EdgeInsets.only(left: 20,top: 20),
-                //   child: Text(
-                //     "Organizers",
-                //     style: const TextStyle(
-                //       fontFamily: "Roboto",
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.w700,
-                //       color: Color(0xff242222),
-                //       height: 26/20,
-                //     ),
-                //     textAlign: TextAlign.left,
-                //   ),
-                // ),
+                Container(
+                  margin: EdgeInsets.only(left: 20,top: 20),
+                  child: Text(
+                    "Organizers",
+                    style: const TextStyle(
+                      fontFamily: "Roboto",
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff242222),
+                      height: 26/20,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Image.asset("assets/organizer1.png",scale: 8,),
+                      Image.asset("assets/organizer2.png",scale: 1,),
+                      Image.asset("assets/organizer3.png",scale: 6,),
+                    ],
+                  ),
+                ),
                 Container(
                   margin: EdgeInsets.only(left: 20,top: 20),
                   child: Text(
@@ -406,9 +383,11 @@ class _HomePageState extends State<HomePage>{
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Image.asset("assets/HomePage_WorldHealthORG.png",scale: 2.5,),
+                      Image.asset("assets/partner2.jpg",scale: 8,),
                     ],
                   ),
                 ),
+
                 Container(
                   margin: EdgeInsets.only(left: 20,top: 20),
                   child: Text(

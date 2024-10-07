@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:empower/Empower/DATABASE/DATABASEMODEL/SavedCardsModel.dart';
+import 'package:empower/Empower/DATABASE/DATABASEMODEL/ScheduleApiModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,12 +54,13 @@ void main() async {
   await Hive.openBox<DataVersionLocalModel>('DataVersionLocalModelFile');
   Hive.registerAdapter(LocalNotificationAPIDatabaseModelAdapter());
   await Hive.openBox<LocalNotificationAPIDatabaseModel>('LocalNotificationAPIDatabaseModel');
-  Hive.registerAdapter(SavedCardsModelAdapter());
-  await Hive.openBox<SavedCardsModel>('SavedCardsModelFile');
 
+  Hive.registerAdapter(ScheduleApiModelAdapter());
+  await Hive.openBox<ScheduleApiModel>('ScheduleApiModelFile');
   await Hive.openBox('Favourites');
 
   await Hive.openBox('UserInformation');
+  await Hive.openBox('testingSave');
 
   await Hive.openBox('Filters');
   await Hive.openBox('SignInDatabase');

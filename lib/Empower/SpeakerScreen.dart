@@ -9,6 +9,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'API/ScheduleAPI.dart';
 import 'APIModel/Schedulemodel.dart';
+import 'SpeakerProfileScreen.dart';
 
 
 class Speakerscreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SpeakerscreenState extends State<Speakerscreen>{
   ScheduleModel? schedule;
   bool isLoading = true;
   HashMap<DateTime, List<Widget>> cards = HashMap();
-  List<Data> speakerDataList = [];
+  List<Speakers> speakerDataList = [];
 
 
   @override
@@ -46,9 +47,12 @@ class _SpeakerscreenState extends State<Speakerscreen>{
     });
   }
   void makerSpeakerList(ScheduleModel schedule) {
-    if (schedule.data != null) {
-      for (var item in schedule.data!) {
-        if(item.moderator!.isNotEmpty){
+
+    if (schedule.speakers != null) {
+      print("schedule.speakers.length");
+      print(schedule.speakers!.length);
+      for (var item in schedule.speakers!) {
+        if(item != null){
           speakerDataList.add(item);
         }
       }
@@ -117,75 +121,84 @@ class _SpeakerscreenState extends State<Speakerscreen>{
                 itemCount: speakerDataList.length,
                 itemBuilder: (context, index) {
                   final speaker = speakerDataList[index]; // Get the speaker data from the list
-                  return Container(
-                    margin: EdgeInsets.only(left: 10,right: 10,top: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff777777), // Set the border color
-                        width: 1.0, // Set the border width
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,)),
+                      );
+
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10,right: 10,top: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color(0xff777777), // Set the border color
+                          width: 1.0, // Set the border width
+                        ),
+                        borderRadius: BorderRadius.circular(4), // Set the border radius
                       ),
-                      borderRadius: BorderRadius.circular(4), // Set the border radius
-                    ),
 
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Color(0xffB2EFE4),
-                          backgroundImage: NetworkImage(speaker.filename??""), // Use speaker's image URL
-                        ),
-                        VerticalDivider(
-                          width: 20, // Space between the widgets
-                          thickness: 3, // Thickness of the divider
-                          color: Colors.black, // Color of the divider
-                        ),
-
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                speaker.moderator!,
-                                style: const TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xff000000),
-                                  height: 23/16,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              SizedBox(height: 2,),
-                              Text(
-                                "Motivation India",
-                                style: const TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff0e0d0d),
-                                  height: 20/14,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              SizedBox(height: 2,),
-
-                              Text(
-                                "Pondicherry",
-                                style: const TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff777777),
-                                  height: 20/14,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ],
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Color(0xffB2EFE4),
+                            backgroundImage: NetworkImage(speaker.filename??""), // Use speaker's image URL
                           ),
-                        ),
+                          VerticalDivider(
+                            width: 20, // Space between the widgets
+                            thickness: 3, // Thickness of the divider
+                            color: Colors.black, // Color of the divider
+                          ),
 
-                      ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  speaker.name??"",
+                                  style: const TextStyle(
+                                    fontFamily: "Roboto",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xff000000),
+                                    height: 23/16,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SizedBox(height: 2,),
+                                Text(
+                                  speaker.designation??"",
+                                  style: const TextStyle(
+                                    fontFamily: "Roboto",
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff0e0d0d),
+                                    height: 20/14,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                // SizedBox(height: 2,),
+                                //
+                                // Text(
+                                //   speaker.,
+                                //   style: const TextStyle(
+                                //     fontFamily: "Roboto",
+                                //     fontSize: 14,
+                                //     fontWeight: FontWeight.w400,
+                                //     color: Color(0xff777777),
+                                //     height: 20/14,
+                                //   ),
+                                //   textAlign: TextAlign.left,
+                                // ),
+                              ],
+                            ),
+                          ),
+
+                        ],
+                      ),
                     ),
                   );
                   },

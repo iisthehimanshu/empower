@@ -6,9 +6,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'API/ScheduleAPI.dart';
+import 'APIModel/CardData.dart';
 import 'APIModel/Schedulemodel.dart';
 import 'Elements/DaySelection.dart';
 import 'Elements/card.dart';
+import 'ScheduleSearchScreen.dart';
 
 
 class ScheduleScreen extends StatefulWidget {
@@ -50,19 +52,19 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   void makeDatesWidget(ScheduleModel schedule) {
     Set<DateTime> uniquedays = Set();
     if (schedule.data != null) {
-      for (Data event in schedule.data!) {
+      for (CardData event in schedule.data!) {
         if (event.eventDate != null) {
           DateTime eventDate = DateTime.parse(event.eventDate!);
           uniquedays.add(eventDate);
         }
-        if (event.subEvents != null) {
-          for (SubEvents subEvent in event.subEvents!) {
-            if (subEvent.date != null) {
-              DateTime subEventDate = DateTime.parse(subEvent.date!);
-              uniquedays.add(subEventDate);
-            }
-          }
-        }
+        // if (event.subEvents != null) {
+        //   for (var subEvent in event.subEvents!) {
+        //     if (subEvent. != null) {
+        //       DateTime subEventDate = DateTime.parse(subEvent.date!);
+        //       uniquedays.add(subEventDate);
+        //     }
+        //   }
+        // }
       }
     }
     setState(() {
@@ -72,7 +74,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
   void populateCards(ScheduleModel schedule) {
     if (schedule.data != null) {
-      for (Data event in schedule.data!) {
+      for (CardData event in schedule.data!) {
         cards.putIfAbsent(DateTime.parse(event.eventDate!), () => []);
         cards[DateTime.parse(event.eventDate!)]!.add(card(event));
       }
@@ -117,6 +119,15 @@ class _ScheduleScreenState extends State<ScheduleScreen>
             textAlign: TextAlign.left,
           ),
           actions: [
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ScheduleScreenSearch()),
+                );
+              }, // Toggle search mode
+            ),
           ],
         ),
         body: isLoading // Show loader while fetching data
