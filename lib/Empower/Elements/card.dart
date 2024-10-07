@@ -76,7 +76,7 @@ class card extends StatelessWidget {
       onTap: (){
         Navigator.push(context,
           MaterialPageRoute(builder: (context)=>SessionDetail(title: data.eventName??"", date: data.eventDate??"", startDate: "", endDate: "", time: data.startTime??"", loc: data.venueName??"", hash: [""], seats: "", eventid: data.sId!, category: data.categories??"", subevents: data.subEvents?? <dynamic>[]
-              , filename: data.filename??"", eventType: data.eventType??"", bookingType: data.bookingType??"", description:"", moderator: data.moderator??"",dataForHiveStorageAndFurtherUse: data,))
+              , filename: data.filename??"", eventType: data.eventType??"", bookingType: data.bookingType??"", description:data.eventDetails, moderator: data.moderator??"",speakerName: data.speakerName,dataForHiveStorageAndFurtherUse: data,))
         );
 
       },
@@ -113,16 +113,19 @@ class card extends StatelessWidget {
                     children: getGenere(),
                   ),
                   SizedBox(height: 10,),
-                  Text(
-                    "${data.eventName}",
-                    style: const TextStyle(
-                      fontFamily: "Roboto",
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff000000),
-                      height: 23/16,
+                  Container(
+
+                    child: Text(
+                      "${data.eventName}",
+                      style: const TextStyle(
+                        fontFamily: "Roboto",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff000000),
+                        height: 23/16,
+                      ),
+                      textAlign: TextAlign.left,
                     ),
-                    textAlign: TextAlign.left,
                   ),
                   SizedBox(height: 4,),
                   Row(

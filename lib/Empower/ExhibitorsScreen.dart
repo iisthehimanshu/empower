@@ -96,73 +96,80 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
         ) : Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 20,top: 20),
-              child: Text(
-                "List of Exhibitors",
-                style: const TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xff000000),
-                  height: 24/18,
+            Semantics(
+              header: true,
+              child: Container(
+                margin: EdgeInsets.only(left: 20,top: 20),
+                child: Text(
+                  "List of Exhibitors",
+                  style: const TextStyle(
+                    fontFamily: "Roboto",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xff000000),
+                    height: 24/18,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.left,
               ),
             ),
             const SizedBox(height: 20,),
             Expanded(
 
-              child: ListView.builder(
-                itemCount: keyNoteDataList.length,
-                itemBuilder: (context, index) {
-                  final speaker = keyNoteDataList[index]; // Get the speaker data from the list
-                  return Card(
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Color(0xffB2EFE4),
-                            backgroundImage: NetworkImage(speaker.filename??""), // Use speaker's image URL
-                          ),
-                          SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  speaker.moderator!, // Use speaker's name
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  speaker.moderator!, // Use speaker's organization
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                                Text(
-                                  speaker.moderator!, // Use speaker's location
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                              ],
+              child: Semantics(
+                label: "Exhibitors",
+                header: true,
+                child: ListView.builder(
+                  itemCount: keyNoteDataList.length,
+                  itemBuilder: (context, index) {
+                    final speaker = keyNoteDataList[index]; // Get the speaker data from the list
+                    return Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Color(0xffB2EFE4),
+                              backgroundImage: NetworkImage(speaker.filename??""), // Use speaker's image URL
                             ),
-                          ),
-
-                        ],
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    speaker.moderator!, // Use speaker's name
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    speaker.moderator!, // Use speaker's organization
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  Text(
+                                    speaker.moderator!, // Use speaker's location
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             )
 

@@ -7,8 +7,10 @@ class ScheduleModel {
   bool? status;
   List<Speakers>? speakers;
   List<CommiteeMembers>? commiteeMembers;  // Change to List<CommiteeMembers>?
+  List<ThemesAndSessions>? themesAndSessions;
 
-  ScheduleModel({this.data, this.status, this.speakers, this.commiteeMembers});
+
+  ScheduleModel({this.data, this.status, this.speakers, this.commiteeMembers,this.themesAndSessions});
 
   ScheduleModel.fromJson(Map<dynamic, dynamic> json) {
     if (json['data'] != null) {
@@ -31,10 +33,16 @@ class ScheduleModel {
         commiteeMembers!.add(CommiteeMembers.fromJson(v));
       });
     }
+    if (json['themesAndSessions'] != null) {
+      themesAndSessions = <ThemesAndSessions>[];
+      json['themesAndSessions'].forEach((v) {
+        themesAndSessions!.add(new ThemesAndSessions.fromJson(v));
+      });
+    }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = <dynamic, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -44,6 +52,10 @@ class ScheduleModel {
     }
     if (this.commiteeMembers != null) {
       data['commiteeMembers'] = this.commiteeMembers!.map((v) => v.toJson()).toList();
+    }
+    if (this.themesAndSessions != null) {
+      data['themesAndSessions'] =
+          this.themesAndSessions!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -59,6 +71,8 @@ class Speakers {
   String? filename;
   List<String>? roles;
   int? iV;
+  String? about;
+
 
   Speakers(
       {this.sId,
@@ -69,7 +83,7 @@ class Speakers {
         this.type,
         this.filename,
         this.roles,
-        this.iV});
+        this.iV,this.about});
 
   Speakers.fromJson(Map<dynamic, dynamic> json) {
     sId = json['_id'];
@@ -86,6 +100,8 @@ class Speakers {
     filename = json['filename'];
     roles = json['roles'].cast<String>();
     iV = json['__v'];
+    about = json['about'];
+
   }
 
   Map<dynamic, dynamic> toJson() {
@@ -101,6 +117,56 @@ class Speakers {
     data['type'] = this.type;
     data['filename'] = this.filename;
     data['roles'] = this.roles;
+    data['__v'] = this.iV;
+    data['about'] = this.about;
+
+    return data;
+  }
+}
+
+class ThemesAndSessions {
+  String? sId;
+  String? themeName;
+  List<String>? eventIds;
+  String? conferenceId;
+  List<Null>? dates;
+  int? order;
+  int? iV;
+
+  ThemesAndSessions(
+      {this.sId,
+        this.themeName,
+        this.eventIds,
+        this.conferenceId,
+        this.dates,
+        this.order,
+        this.iV});
+
+  ThemesAndSessions.fromJson(Map<dynamic, dynamic> json) {
+    sId = json['_id'];
+    themeName = json['themeName'];
+    eventIds = json['eventIds'].cast<String>();
+    conferenceId = json['conferenceId'];
+    if (json['dates'] != null) {
+      dates = <Null>[];
+      json['dates'].forEach((v) {
+        dates!.add(v);
+      });
+    }
+    order = json['order'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['themeName'] = this.themeName;
+    data['eventIds'] = this.eventIds;
+    data['conferenceId'] = this.conferenceId;
+    if (this.dates != null) {
+      data['dates'] = this.dates!.map((v) => v).toList();
+    }
+    data['order'] = this.order;
     data['__v'] = this.iV;
     return data;
   }

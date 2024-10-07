@@ -97,16 +97,19 @@ class _MyScheduleScreenState extends State<MyScheduleScreen>{
           children: [
             Container(
               margin: EdgeInsets.only(left: 20,top: 20),
-              child: Text(
-                "List of Bookmarked Events",
-                style: const TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xff000000),
-                  height: 24/18,
+              child: Semantics(
+                header: true,
+                child: Text(
+                  "List of Bookmarked Events",
+                  style: const TextStyle(
+                    fontFamily: "Roboto",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xff000000),
+                    height: 24/18,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.left,
               ),
             ),
             const SizedBox(height: 20,),

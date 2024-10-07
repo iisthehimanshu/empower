@@ -45,6 +45,7 @@ class SessionDetail extends StatefulWidget {
   late String? description;
   late String? eventType;
   late String? bookingType;
+  late String? speakerName;
   late CardData? dataForHiveStorageAndFurtherUse;
 
 
@@ -67,6 +68,8 @@ class SessionDetail extends StatefulWidget {
     required this.description,
     required this.eventType,
     required this.bookingType,
+    required this.speakerName,
+
     required this.dataForHiveStorageAndFurtherUse
 
   });
@@ -697,10 +700,9 @@ class SessionDetailState extends State<SessionDetail> {
             ),
           ),
           actions: [
-
             InkWell(
               child: Semantics(
-                label: 'Favourite',
+                label: 'Boorkmark Event',
                 child: Icon(
                   // Check if the event ID exists in the bookmarked cards
                   testBox.containsKey(widget.eventid)
@@ -784,16 +786,19 @@ class SessionDetailState extends State<SessionDetail> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  child: Text(
-                                    widget.title,
-                                    style: const TextStyle(
-                                      fontFamily: "Roboto",
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xff171717),
+                                Semantics(
+                                  header:true,
+                                  child: Container(
+                                    child: Text(
+                                      widget.title,
+                                      style: const TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xff171717),
+                                      ),
+                                      textAlign: TextAlign.start,
                                     ),
-                                    textAlign: TextAlign.start,
                                   ),
                                 ),
                                 Container(
@@ -899,17 +904,17 @@ class SessionDetailState extends State<SessionDetail> {
                                             ),
                                             textAlign: TextAlign.center,
                                           )),
-                                      Tab(
-                                          child: Text(
-                                            "Venue Map",
-                                            style: const TextStyle(
-                                              fontFamily: "Roboto",
-                                              fontSize: 16,
-                                              //  fontWeight: FontWeight.w400,
-                                              // color: Color(0xff48246C),
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          )),
+                                      // Tab(
+                                      //     child: Text(
+                                      //       "Venue Map",
+                                      //       style: const TextStyle(
+                                      //         fontFamily: "Roboto",
+                                      //         fontSize: 16,
+                                      //         //  fontWeight: FontWeight.w400,
+                                      //         // color: Color(0xff48246C),
+                                      //       ),
+                                      //       textAlign: TextAlign.center,
+                                      //     )),
                                       Tab(
                                           child: Text(
                                             "Co-ordinator",
@@ -947,14 +952,18 @@ class SessionDetailState extends State<SessionDetail> {
                                                   fontWeight: FontWeight.w400,
                                                   color: Color(0xff777777),
                                                 ),
-                                              ) : Text(
-                                                widget.description!,
-                                                textAlign: TextAlign.start,
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto",
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff777777),
+                                              ) : Container(
+                                                constraints: BoxConstraints(maxWidth: screenWidth*0.7),
+
+                                                child: Text(
+                                                  widget.description!,
+                                                  textAlign: TextAlign.start,
+                                                  style: const TextStyle(
+                                                    fontFamily: "Roboto",
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff777777),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -1022,7 +1031,6 @@ class SessionDetailState extends State<SessionDetail> {
                                       //         }
                                       //       },
                                       //     )),
-                                      Container(),
                                       // Content of Tab 3
                                       // subeventwidgetlist.isNotEmpty?
                                       // Expanded(
@@ -1059,8 +1067,10 @@ class SessionDetailState extends State<SessionDetail> {
                                                             .center,
                                                         children: [
                                                           Container(
+                                                            constraints: BoxConstraints(maxWidth: screenWidth*0.7),
+
                                                             child: Text(
-                                                              widget.moderator,
+                                                              widget.speakerName!,
                                                               style: TextStyle(
                                                                 fontFamily:
                                                                 'Roboto',

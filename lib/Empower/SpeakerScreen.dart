@@ -101,107 +101,114 @@ class _SpeakerscreenState extends State<Speakerscreen>{
            ) : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             Container(
-               margin: EdgeInsets.only(left: 20,top: 20),
-               child: Text(
-                 "List of Speaker",
-                 style: const TextStyle(
-                   fontFamily: "Roboto",
-                   fontSize: 18,
-                   fontWeight: FontWeight.w700,
-                   color: Color(0xff000000),
-                   height: 24/18,
+             Semantics(
+               header: true,
+               child: Container(
+                 margin: EdgeInsets.only(left: 20,top: 20),
+                 child: Text(
+                   "List of Speaker",
+                   style: const TextStyle(
+                     fontFamily: "Roboto",
+                     fontSize: 18,
+                     fontWeight: FontWeight.w700,
+                     color: Color(0xff000000),
+                     height: 24/18,
+                   ),
+                   textAlign: TextAlign.left,
                  ),
-                 textAlign: TextAlign.left,
                ),
              ),
               const SizedBox(height: 20,),
               Expanded(
-                child: ListView.builder(
-                itemCount: speakerDataList.length,
-                itemBuilder: (context, index) {
-                  final speaker = speakerDataList[index]; // Get the speaker data from the list
-                  return GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,)),
-                      );
+                child: Semantics(
+                  label: "Speakers",
+                  header: true,
+                  child: ListView.builder(
+                    itemCount: speakerDataList.length,
+                    itemBuilder: (context, index) {
+                      final speaker = speakerDataList[index]; // Get the speaker data from the list
+                      return GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,)),
+                          );
 
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10,right: 10,top: 10),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color(0xff777777), // Set the border color
-                          width: 1.0, // Set the border width
-                        ),
-                        borderRadius: BorderRadius.circular(4), // Set the border radius
-                      ),
-
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Color(0xffB2EFE4),
-                            backgroundImage: NetworkImage(speaker.filename??""), // Use speaker's image URL
-                          ),
-                          VerticalDivider(
-                            width: 20, // Space between the widgets
-                            thickness: 3, // Thickness of the divider
-                            color: Colors.black, // Color of the divider
-                          ),
-
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  speaker.name??"",
-                                  style: const TextStyle(
-                                    fontFamily: "Roboto",
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xff000000),
-                                    height: 23/16,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                SizedBox(height: 2,),
-                                Text(
-                                  speaker.designation??"",
-                                  style: const TextStyle(
-                                    fontFamily: "Roboto",
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff0e0d0d),
-                                    height: 20/14,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                // SizedBox(height: 2,),
-                                //
-                                // Text(
-                                //   speaker.,
-                                //   style: const TextStyle(
-                                //     fontFamily: "Roboto",
-                                //     fontSize: 14,
-                                //     fontWeight: FontWeight.w400,
-                                //     color: Color(0xff777777),
-                                //     height: 20/14,
-                                //   ),
-                                //   textAlign: TextAlign.left,
-                                // ),
-                              ],
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10,right: 10,top: 10),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color(0xff777777), // Set the border color
+                              width: 1.0, // Set the border width
                             ),
+                            borderRadius: BorderRadius.circular(4), // Set the border radius
                           ),
 
-                        ],
-                      ),
-                    ),
-                  );
-                  },
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Color(0xffB2EFE4),
+                                backgroundImage: NetworkImage(speaker.filename??""), // Use speaker's image URL
+                              ),
+                              VerticalDivider(
+                                width: 20, // Space between the widgets
+                                thickness: 3, // Thickness of the divider
+                                color: Colors.black, // Color of the divider
+                              ),
+
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      speaker.name??"",
+                                      style: const TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xff000000),
+                                        height: 23/16,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    SizedBox(height: 2,),
+                                    Text(
+                                      speaker.designation??"",
+                                      style: const TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xff0e0d0d),
+                                        height: 20/14,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    // SizedBox(height: 2,),
+                                    //
+                                    // Text(
+                                    //   speaker.,
+                                    //   style: const TextStyle(
+                                    //     fontFamily: "Roboto",
+                                    //     fontSize: 14,
+                                    //     fontWeight: FontWeight.w400,
+                                    //     color: Color(0xff777777),
+                                    //     height: 20/14,
+                                    //   ),
+                                    //   textAlign: TextAlign.left,
+                                    // ),
+                                  ],
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               )
 
