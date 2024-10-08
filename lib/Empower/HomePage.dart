@@ -66,7 +66,9 @@ class _HomePageState extends State<HomePage>{
                       child: Semantics(
                         label: "Empower 2024",
                           excludeSemantics: true,
-                          child: Image.asset("assets/download.png",scale: 4,))),
+                          child: Image.asset("assets/download.png",scale: 4,)
+                      )
+                  ),
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.notifications_none_outlined),

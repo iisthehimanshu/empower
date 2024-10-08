@@ -316,7 +316,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                                           ),
                                           child: Text(
                                             key,  // Render the key (category name)
-                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                              style: const TextStyle(
+                                                fontFamily: "Roboto",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xff000000),
+                                                height: 23/16,
+                                              ),
                                           ),
                                         ),
                                         Column(

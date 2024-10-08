@@ -1,5 +1,6 @@
 import 'package:empower/Empower/HomePage.dart';
 import 'package:empower/Empower/ScheduleScreen.dart';
+import 'package:empower/Navigation/Elements/HelperClass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -63,6 +64,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[index],
+
+
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           indicatorColor: Colors.transparent,
@@ -79,8 +82,11 @@ class _MainScreenState extends State<MainScreen> {
           backgroundColor: Color(0xffFFFFFF),
           selectedIndex: index,
           onDestinationSelected: (index)=>setState(() {
-
-            this.index = index;
+            if(index == 2){
+              HelperClass.showToast("Feature Comming Soon!!");
+            }else {
+              this.index = index;
+            }
           }),
           destinations: [
             NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff1C1B1F)),selectedIcon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff24B9B0),), label: 'Home',),

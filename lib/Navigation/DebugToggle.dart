@@ -15,7 +15,6 @@ class _DebugToggleState extends State<DebugToggle> {
   bool StepButton = true;
   bool PDRIcon = false;
 
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

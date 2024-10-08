@@ -37,15 +37,30 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: TranslatorWidget(
-          text: "Notification",
-          fontSize: "16",
-          fontFamily: "Roboto",
-          fontWeight: "500",
-          color: "#18181b",
+        backgroundColor: Color(0xffF1FFFE),
+        leading: IconButton(
+          icon: Semantics(
+              label: 'Back',
+              child: Icon(Icons.arrow_back, color: Color(0xff000000))),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ), // Set your desired background color
+        title: Text(
+          "Notification",
+          style: const TextStyle(
+            fontFamily: "Roboto",
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Color(0xff000000),
+            height: 23/16,
+          ),
+          textAlign: TextAlign.left,
         ),
+
       ),
+
+
       body: Container(
         height: MediaQuery.of(context).size.height * 0.9,
         child: isLoading
@@ -62,11 +77,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            'assets/Frame.png',
-            width: 100,
-            height: 100,
-          ),
           TranslatorWidget(
             text: 'No Notifications',
             fontSize: "18",

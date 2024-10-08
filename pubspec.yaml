@@ -103,6 +103,7 @@ dependencies:
   widget_to_marker:
   app_settings: ^5.1.1
   connectivity_plus: ^6.0.3
+  image_picker: ^1.1.2
 
 
 

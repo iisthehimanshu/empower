@@ -96,6 +96,7 @@ class MyApp extends StatelessWidget {
     }
     return MaterialApp(
       title: "IWAYPLUS",
+      debugShowCheckedModeBanner: false,
       home: FutureBuilder<bool>(
         future: null,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
