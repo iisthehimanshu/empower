@@ -22,6 +22,7 @@ class SignUpAPI{
       Uri.parse(baseUrl),
       body: json.encode(data),
       headers: {
+
         'Content-Type': 'application/json',
       },
     );
