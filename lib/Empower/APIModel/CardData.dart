@@ -118,12 +118,49 @@ class CardData {
     data['speakerName'] = this.speakerName;
     return data;
   }
+
+
+
+  bool isCurrentDateTimeBetween(String startTime, String endTime, String date) {
+    // Define the time and date format
+    final timeFormat = DateFormat('HH:mm');
+    final dateFormat = DateFormat('yyyy-MM-dd');
+
+    // Parse the date to get the DateTime object
+    DateTime parsedDate = dateFormat.parse(date);
+
+    // Create start and end DateTime objects by combining date with start and end times
+    DateTime parsedStartDateTime = DateTime(
+      parsedDate.year,
+      parsedDate.month,
+      parsedDate.day,
+      timeFormat.parse(startTime).hour,
+      timeFormat.parse(startTime).minute,
+    );
+
+    DateTime parsedEndDateTime = DateTime(
+      parsedDate.year,
+      parsedDate.month,
+      parsedDate.day,
+      timeFormat.parse(endTime).hour,
+      timeFormat.parse(endTime).minute,
+    );
+
+    // Get the current date-time
+    final now = DateTime.now();
+
+    // Check if current date-time is between start and end date-time
+    return now.isAfter(parsedStartDateTime) && now.isBefore(parsedEndDateTime);
+  }
+
   bool isEventHappeningNow() {
+    print("isEventHappeningNow");
     // Get today's date in 'yyyy-MM-dd' format
     String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     // Check if event date is today
     if (eventDate == today) {
+      print("yesToday");
       // Get current time
       DateTime now = DateTime.now();
       String currentTime = DateFormat.Hm().format(now); // Format to HH:mm
@@ -131,11 +168,15 @@ class CardData {
       // Check if current time is between startTime and endTime
       if (startTime != null && endTime != null) {
         DateTime start = DateFormat.Hm().parse(startTime!);
-        DateTime end = DateFormat.Hm().parse(endTime!);
+        // DateTime end = DateFormat.Hm().parse(endTime!);
         // Set the date for start and end times to today's date
-        start = DateTime(now.year, now.month, now.day, start.hour, start.minute);
-        end = DateTime(now.year, now.month, now.day, end.hour, end.minute);
-        return now.isAfter(start) && now.isBefore(end);
+        // start = DateTime(now.year, now.month, now.day, start.hour, start.minute);
+        // end = DateTime(now.year, now.month, now.day, end.hour, end.minute);
+        print("$currentTime ${start}" );
+        // return DateTime.parse(startTime!) < DateTime.parse(startTime!)? true : ;
+        return false;
+      }else{
+        print("not today");
       }
     }
     return false;

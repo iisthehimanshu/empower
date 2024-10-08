@@ -59,34 +59,102 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       List<ThemesAndSessions> themeAndSession = schedule.themesAndSessions!;
       print("themeAndSession");
       print(themeAndSession);
-      HashMap<String,List<Widget>> themeMap = HashMap();
+
+
       for (var currentTheme in themeAndSession){
+        HashMap<String,List<Widget>> themeMap = HashMap();
         List<Widget> themenEvents = [];
-        DateTime currentKey = DateTime.now();
+
+
         if(themeMap.containsKey(currentTheme.themeName)){
-          themeMap.putIfAbsent(currentTheme.themeName!,()=>[]);
-        }else {
-          print("currentTheme.eventIds");
-          print(currentTheme.eventIds);
+          themeMap.putIfAbsent(currentTheme.themeName!, ()=>[]);
+        }else{
           currentTheme.eventIds!.forEach((E) {
             schedule.data!.forEach((event) {
               if (event.sId == E) {
-                currentKey = DateTime.parse(event.eventDate!);
+                //currentKey = DateTime.parse(event.eventDate!);
                 themenEvents.add(card(event));
-                print("Found ${currentKey}");
               }else{
 
               }
             });
           });
         }
-
+        print("themeMap");
+        print(themeMap);
+        print(themenEvents);
         themeMap[currentTheme.themeName!] = themenEvents;
-        finalMap[currentKey] = themeMap;
+        if(currentTheme.dates?.length != 0){
+          if(finalMap.containsKey(DateTime.parse(currentTheme.dates![0]))){
+            finalMap[DateTime.parse(currentTheme.dates![0])!]![currentTheme.themeName!] = themenEvents;
+            print("finalMap.values");
+            print(finalMap.values);
+          }else{
+            finalMap.putIfAbsent(DateTime.parse(currentTheme.dates![0]),()=> themeMap);
+          }
+        }
+
+        //finalMap[DateTime.parse(currentTheme.dates![0])] = themeMap;
+        // if(finalMap.containsKey(currentTheme.dates![0])){
+        //
+        //
+        //
+        // }else{
+        //   print("notcontain");
+        //   finalMap.putIfAbsent(DateTime.parse(currentTheme.dates![0]),()=> themeMap);
+        // }
+
+        // DateTime currentKey = DateTime.parse(currentTheme.dates![0]);
+        // if(themeMap.containsKey(currentTheme.themeName) && themeMap[currentTheme.themeName]!.contains(currentTheme.dates![0])){
+        //
+        // }else{
+        //   HashMap<String,List<Widget>> map = HashMap();
+        //   map[currentTheme.dates![0]] = [];
+        //   themeMap.putIfAbsent(currentTheme.themeName!,()=>map);
+        // }
+        //
+        // if(themeMap.containsKey(currentTheme.themeName)){
+        //   themeMap.putIfAbsent(currentTheme.themeName!,()=>[]);
+        //   if(themeMap[currentTheme.themeName]!.contains(currentTheme.dates![0])){
+        //     themeMap.putIfAbsent(
+        //       currentTheme.themeName!,
+        //           () => currentTheme[currentTheme.dates![0]!] = <Widget>[], // Ensure it's a List<Widget>
+        //     );            themeMap.putIfAbsent(
+        //       currentTheme.themeName!,
+        //           () => currentTheme[currentTheme.dates![0]!] = <Widget>[],
+        //     );
+        //   }else{
+        //
+        //   }
+        // }else {
+        //   print("currentTheme.eventIds");
+        //   print(currentTheme.eventIds);
+        //   currentTheme.eventIds!.forEach((E) {
+        //     CardData foundCard = schedule.data!.firstWhere((card) => card.sId! == E);
+        //     print("currentIDData");
+        //     print(foundCard.sId);
+        //     schedule.data!.forEach((event) {
+        //       if (event.sId == E && currentTheme.dates![0] == event.eventDate) {
+        //         //currentKey = DateTime.parse(event.eventDate!);
+        //         themenEvents.add(card(event));
+        //         print("Found ${currentKey}");
+        //       }else{
+        //
+        //       }
+        //     });
+        //   });
+        // }
+
+        // themeMap[currentTheme.themeName!] = themenEvents;
+        // finalMap[currentKey] = themeMap;
       }
       print("finalMap.keys");
       print(finalMap.keys);
-      print(finalMap.values);
+      finalMap.keys.forEach((k){
+        print("Keys ${k} : Value ${finalMap[k]}");
+      });
+      // print(finalMap.values.elementAt(0).keys);
+      print(finalMap.values.elementAt(0).values);
 
     }else{
       print("themenull");
@@ -239,9 +307,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Container(
-
                                           padding: const EdgeInsets.all(8.0),
                                           margin:EdgeInsets.only(top: 10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0xffEBEBEB),
+                                            border: Border.all(color: Color(0xff777777), width: 0.5), // Example border color and width
+                                            borderRadius: BorderRadius.circular(10), // Set the border radius for rounding
+                                          ),
                                           child: Text(
                                             key,  // Render the key (category name)
                                             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

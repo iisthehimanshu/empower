@@ -7,6 +7,8 @@ import 'package:hive/hive.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../Navigation/Navigation.dart';
+import 'ProfilePage.dart';
+import 'QrScanner.dart';
 
 
 class MainScreen extends StatefulWidget {
@@ -23,8 +25,9 @@ class _MainScreenState extends State<MainScreen> {
   final screens = [
     HomePage(),
     Navigation(),
+    QRScannerScreen(),
     ScheduleScreen(),
-    HomePage(),
+    ProfilePage(),
   ];
 
   @override
@@ -76,26 +79,13 @@ class _MainScreenState extends State<MainScreen> {
           backgroundColor: Color(0xffFFFFFF),
           selectedIndex: index,
           onDestinationSelected: (index)=>setState(() {
-            if (index==3){
-              // Check if the 4th screen is selected
-              showToast('Feature coming soon');
-            }
-            else {
-              // Switch to the selected screen for other cases
-              // if (index == 1) {
-              //   // Open MapScreen in full screen
-              //   Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreen()));
-              // } else {
-              //   // Switch to the selected screen for other cases
-              //   this.index = index;
-              // }
-              this.index = index;
-            }
+
+            this.index = index;
           }),
           destinations: [
             NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff1C1B1F)),selectedIcon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff24B9B0),), label: 'Home',),
             NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Map.svg",color: Color(0xff1C1B1F)),selectedIcon: SvgPicture.asset("assets/MainScreen_Map.svg",color: Color(0xff24B9B0),), label: "Map",),
-            // NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),),selectedIcon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),width: 34,height: 34,), label: 'Schedule',),
+            NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),),selectedIcon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),width: 34,height: 34,), label: 'Schedule',),
             NavigationDestination(icon: Icon(Icons.event_outlined, color: Color(0xff1C1B1F)), // Unselected state
               selectedIcon: Icon(Icons.event_outlined, color: Color(0xff24B9B0)), // Selected state
               label: "Schedule",

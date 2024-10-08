@@ -129,12 +129,11 @@ class ThemesAndSessions {
   String? themeName;
   List<String>? eventIds;
   String? conferenceId;
-  List<Null>? dates;
+  List<String>? dates;
   int? order;
   int? iV;
 
-  ThemesAndSessions(
-      {this.sId,
+  ThemesAndSessions({this.sId,
         this.themeName,
         this.eventIds,
         this.conferenceId,
@@ -148,7 +147,7 @@ class ThemesAndSessions {
     eventIds = json['eventIds'].cast<String>();
     conferenceId = json['conferenceId'];
     if (json['dates'] != null) {
-      dates = <Null>[];
+      dates = <String>[];
       json['dates'].forEach((v) {
         dates!.add(v);
       });

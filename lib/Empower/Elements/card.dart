@@ -68,10 +68,13 @@ class card extends StatelessWidget {
     return widgets;
   }
 
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    print("data.isEventHappeningNow() ${data.isEventHappeningNow()}");
+    print(data.isEventHappeningNow());
     return GestureDetector(
       onTap: (){
         Navigator.push(context,
@@ -81,17 +84,19 @@ class card extends StatelessWidget {
 
       },
       child: Container(
+
         width: screenWidth,
         height: screenHeight*0.15,
         margin: EdgeInsets.only(top: 16),
         decoration: BoxDecoration(
-          color: data.isEventHappeningNow()?Color(0xff48246C):Colors.white,
+          color: data.isCurrentDateTimeBetween(data.startTime!,data.endTime!,data.eventDate!)?Color(0xffF1FFFE): data.eventName!.contains("Lunch")? Color(0xffBDBDBD) : Colors.white,
           borderRadius: BorderRadius.circular(8.0), // Clip the image to rounded corners
           border: Border.all(
             color: Colors.black12, // Set the border color
             width: 1.0, // Set the border width
           ),
         ),
+
         child: Row(
           children: [
             Container(

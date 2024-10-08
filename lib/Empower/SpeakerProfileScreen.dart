@@ -9,7 +9,8 @@ import 'SessionDetail.dart';
 class SpeakerProfileScreen extends StatefulWidget {
   String name;
   String designation;
-  SpeakerProfileScreen({required this.name,required this.designation});
+  String description;
+  SpeakerProfileScreen({required this.name,required this.designation,required this.description});
 
   @override
   State<SpeakerProfileScreen> createState() => _SpeakerProfileScreenState();
@@ -92,7 +93,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: screenHeight * 0.18,
+              height: screenHeight * 0.28,
               width: screenWidth,
               color: Color(0xffffffff),
               child: Column(
@@ -109,6 +110,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
                   ),
                   Text(
                     widget.designation,
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                 ],
@@ -132,7 +134,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
             Container(
               margin: EdgeInsets.only(left: 20, top: 20, right: 20),
               child: Text(
-                "I am a designed to improve the knowledge of students/professionals to address the needs of people.",
+                widget.description,
                 style: const TextStyle(
                   fontFamily: "Roboto",
                   fontSize: 16,

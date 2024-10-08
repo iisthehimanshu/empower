@@ -131,7 +131,7 @@ class _SpeakerscreenState extends State<Speakerscreen>{
                         onTap: (){
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,)),
+                            MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,description: speakerDataList[index].about!,)),
                           );
 
                         },
