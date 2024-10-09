@@ -10,7 +10,8 @@ class SpeakerProfileScreen extends StatefulWidget {
   String name;
   String designation;
   String description;
-  SpeakerProfileScreen({required this.name,required this.designation,required this.description});
+  bool fromCommiteePage;
+  SpeakerProfileScreen({required this.name,required this.designation,required this.description,required this.fromCommiteePage});
 
   @override
   State<SpeakerProfileScreen> createState() => _SpeakerProfileScreenState();
@@ -72,7 +73,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
         ), // Set your desired background color
         title: Container(
           child: Text(
-            'Speaker Profile',
+            (widget.fromCommiteePage)?'Committee Profile':'Speaker Profile',
             style: TextStyle(
               fontFamily: 'Roboto',
               fontSize: 16,

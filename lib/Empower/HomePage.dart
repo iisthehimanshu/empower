@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:empower/Empower/CommiteeScreen.dart';
 import 'package:empower/Empower/SpeakerScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>{
 
   List<String> images = [
-    'https://scontent.fdel32-1.fna.fbcdn.net/v/t15.5256-10/460583319_1772816140154596_6347014808111266149_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=7965db&_nc_ohc=9VhirPn3wKgQ7kNvgFPz1Ye&_nc_ht=scontent.fdel32-1.fna&_nc_gid=Am35fs9YoOQRidD8U9mJhbo&oh=00_AYBYY3wLQ-c84la664FUTVPPNOGBtCoITxtOCQWwdzPJlg&oe=6705F52B'
+    'https://www.empower24.in/img/empower%202024.png'
 
   ];
   List<String> imagesSemantic = [
@@ -292,21 +293,26 @@ class _HomePageState extends State<HomePage>{
                                   ],
                                 ),
                               ),
-                              Column(
-                                children: [
-                                  SvgPicture.asset('assets/HomePage_ProgramCommitee.svg'),
-                                  Text(
-                                    "Commitee",
-                                    style: const TextStyle(
-                                      fontFamily: "Roboto",
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xff000000),
-                                      height: 18/12,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  )
-                                ],
+                              InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Commiteescreen()));
+                                },
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset('assets/HomePage_ProgramCommitee.svg'),
+                                    Text(
+                                      "Commitee",
+                                      style: const TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xff000000),
+                                        height: 18/12,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    )
+                                  ],
+                                ),
                               ),
 
                               Container(

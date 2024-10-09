@@ -23,7 +23,7 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
   ScheduleModel? schedule;
   bool isLoading = true;
   HashMap<DateTime, List<Widget>> cards = HashMap();
-  List<CardData> keyNoteDataList = [];
+  List<Exhibitors> keyNoteDataList = [];
 
 
   @override
@@ -41,15 +41,13 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
       setState(() {
         isLoading = false;
       });
-      makerSpeakerList(schedule!);
+      makerExhibitorList(schedule!);
     });
   }
-  void makerSpeakerList(ScheduleModel schedule) {
+  void makerExhibitorList(ScheduleModel schedule) {
     if (schedule.data != null) {
-      for (var item in schedule.data!) {
-        if(item.categories == "Key Note"){
+      for (var item in schedule.exhibitors!) {
           keyNoteDataList.add(item);
-        }
       }
     }
   }
@@ -122,7 +120,7 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                 child: ListView.builder(
                   itemCount: keyNoteDataList.length,
                   itemBuilder: (context, index) {
-                    final speaker = keyNoteDataList[index]; // Get the speaker data from the list
+                    final exhibitor = keyNoteDataList[index]; // Get the speaker data from the list
                     return Card(
                       elevation: 2,
                       child: Padding(
@@ -132,7 +130,7 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                             CircleAvatar(
                               radius: 30,
                               backgroundColor: Color(0xffB2EFE4),
-                              backgroundImage: NetworkImage(speaker.filename??""), // Use speaker's image URL
+                              backgroundImage: NetworkImage(""), // Use speaker's image URL
                             ),
                             SizedBox(width: 12),
                             Expanded(
@@ -140,21 +138,21 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    speaker.moderator!, // Use speaker's name
+                                    (exhibitor.contactPersionName==null)?'':exhibitor.contactPersionName!, // Use speaker's name
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    speaker.moderator!, // Use speaker's organization
+                                    (exhibitor.about==null)?'' :exhibitor.about!, // Use speaker's organization
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[600],
                                     ),
                                   ),
                                   Text(
-                                    speaker.moderator!, // Use speaker's location
+                                    (exhibitor.boothNo==null)?'':exhibitor.boothNo!, // Use speaker's location
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[600],
