@@ -8,9 +8,12 @@ class ScheduleModel {
   List<Speakers>? speakers;
   List<CommiteeMembers>? commiteeMembers;  // Change to List<CommiteeMembers>?
   List<ThemesAndSessions>? themesAndSessions;
+  List<String>? organizationTeam;
+  List<Exhibitors>? exhibitors;
 
 
-  ScheduleModel({this.data, this.status, this.speakers, this.commiteeMembers,this.themesAndSessions});
+  ScheduleModel({this.data, this.status, this.speakers, this.commiteeMembers,this.themesAndSessions,this.organizationTeam,
+    this.exhibitors});
 
   ScheduleModel.fromJson(Map<dynamic, dynamic> json) {
     if (json['data'] != null) {
@@ -39,6 +42,13 @@ class ScheduleModel {
         themesAndSessions!.add(new ThemesAndSessions.fromJson(v));
       });
     }
+    organizationTeam = json['organizationTeam'].cast<String>();
+    if (json['exhibitors'] != null) {
+      exhibitors = <Exhibitors>[];
+      json['exhibitors'].forEach((v) {
+        exhibitors!.add(new Exhibitors.fromJson(v));
+      });
+    }
   }
 
   Map<dynamic, dynamic> toJson() {
@@ -56,6 +66,10 @@ class ScheduleModel {
     if (this.themesAndSessions != null) {
       data['themesAndSessions'] =
           this.themesAndSessions!.map((v) => v.toJson()).toList();
+    }
+    data['organizationTeam'] = this.organizationTeam;
+    if (this.exhibitors != null) {
+      data['exhibitors'] = this.exhibitors!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -180,6 +194,7 @@ class CommiteeMembers {
   String? filename;
   List<String>? roles;
   String? sId;
+  String? about;
 
   CommiteeMembers(
       {this.name,
@@ -189,7 +204,7 @@ class CommiteeMembers {
         this.type,
         this.filename,
         this.roles,
-        this.sId});
+        this.sId,this.about});
 
   CommiteeMembers.fromJson(Map<dynamic, dynamic> json) {
     name = json['name'];
@@ -205,6 +220,7 @@ class CommiteeMembers {
     filename = json['filename'];
     roles = json['roles'].cast<String>();
     sId = json['_id'];
+    about = json['about'];
   }
 
   Map<dynamic, dynamic> toJson() {
@@ -220,6 +236,56 @@ class CommiteeMembers {
     data['filename'] = this.filename;
     data['roles'] = this.roles;
     data['_id'] = this.sId;
+    data['about'] = this.about;
+    return data;
+  }
+}
+
+class Exhibitors {
+  String? sId;
+  String? companyName;
+  String? contactPersionName;
+  String? about;
+  String? emailAndPhone;
+  String? website;
+  String? linkedIn;
+  String? boothNo;
+  int? iV;
+
+  Exhibitors(
+      {this.sId,
+        this.companyName,
+        this.contactPersionName,
+        this.about,
+        this.emailAndPhone,
+        this.website,
+        this.linkedIn,
+        this.boothNo,
+        this.iV});
+
+  Exhibitors.fromJson(Map<dynamic, dynamic> json) {
+    sId = json['_id'];
+    companyName = json['companyName'];
+    contactPersionName = json['contactPersionName'];
+    about = json['about'];
+    emailAndPhone = json['emailAndPhone'];
+    website = json['website'];
+    linkedIn = json['linkedIn'];
+    boothNo = json['boothNo'];
+    iV = json['__v'];
+  }
+
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
+    data['_id'] = this.sId;
+    data['companyName'] = this.companyName;
+    data['contactPersionName'] = this.contactPersionName;
+    data['about'] = this.about;
+    data['emailAndPhone'] = this.emailAndPhone;
+    data['website'] = this.website;
+    data['linkedIn'] = this.linkedIn;
+    data['boothNo'] = this.boothNo;
+    data['__v'] = this.iV;
     return data;
   }
 }
