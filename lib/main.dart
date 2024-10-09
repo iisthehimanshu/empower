@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:empower/Empower/DATABASE/DATABASEMODEL/ScheduleApiModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,6 +27,8 @@ import 'Navigation/DATABASE/DATABASEMODEL/WayPointModel.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
+  debugPaintSizeEnabled = false;
+
   WidgetsFlutterBinding.ensureInitialized();
   WakelockPlus.enable();
   var directory = await getApplicationDocumentsDirectory();
@@ -97,6 +100,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "IWAYPLUS",
       debugShowCheckedModeBanner: false,
+
       home: FutureBuilder<bool>(
         future: null,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {

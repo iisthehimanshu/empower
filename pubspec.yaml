@@ -63,7 +63,6 @@ dependencies:
   shimmer: ^3.0.0
   flutter_tts: ^3.8.5
   flutter_compass: ^0.8.0
-  firebase_core:
   flutter_animate: ^4.5.0 #animations
   flutter_staggered_animations:
   shared_preferences: ^2.2.2
@@ -78,7 +77,6 @@ dependencies:
   chips_choice: ^3.0.1
   turf: ^0.0.10
   geolocator: ^11.0.0
-  firebase_messaging:
   lottie: ^2.6.0
   speech_to_text:
   fuzzy: <1.0.0
