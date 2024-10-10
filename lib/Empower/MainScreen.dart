@@ -8,6 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../Navigation/Navigation.dart';
+import 'MainScreenController.dart';
 import 'ProfilePage.dart';
 import 'QrScanner.dart';
 
@@ -22,7 +23,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late int index;
   final screens = [
     HomePage(),
     Navigation(),
@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     checkPermission();
-    index = widget.initialIndex;
+    MainScreenController.setIndex(widget.initialIndex);
   }
   checkPermission()async{
     await requestBluetoothConnectPermission();
@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[index],
+      body: screens[MainScreenController.getIndex()],
 
 
       bottomNavigationBar: NavigationBarTheme(
@@ -80,12 +80,12 @@ class _MainScreenState extends State<MainScreen> {
 
         child: NavigationBar(
           backgroundColor: Color(0xffFFFFFF),
-          selectedIndex: index,
+          selectedIndex: MainScreenController.getIndex(),
           onDestinationSelected: (index)=>setState(() {
             if(index == 2){
               HelperClass.showToast("Feature Comming Soon!!");
             }else {
-              this.index = index;
+              MainScreenController.setIndex(index);
             }
           }),
           destinations: [
