@@ -229,11 +229,12 @@ class _SignInState extends State<SignIn> {
       });
       HelperClass.showToast("Invalid Username or Password");
     } else {
-      Navigator.push(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (context) => MainScreen(initialIndex: 0,),
         ),
+            (route) => false,
       );
       HelperClass.showToast("Sign in successful");
     }
