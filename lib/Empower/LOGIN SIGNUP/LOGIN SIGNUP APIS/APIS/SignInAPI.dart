@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import '../../../../Navigation/API/RefreshTokenAPI.dart';
@@ -9,7 +10,7 @@ import '../MODELS/SignInAPIModel.dart';
 
 class SignInAPI{
 
-  final String baseUrl = "https://dev.iwayplus.in/auth/signin2";
+  final String baseUrl = kDebugMode? "https://dev.iwayplus.in/auth/signin2" : "https://maps.iwayplus.in/auth/signin2";
 
   Future<SignInApiModel?> signIN(String username, String password) async {
     //final signindataBox = FavouriteDataBaseModelBox.getData();
@@ -82,7 +83,7 @@ class SignInAPI{
   static Future<int> sendOtpForgetPassword(String user) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
-        'POST', Uri.parse('https://dev.iwayplus.in/auth/otp/username'));
+        'POST', Uri.parse(kDebugMode? 'https://dev.iwayplus.in/auth/otp/username' : 'https://maps.iwayplus.in/auth/otp/username'));
     request.body = json.encode({"username": "${user}", "digits":4,"appId":"com.iwayplus.empower"});
     request.headers.addAll(headers);
 
@@ -102,7 +103,7 @@ class SignInAPI{
   static Future<int> changePassword(String user, String pass, String otp) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
-        'POST', Uri.parse('https://dev.iwayplus.in/auth/reset-password'));
+        'POST', Uri.parse(kDebugMode? 'https://dev.iwayplus.in/auth/reset-password' : 'https://maps.iwayplus.in/auth/reset-password'));
     request.body = json.encode({
       "username": "$user",
       "password": "$pass",

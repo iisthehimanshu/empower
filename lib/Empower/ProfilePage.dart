@@ -159,7 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> refreshTokenAndRetryForGetUserDetails(String baseUrl) async {
-    final String refreshTokenUrl = "https://dev.iwayplus.in/api/refreshToken";
+    final String refreshTokenUrl = kDebugMode? "https://dev.iwayplus.in/api/refreshToken":"https://maps.iwayplus.in/api/refreshToken";
 
     try {
       final response = await http.post(

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 class SendOTPAPI{
 
-  final String baseUrl = "https://dev.iwayplus.in/auth/otp/send";
+  final String baseUrl = kDebugMode? "https://dev.iwayplus.in/auth/otp/send":"https://maps.iwayplus.in/auth/otp/send";
 
   Future<bool> sendOTP(String username) async {
     final Map<String, dynamic> data = {
