@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:socket_io_client/socket_io_client.dart';
 
-import '../Navigation/websocket/PushNotifications.dart';
+import '../../Navigation/websocket/PushNotifications.dart';
 import 'Model/NotificationData.dart';
 
 class NotificationSocket{

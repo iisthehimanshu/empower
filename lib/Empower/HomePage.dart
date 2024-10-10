@@ -18,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Navigation/Navigation.dart';
-import '../NotificationScreen.dart';
+import 'NotificationScreen.dart';
 import 'Elements/ImageSlider.dart';
 import 'ExhibitorsScreen.dart';
 import 'MyScheduleScreen.dart';

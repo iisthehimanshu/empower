@@ -1,4 +1,5 @@
 import 'package:empower/Empower/APIModel/Schedulemodel.dart';
+import 'package:empower/Navigation/Elements/HelperClass.dart';
 import 'package:flutter/material.dart';
 
 import '../APIModel/CardData.dart';
@@ -67,6 +68,13 @@ class card extends StatelessWidget {
     }
     return widgets;
   }
+  String getLimitedString(String text, int limit) {
+    if (text.length > limit) {
+      return text.substring(0, limit) + '..';
+    } else {
+      return text;
+    }
+  }
 
 
   @override
@@ -84,7 +92,6 @@ class card extends StatelessWidget {
 
       },
       child: Container(
-
         width: screenWidth,
         height: screenHeight*0.15,
         margin: EdgeInsets.only(top: 16),
@@ -118,18 +125,18 @@ class card extends StatelessWidget {
                     children: getGenere(),
                   ),
                   SizedBox(height: 10,),
-                  Container(
-
+                  Flexible(
                     child: Text(
-                      "${data.eventName}",
+                      "${HelperClass.truncateString(data.eventName!,408)}",  // Limit to 20 characters
                       style: const TextStyle(
                         fontFamily: "Roboto",
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Color(0xff000000),
-                        height: 23/16,
+                        height: 23 / 16,
                       ),
                       textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,  // In case the text still overflows
                     ),
                   ),
                   SizedBox(height: 4,),

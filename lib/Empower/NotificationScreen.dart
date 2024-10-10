@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'Navigation/API/LocalNotificationAPI.dart';
-import 'Navigation/APIMODELS/LocalNotificationAPIModel.dart';
-import 'Navigation/Elements/HelperClass.dart';
-import 'Navigation/Elements/Translator.dart';
+import '../Navigation/API/LocalNotificationAPI.dart';
+import '../Navigation/APIMODELS/LocalNotificationAPIModel.dart';
+import '../Navigation/Elements/HelperClass.dart';
+import '../Navigation/Elements/Translator.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});

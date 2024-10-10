@@ -24,10 +24,10 @@ import '../Navigation/DATABASE/DATABASEMODEL/PatchAPIModel.dart';
 import '../Navigation/DATABASE/DATABASEMODEL/PolyLineAPIModel.dart';
 import '../Navigation/DATABASE/DATABASEMODEL/WayPointModel.dart';
 import '../Navigation/DebugToggle.dart';
-import '../PrivacyPolicy.dart';
 import 'EditProfile.dart';
 import 'Help&SupportScreen.dart';
 import 'LOGIN SIGNUP/SignIn.dart';
+import 'PrivacyPolicy.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}): super(key: key);
@@ -110,6 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
         body: json.encode({"userId": userId}),
         headers: {
           'Content-Type': 'application/json',
+          'x-access-token': '$accessToken',
           'x-access-token': '$accessToken',
         },
       );

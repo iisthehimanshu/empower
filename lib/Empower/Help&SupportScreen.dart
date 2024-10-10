@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../PrivacyPolicy.dart';
 import 'ContactUs.dart';
+import 'PrivacyPolicy.dart';
 
 
 class HelpSupportScreen extends StatefulWidget {

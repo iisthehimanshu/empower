@@ -21,7 +21,8 @@ class DeleteApi {
     };
 
     final response = await http.delete(
-      Uri.parse(baseUrl), body: json.encode(data),
+      Uri.parse(baseUrl),
+      body: json.encode(data),
       headers: {
         'Content-Type': 'application/json',
         'x-access-token': accessToken
