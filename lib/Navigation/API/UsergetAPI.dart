@@ -10,13 +10,18 @@ import 'RefreshTokenAPI.dart';
 
 class UsergetAPI{
 
-  final String baseUrl = kDebugMode? "https://maps.iwayplus.in/secured/user/get" : "https://maps.iwayplus.in/secured/user/get";
+  final String baseUrl = kDebugMode? "https://dev.iwayplus.in/secured/user/get" : "https://maps.iwayplus.in/secured/user/get";
   static var signInBox = Hive.box('SignInDatabase');
   String accessToken = signInBox.get("accessToken");
   var userInfoBox=Hive.box('UserInformation');
 
   Future<void> getUserDetailsApi(String userId) async {
     print('ingetuser');
+
+    if(userInfoBox.containsKey("sId") && (userInfoBox.get("sId") == userId) && userInfoBox.containsKey('name') && userInfoBox.containsKey('sId') && (userInfoBox.containsKey('mobile') || userInfoBox.containsKey('email'))){
+      print('UsergetAPI FROM DATABASE');
+      return;
+    }
 
     final response = await http.post(
       Uri.parse(baseUrl),
@@ -26,6 +31,7 @@ class UsergetAPI{
         'x-access-token': accessToken,
       },
     );
+    userInfoBox.clear();
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseBody = json.decode(response.body);

@@ -18,11 +18,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Navigation/Navigation.dart';
+import '../Navigation/websocket/NotifIcationSocket.dart';
 import 'NotificationScreen.dart';
 import 'Elements/ImageSlider.dart';
 import 'ExhibitorsScreen.dart';
 import 'MyScheduleScreen.dart';
 import 'ScheduleScreen.dart';
+import 'DisabilityFormScreen.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -35,8 +37,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>{
 
   List<String> images = [
-    'https://www.empower24.in/img/empower%202024.png'
-
+    'https://i.ytimg.com/vi/9hUqhunGsUM/maxresdefault.jpg'
   ];
   List<String> imagesSemantic = [
     'Corousal Image'
@@ -47,6 +48,8 @@ class _HomePageState extends State<HomePage>{
   @override
   void initState() {
     super.initState();
+    NotificationSocket.receiveMessage();
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
@@ -62,13 +65,19 @@ class _HomePageState extends State<HomePage>{
             children: [
               Row(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 20,left: 20,bottom: 10),
-                      child: Semantics(
-                        label: "Empower 2024",
-                          excludeSemantics: true,
-                          child: Image.asset("assets/download.png",scale: 4,)
-                      )
+                  Semantics(
+                    // onTap: (){
+                    //   Navigator.push(context, MaterialPageRoute(builder: (context)=> DisabilityFormScreen()));
+                    // },
+                    label: "Empower 2024",
+                    child: Container(
+                      margin: EdgeInsets.only(top: 20,left: 20,bottom: 10),
+                        child: Semantics(
+                          label: "Empower 2024",
+                            excludeSemantics: true,
+                            child: Image.asset("assets/download.png",scale: 4,)
+                        )
+                    ),
                   ),
                   Spacer(),
                   IconButton(
@@ -179,8 +188,8 @@ class _HomePageState extends State<HomePage>{
 
               Expanded(
                 child: SingleChildScrollView(
-
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ImageSlider(images: images,imagesSemantics: imagesSemantic,),
                       Container(

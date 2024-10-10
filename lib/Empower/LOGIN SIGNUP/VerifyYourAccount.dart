@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,9 +8,15 @@ import 'package:flutter/widgets.dart';
 import 'dart:math';
 
 import 'package:upgrader/upgrader.dart';
+import 'package:lottie/lottie.dart' as lot;
 import '../../Navigation/Elements/HelperClass.dart';
+import '../MainScreen.dart';
 import 'CreateNewPassword.dart';
+import 'LOGIN SIGNUP APIS/APIS/SendOTPAPI.dart';
+import 'LOGIN SIGNUP APIS/APIS/SignInAPI.dart';
 import 'LOGIN SIGNUP APIS/APIS/SignUpAPI.dart';
+import 'package:http/http.dart' as http;
+
 import 'SignIn.dart';
 
 class VerifyYourAccount extends StatefulWidget {
@@ -78,7 +85,7 @@ class _VerifyYourAccountState extends State<VerifyYourAccount> {
 
 
   bool loginclickable = false;
-  Color buttonBGColor = new Color(0xff24b9b0);
+  Color buttonBGColor = new Color(0xff0B6B94);
 
   Color outlineheaderColorForName = new Color(0xff49454f);
   Color outlineTextColorForName = new Color(0xff49454f);
@@ -90,13 +97,13 @@ class _VerifyYourAccountState extends State<VerifyYourAccount> {
     if(OTPEditingController.text.length>0){
       if(OTPEditingController.text.length>0){
         setState(() {
-          buttonBGColor = Color(0xff24b9b0);
+          buttonBGColor = Color(0xff0B6B94);
           loginclickable = true;
         });
       }
       setState(() {
-        outlineheaderColor = Color(0xff24b9b0);// Change the button color to green
-        outlineTextColor = Color(0xff24b9b0);// Change the button color to green
+        outlineheaderColor = Color(0xff0B6B94);// Change the button color to green
+        outlineTextColor = Color(0xff0B6B94);// Change the button color to green
       });
     }else{
       setState(() {
@@ -107,6 +114,7 @@ class _VerifyYourAccountState extends State<VerifyYourAccount> {
     }
   }
   int timeLeft = 59;
+  bool isResending = false;
 
 
 
@@ -143,7 +151,95 @@ class _VerifyYourAccountState extends State<VerifyYourAccount> {
   }
 
 
+  // Future<void> resendOTP() async {
+  //   setState(() {
+  //     isResending = true;
+  //   });
+  //
+  //   final usernameOrEmail = isNumeric(widget.userEmailOrPhone)
+  //       ? '+91${widget.userEmailOrPhone}'
+  //       : widget.userEmailOrPhone;
+  //
+  //   if(widget.previousScreen=="SignUp"){
+  //     await SendOTPAPI().sendOTP(usernameOrEmail).then((value)=>{
+  //     if(value==1){
+  //       HelperClass.showToast("OTP has been resent")
+  //     }
+  //     else{
+  //       HelperClass.showToast("Error")
+  //     }
+  //   });
+  //   }else{
+  //   await SignInAPI.sendOtpForgetPassword(usernameOrEmail).then((value)=>{
+  //     if(value==1){
+  //       HelperClass.showToast("OTP has been resent")
+  //     }
+  //     else{
+  //       HelperClass.showToast("Error")
+  //     }
+  //
+  //   }});
+  //   setState(() {
+  //     isResending = false;
+  //     timeLeft = 59;
+  //   });
+  //   startCountDown();
+  // }
+  Future<void> resendOTP() async {
+    setState(() {
+      isResending = true;
+    });
 
+    final usernameOrEmail = isNumeric(widget.userEmailOrPhone)
+        ? '+91${widget.userEmailOrPhone}'
+        : widget.userEmailOrPhone;
+
+    if (widget.previousScreen == "SignUp") {
+      await SendOTPAPI().sendOTP(usernameOrEmail).then((value) {
+        if (value == true) {
+          HelperClass.showToast("OTP has been resent");
+        } else {
+          print("value is printed here value");
+          print(value);
+          HelperClass.showToast("Error");
+        }
+      });
+    } else {
+      await SignInAPI.sendOtpForgetPassword(usernameOrEmail).then((value) {
+        if (value == 1) {
+          HelperClass.showToast("OTP has been resent");
+        } else {
+          HelperClass.showToast("Error");
+        }
+      });
+    }
+
+    setState(() {
+      isResending = false;
+      timeLeft = 59;
+    });
+    startCountDown();
+  }
+  Future<bool> verifyOTP(String username, String otp) async {
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('https://dev.iwayplus.in/auth/otp/token'));
+    request.body = json.encode({
+      "username": username,
+      "otp": otp
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      print(response.reasonPhrase);
+      return false;
+    }
+  }
   void _onFocusChange() {
     if (_focusNode1.hasFocus) {
       setState(() {
@@ -267,13 +363,8 @@ class _VerifyYourAccountState extends State<VerifyYourAccount> {
                                 Container(
                                     margin: EdgeInsets.only(top: 20, left: 16, right: 16),
                                     height: 58,
-                                    padding: EdgeInsets.only(left: 12),
                                     width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: outlineheaderColor, width: 2),
-                                      color: Color(0xfffffff),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
+
                                     child: Semantics(
                                       label: "Enter 4 digit OTP",
                                       child: ExcludeSemantics(
@@ -281,16 +372,39 @@ class _VerifyYourAccountState extends State<VerifyYourAccount> {
                                           focusNode: _focusNode1,
                                           keyboardType: TextInputType.number,
                                           inputFormatters: <TextInputFormatter>[
+                                            LengthLimitingTextInputFormatter(4),
                                             FilteringTextInputFormatter.digitsOnly
                                           ],
                                           controller: OTPEditingController,
                                           decoration: InputDecoration(
-                                              hintText: 'OTP',
-                                              hintStyle: TextStyle(
-                                                fontFamily: 'Roboto',
+                                              labelText: 'OTP',
+                                              labelStyle: TextStyle(
+                                                fontFamily: "Roboto",
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
-                                                color: Color(0xffbdbdbd),
+                                                color: Color(0xff49454f),
+                                                height: 16/12,
+                                              ),
+                                              hintStyle: TextStyle(
+                                                fontFamily: "Roboto",
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                color: Color(0xff49454f),
+                                                height: 24/16,
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(6),
+                                                  borderSide: BorderSide(
+                                                    color: Color(0xff0B6B94),
+                                                    width: 2,
+                                                  )
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(6),
+                                                borderSide: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 2,
+                                                ),
                                               ),
                                               border: InputBorder.none
                                           ),
@@ -325,16 +439,23 @@ class _VerifyYourAccountState extends State<VerifyYourAccount> {
                                     child: Row(
                                       children: [
                                         Spacer(),
-                                        Text(
-                                          timeLeft==0? 'Try Again': '00:${timeLeft.toString()}',
-                                          style: const TextStyle(
-                                            fontFamily: "Roboto",
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xff000000),
-                                            height: 23/16,
+                                        GestureDetector(
+                                          onTap: timeLeft == 0 ? resendOTP : null,
+
+                                          child:isResending
+                                              ? Container(
+                                              width:20,height:20,child: CircularProgressIndicator())
+                                              : Text(
+                                            timeLeft==0? 'Resend OTP': '00:${timeLeft.toString()}',
+                                            style: const TextStyle(
+                                              fontFamily: "Roboto",
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xff000000),
+                                              height: 23/16,
+                                            ),
+                                            textAlign: TextAlign.left,
                                           ),
-                                          textAlign: TextAlign.left,
                                         ),
                                       ],
                                     )
@@ -359,12 +480,21 @@ class _VerifyYourAccountState extends State<VerifyYourAccount> {
                                               print(finalSendingEmailORPhone);
                                               print(widget.userEmailOrPhone);
                                               print(widget.userName);
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => CreateNewPassword(otp: (OTPEditingController.text.isNotEmpty)?OTPEditingController.text:'', user: finalSendingEmailORPhone)
-                                                ),
-                                              );
+                                              bool isValidOTP = await verifyOTP(finalSendingEmailORPhone, OTPEditingController.text);
+
+                                              if(isValidOTP) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CreateNewPassword(otp: (OTPEditingController.text.isNotEmpty)
+                                                              ? OTPEditingController.text
+                                                              : '', user: finalSendingEmailORPhone)
+                                                  ),
+                                                );
+                                              }else{
+                                                HelperClass.showToast("Incorrect OTP Entered");
+                                              }
                                             }else if(OTPEditingController.text.isEmpty || OTPEditingController.text.length<4){
                                               HelperClass.showToast("Enter 4 Digit OTP");
                                             }

@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../MainScreen.dart';
 import 'LOGIN SIGNUP APIS/APIS/SignInAPI.dart';
 import 'SignIn.dart';
 import 'VerifyYourAccount.dart';
@@ -18,6 +19,9 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
+  String prefixMailText = "";
+
+
   FocusNode _focusNode1 = FocusNode();
   FocusNode _focusNode2 = FocusNode();
   FocusNode _focusNode2_1 = FocusNode();
@@ -89,9 +93,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     if (nameEditingController.text.length > 0) {
       setState(() {
         outlineheaderColorForName =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
         outlineTextColorForName =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
       });
     } else {
       setState(() {
@@ -105,15 +109,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   void emailFieldListner() {
     if (mailEditingController.text.isNotEmpty) {
       setState(() {
-        buttonBGColor = Color(0xff24b9b0);
+        buttonBGColor = Color(0xff0B6B94);
         loginclickable = true;
       });
 
       setState(() {
         outlineheaderColor =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
         outlineTextColor =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
       });
     } else {
       setState(() {
@@ -128,15 +132,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     if (passEditingController.text.length > 0) {
       if (mailEditingController.text.length > 0) {
         setState(() {
-          buttonBGColor = Color(0xff24b9b0);
+          buttonBGColor = Color(0xff0B6B94);
           loginclickable = true;
         });
       }
       setState(() {
         outlineheaderColorForPass =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
         outlineTextColorForPass =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
       });
     } else {
       setState(() {
@@ -149,7 +153,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   void signINButtonControler() {
     setState(() {
-      buttonBGColor = Color(0xff24b9b0);
+      buttonBGColor = Color(0xff0B6B94);
     });
   }
 
@@ -224,6 +228,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     Orientation orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(
+          scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
@@ -255,103 +260,115 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                  margin: EdgeInsets.fromLTRB(16, 11, 0, 0),
-                                  width: double.infinity,
-                                  child: Text(
-                                    "Forget Password?",
-                                    style: const TextStyle(
-                                      fontFamily: "Roboto",
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xff000000),
-                                      height: 30 / 24,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0,left: 16,right: 16),
-                                child: Text(
-                                  "Enter your email or mobile number to verify",
-                                  style: TextStyle(
-                                    fontFamily: "Roboto",
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff242323),
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
+                              Semantics(
+                                header: true,
+                                child: Container(
+                                    margin: EdgeInsets.fromLTRB(16, 11, 0, 0),
+                                    width: double.infinity,
+                                    child: Text(
+                                      "Forget Password?",
+                                      style: const TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xff000000),
+                                        height: 30 / 24,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    )),
                               ),
-                              // Container(
-                              //   margin: EdgeInsets.only(
-                              //       left: 16, top: 8, right: 16),
-                              //   width: screenWidth,
-                              //   child: const Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       Flexible(
-                              //         child: Text(
-                              //           "If you’ve forgotten your password, don’t worry Enter your email or mobile number to verify",
-                              //           style: TextStyle(
-                              //             fontFamily: "Roboto",
-                              //             fontSize: 16,
-                              //             fontWeight: FontWeight.w400,
-                              //             color: Color(0xff242323),
-                              //           ),
-                              //           textAlign: TextAlign.left,
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0,left: 16,right: 16),
+                          child: Text(
+                                            "Enter your email or mobile number to verify",
+                                            style: TextStyle(
+                                              fontFamily: "Roboto",
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                              color: Color(0xff242323),
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                        ),
+
                               Container(
                                 //color: Colors.amberAccent,
                                   margin: EdgeInsets.only(
                                       top: 20, left: 16, right: 16),
                                   height: 58,
                                   child: Container(
-                                      padding: EdgeInsets.only(left: 12),
                                       width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: outlineheaderColor,
-                                            width: 2),
-                                        color: Color(0xfffffff),
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
+
                                       child: Row(
                                         children: [
-                                          containsOnlyNumeric(
-                                              mailEditingController.text)
-                                              ? CountryCodeSelector()
-                                              : Text(""),
+                                          // containsOnlyNumeric(
+                                          //     mailEditingController.text)
+                                          //     ? CountryCodeSelector()
+                                          //     : Text(""),
                                           Expanded(
                                             child: Semantics(
                                               label: "Enter Email or mobile number",
-                                              child: ExcludeSemantics(
-                                                child: TextFormField(
-                                                  focusNode: _focusNode1,
-                                                  controller: mailEditingController,
-                                                  decoration: const InputDecoration(
-                                                      hintText:
-                                                      'Email or mobile number',
-                                                      hintStyle: TextStyle(
-                                                        fontFamily: 'Roboto',
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Color(0xffbdbdbd),
+                                              child: TextFormField(
+                                                focusNode: _focusNode1,
+                                                controller: mailEditingController,
+                                                decoration:  InputDecoration(
+                                                    labelText:
+                                                    'Email or mobile number',
+                                                    labelStyle: TextStyle(
+                                                      fontFamily: "Roboto",
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Color(0xff49454f),
+                                                      height: 16/12,
+                                                    ),
+                                                    floatingLabelStyle: TextStyle(
+                                                      fontFamily: "Roboto",
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Color(0xff0B6B94),
+                                                      height: 16/12,
+                                                    ),
+                                                    hintStyle: TextStyle(
+                                                      fontFamily: "Roboto",
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Color(0xff49454f),
+                                                      height: 24/16,
+                                                    ),
+                                                    focusedBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(6),
+                                                        borderSide: BorderSide(
+                                                          color: Color(0xff0B6B94),
+                                                          width: 2,
+                                                        )
+                                                    ),
+                                                    enabledBorder: OutlineInputBorder(
+                                                      borderRadius: BorderRadius.circular(6),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 2,
                                                       ),
-                                                      border: InputBorder.none
-                                                    //contentPadding: EdgeInsets.symmetric(vertical: 8)
-                                                  ),
-                                                  onChanged: (value) {
-                                                    emailFieldListner();
-                                                    outlineheaderColorForPass =
-                                                    new Color(0xff49454f);
-                                                    outlineheaderColorForName =
-                                                    new Color(0xff49454f);
-                                                  },
+                                                    ),
+                                                    border: InputBorder.none,
+                                                  prefix: ExcludeSemantics(child: Text(prefixMailText)),
+                                                  //contentPadding: EdgeInsets.symmetric(vertical: 8)
                                                 ),
+                                                onChanged: (value) {
+                                                  emailFieldListner();
+                                                  outlineheaderColorForPass =
+                                                  new Color(0xff49454f);
+                                                  outlineheaderColorForName =
+                                                  new Color(0xff49454f);
+                                                  if(containsOnlyNumeric(value)){
+                                                    setState(() {
+                                                      prefixMailText = "+91  ";
+                                                    });
+                                                  }else{
+                                                    setState(() {
+                                                      prefixMailText = "";
+                                                    });
+                                                  }
+                                                },
                                               ),
                                             ),
                                           ),
@@ -392,7 +409,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                                     MaterialPageRoute(
                                                       builder:
                                                           (context) =>
-                                                          VerifyYourAccount(
+                                                              // CreateNewPassword(otp: (OTPEditingController.text.isNotEmpty)?OTPEditingController.text:'', user: mailEditingController.text)
+
+                                                      VerifyYourAccount(
                                                             userEmailOrPhone:
                                                             mailEditingController
                                                                 .text,
@@ -420,6 +439,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                                       MaterialPageRoute(
                                                         builder:
                                                             (context) =>
+                                                                // CreateNewPassword(otp: (OTPEditingController.text.isNotEmpty)?OTPEditingController.text:'', user: mailEditingController.text)
                                                             VerifyYourAccount(
                                                               userEmailOrPhone:
                                                               mailEditingController

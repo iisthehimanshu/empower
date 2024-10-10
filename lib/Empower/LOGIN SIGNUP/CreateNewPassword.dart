@@ -5,7 +5,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../Navigation/Elements/HelperClass.dart';
+import 'package:upgrader/upgrader.dart';
+import 'package:lottie/lottie.dart' as lot;
+import '../MainScreen.dart';
 import 'LOGIN SIGNUP APIS/APIS/SignInAPI.dart';
 import 'SignIn.dart';
 import 'VerifyYourAccount.dart';
@@ -56,7 +61,17 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
   bool isDeviceConnected = false;
   bool isAlertSet = false;
 
-
+  void showToast(String mssg) {
+    Fluttertoast.showToast(
+      msg: mssg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.grey,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 
   TextEditingController passEditingController = TextEditingController();
   TextEditingController mailEditingController = TextEditingController();
@@ -83,9 +98,9 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
     if (nameEditingController.text.length > 0) {
       setState(() {
         outlineheaderColorForName =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
         outlineTextColorForName =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
       });
     } else {
       setState(() {
@@ -99,12 +114,12 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
   void emailFieldListner() {
     if (mailEditingController.text.isNotEmpty) {
       setState(() {
-        buttonBGColor = Color(0xff24b9b0);
+        buttonBGColor = Color(0xff0B6B94);
         loginclickable = true;
         outlineheaderColor =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
         outlineTextColor =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
       });
     } else {
       setState(() {
@@ -118,12 +133,12 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
   void confirmemailFieldListner() {
     if (mailEditingController.text.isNotEmpty) {
       setState(() {
-        buttonBGColor = Color(0xff24b9b0);
+        buttonBGColor = Color(0xff0B6B94);
         loginclickable = true;
         outlineheaderColor =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
         outlineTextColor =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
       });
     } else {
       setState(() {
@@ -144,9 +159,9 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
       }
       setState(() {
         outlineheaderColorForPass =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
         outlineTextColorForPass =
-            Color(0xff24b9b0); // Change the button color to green
+            Color(0xff0B6B94); // Change the button color to green
       });
     } else {
       setState(() {
@@ -159,7 +174,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
 
   void signINButtonControler() {
     setState(() {
-      buttonBGColor = Color(0xff24b9b0);
+      buttonBGColor = Color(0xff0B6B94);
     });
   }
 
@@ -277,12 +292,9 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                       top: 20, left: 16, right: 16),
                                   height: 58,
                                   child: Container(
-                                      padding: EdgeInsets.only(left: 12),
                                       width: double.infinity,
                                       decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: outlineheaderColor,
-                                            width: 2),
+
                                         color: Color(0xfffffff),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
@@ -300,12 +312,34 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                                   controller: mailEditingController,
                                                   obscureText: _obscureText, // Flag to show/hide password
                                                   decoration: InputDecoration(
-                                                    hintText: 'New Password',
+                                                    //hintText: 'New Password',
+                                                    labelText: "New Password",
+                                                    labelStyle: TextStyle(
+                                                      fontFamily: "Roboto",
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Color(0xff49454f),
+                                                      height: 16/12,
+                                                    ),
                                                     hintStyle: TextStyle(
                                                       fontFamily: 'Roboto',
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w400,
                                                       color: Color(0xffbdbdbd),
+                                                    ),
+                                                    focusedBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(6),
+                                                        borderSide: BorderSide(
+                                                          color: Color(0xff0B6B94),
+                                                          width: 2,
+                                                        )
+                                                    ),
+                                                    enabledBorder: OutlineInputBorder(
+                                                      borderRadius: BorderRadius.circular(6),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 2,
+                                                      ),
                                                     ),
                                                     border: InputBorder.none,
                                                     suffixIcon: IconButton(
@@ -337,13 +371,8 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                 margin: EdgeInsets.only(top: 20, left: 16, right: 16),
                                 height: 58,
                                 child: Container(
-                                  padding: EdgeInsets.only(left: 12),
                                   width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: outlineheaderColor, width: 2),
-                                    color: Color(0xfffffff),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
+
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -356,12 +385,34 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                               controller: confirmmailEditingController,
                                               obscureText: _obscureText2,
                                               decoration: InputDecoration(
-                                                hintText: 'Confirm Password',
+                                                //hintText: 'Confirm Password',
+                                                labelText: "Confirm Password",
+                                                labelStyle: TextStyle(
+                                                  fontFamily: "Roboto",
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff49454f),
+                                                  height: 16/12,
+                                                ),
                                                 hintStyle: TextStyle(
                                                   fontFamily: 'Roboto',
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
                                                   color: Color(0xffbdbdbd),
+                                                ),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(6),
+                                                    borderSide: BorderSide(
+                                                      color: Color(0xff0B6B94),
+                                                      width: 2,
+                                                    )
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(6),
+                                                  borderSide: BorderSide(
+                                                    color: Colors.black,
+                                                    width: 2,
+                                                  ),
                                                 ),
                                                 border: InputBorder.none,
                                                 suffixIcon: IconButton(
@@ -474,12 +525,12 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                                             (Route<dynamic>
                                                         route) =>
                                                         false),
-                                                    HelperClass.showToast(
+                                                    showToast(
                                                         'Password reset Successfully')
                                                   }
                                                 else
                                                   {
-                                                    HelperClass.showToast(
+                                                    showToast(
                                                         'Something went wrong')
                                                   }
                                               });
@@ -488,7 +539,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                                   "Incorrect matching fields");
                                             }
                                           } else {
-                                            HelperClass.showToast(
+                                            showToast(
                                                 'dont leave any field empty');
                                           }
 

@@ -33,6 +33,8 @@ class ContactUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -105,7 +107,7 @@ class ContactUs extends StatelessWidget {
                         width: 24,
                         height: 24,
                         // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
-                        child: SvgPicture.asset('assets/images/call.svg'),
+                        child: SvgPicture.asset('assets/call.svg'),
                       ),
                       SizedBox(width: 16,),
                       Column(
@@ -151,7 +153,7 @@ class ContactUs extends StatelessWidget {
                         width: 24,
                         height: 24,
                         // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
-                        child: SvgPicture.asset('assets/images/mail.svg'),
+                        child: SvgPicture.asset('assets/mail.svg'),
                       ),
                       SizedBox(width: 16,),
                       Column(
@@ -197,7 +199,7 @@ class ContactUs extends StatelessWidget {
                         width: 24,
                         height: 24,
                         // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
-                        child: SvgPicture.asset('assets/images/captive_portal.svg'),
+                        child: SvgPicture.asset('assets/captive_portal.svg'),
                       ),
                       SizedBox(width: 16,),
                       Column(

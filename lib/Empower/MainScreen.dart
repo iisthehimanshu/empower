@@ -8,7 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../Navigation/Navigation.dart';
-import 'MainScreenController.dart';
+import 'Elements/MainScreenController.dart';
 import 'ProfilePage.dart';
 import 'QrScanner.dart';
 
@@ -91,7 +91,7 @@ class _MainScreenState extends State<MainScreen> {
           destinations: [
             NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff1C1B1F)),selectedIcon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff24B9B0),), label: 'Home',),
             NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Map.svg",color: Color(0xff1C1B1F)),selectedIcon: SvgPicture.asset("assets/MainScreen_Map.svg",color: Color(0xff24B9B0),), label: "Map",),
-            NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),),selectedIcon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),width: 34,height: 34,), label: 'Schedule',),
+            NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),),selectedIcon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),width: 34,height: 34,), label: 'Scan',),
             NavigationDestination(icon: Icon(Icons.event_outlined, color: Color(0xff1C1B1F)), // Unselected state
               selectedIcon: Icon(Icons.event_outlined, color: Color(0xff24B9B0)), // Selected state
               label: "Schedule",

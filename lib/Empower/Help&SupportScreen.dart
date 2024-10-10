@@ -43,7 +43,9 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+
         centerTitle: true,
         title: Text(
           'Help & Support',
@@ -108,139 +110,139 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
               ),
             ),
           ),
-          Semantics(
-            label:"",
-            child: InkWell(
-              onTap: () {
-
-                _launchURL('https://play.google.com/store/apps/details?id=com.iwayplus.navigation');
-              },
-              child: Container(
-                width: MediaQuery.sizeOf(context).width,
-                height: 50,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 30,
-                      height: 30,
-                      // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
-                      child: Icon(Icons.star_purple500_sharp),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      'Rate this app',
-                      style: TextStyle(
-                        color: Color(0xFF18181B),
-                        fontSize: 16,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        height: 0.10,
-                      ),
-                    ),
-                    Spacer(),
-                    Container(
-                      width: 12,
-                      height: 12,
-                      // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
-                      child: Icon(Icons.keyboard_arrow_right),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Semantics(
-            label:"",
-            child: InkWell(
-              onTap: (){
-                sendMailto(email: "Support@iwayplus.com");
-              },
-              child: Container(
-                width: MediaQuery.sizeOf(context).width,
-                height: 50,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 30,
-                      height: 30,
-                      // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
-                      child: Icon(Icons.mail_rounded),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      'Send Feedbacks',
-                      style: TextStyle(
-                        color: Color(0xFF18181B),
-                        fontSize: 16,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        height: 0.10,
-                      ),
-                    ),
-                    Spacer(),
-                    Container(
-                      width: 12,
-                      height: 12,
-                      // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
-                      child: Icon(Icons.keyboard_arrow_right),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Semantics(
-            label:"",
-            child: InkWell(
-              onTap: (){
-                _shareContent("https://play.google.com/store/apps/details?id=com.iwayplus.navigation");
-              },
-              child: Container(
-                width: MediaQuery.sizeOf(context).width,
-                height: 50,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 30,
-                      height: 30,
-                      // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
-                      child: Icon(Icons.share),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      'Share this app',
-                      style: TextStyle(
-                        color: Color(0xFF18181B),
-                        fontSize: 16,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        height: 0.10,
-                      ),
-                    ),
-                    Spacer(),
-                    Container(
-                      width: 12,
-                      height: 12,
-                      // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
-                      child: Icon(Icons.keyboard_arrow_right),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // Semantics(
+          //   label:"",
+          //   child: InkWell(
+          //     onTap: () {
+          //
+          //       _launchURL('https://play.google.com/store/apps/details?id=com.iwayplus.navigation');
+          //     },
+          //     child: Container(
+          //       width: MediaQuery.sizeOf(context).width,
+          //       height: 50,
+          //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          //       child: Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         crossAxisAlignment: CrossAxisAlignment.center,
+          //         children: [
+          //           Container(
+          //             width: 30,
+          //             height: 30,
+          //             // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
+          //             child: Icon(Icons.star_purple500_sharp),
+          //           ),
+          //           const SizedBox(width: 12),
+          //           Text(
+          //             'Rate this app',
+          //             style: TextStyle(
+          //               color: Color(0xFF18181B),
+          //               fontSize: 16,
+          //               fontFamily: 'Roboto',
+          //               fontWeight: FontWeight.w500,
+          //               height: 0.10,
+          //             ),
+          //           ),
+          //           Spacer(),
+          //           Container(
+          //             width: 12,
+          //             height: 12,
+          //             // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
+          //             child: Icon(Icons.keyboard_arrow_right),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // Semantics(
+          //   label:"",
+          //   child: InkWell(
+          //     onTap: (){
+          //       sendMailto(email: "Support@iwayplus.com");
+          //     },
+          //     child: Container(
+          //       width: MediaQuery.sizeOf(context).width,
+          //       height: 50,
+          //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          //       child: Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         crossAxisAlignment: CrossAxisAlignment.center,
+          //         children: [
+          //           Container(
+          //             width: 30,
+          //             height: 30,
+          //             // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
+          //             child: Icon(Icons.mail_rounded),
+          //           ),
+          //           const SizedBox(width: 12),
+          //           Text(
+          //             'Send Feedbacks',
+          //             style: TextStyle(
+          //               color: Color(0xFF18181B),
+          //               fontSize: 16,
+          //               fontFamily: 'Roboto',
+          //               fontWeight: FontWeight.w500,
+          //               height: 0.10,
+          //             ),
+          //           ),
+          //           Spacer(),
+          //           Container(
+          //             width: 12,
+          //             height: 12,
+          //             // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
+          //             child: Icon(Icons.keyboard_arrow_right),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // Semantics(
+          //   label:"",
+          //   child: InkWell(
+          //     onTap: (){
+          //       _shareContent("https://play.google.com/store/apps/details?id=com.iwayplus.navigation");
+          //     },
+          //     child: Container(
+          //       width: MediaQuery.sizeOf(context).width,
+          //       height: 50,
+          //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          //       child: Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         crossAxisAlignment: CrossAxisAlignment.center,
+          //         children: [
+          //           Container(
+          //             width: 30,
+          //             height: 30,
+          //             // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
+          //             child: Icon(Icons.share),
+          //           ),
+          //           const SizedBox(width: 12),
+          //           Text(
+          //             'Share this app',
+          //             style: TextStyle(
+          //               color: Color(0xFF18181B),
+          //               fontSize: 16,
+          //               fontFamily: 'Roboto',
+          //               fontWeight: FontWeight.w500,
+          //               height: 0.10,
+          //             ),
+          //           ),
+          //           Spacer(),
+          //           Container(
+          //             width: 12,
+          //             height: 12,
+          //             // decoration: BoxDecoration(color: Color(0xFFD9D9D9)),
+          //             child: Icon(Icons.keyboard_arrow_right),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Semantics(
             label:"",
             child: InkWell(

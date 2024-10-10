@@ -1,6 +1,7 @@
 import 'dart:collection';
 
-import 'package:empower/Empower/MainScreenController.dart';
+import 'package:empower/Empower/Elements/MainScreenController.dart';
+import 'package:empower/Empower/MainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -230,7 +231,10 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                 label: 'Back',
                 child: Icon(Icons.arrow_back, color: Color(0xff000000))),
             onPressed: () {
-              MainScreenController.setIndex(0);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const MainScreen(initialIndex: 0,)),
+              );
             },
           ), // Set your desired background color
           title: Text(

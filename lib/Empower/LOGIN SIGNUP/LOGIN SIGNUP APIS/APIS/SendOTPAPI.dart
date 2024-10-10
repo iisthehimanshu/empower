@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class SendOTPAPI{
 
-  final String baseUrl = "https://maps.iwayplus.in/auth/otp/send";
+  final String baseUrl = "https://dev.iwayplus.in/auth/otp/send";
 
   Future<bool> sendOTP(String username) async {
     final Map<String, dynamic> data = {
@@ -23,7 +23,7 @@ class SendOTPAPI{
 
     if (response.statusCode == 200) {
       return true;
-      // return HelperClass.showToast("OTP sent successfully");
+        // return HelperClass.showToast("OTP sent successfully");
     } else {
       print("SendOTPAPI--response.statusCode${response.statusCode} ${response.body}");
       return false;

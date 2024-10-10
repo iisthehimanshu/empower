@@ -17,9 +17,9 @@ class NotificationSocket{
   });
 
   static void receiveMessage(){
-    channel.on("com.iwayplus.navigation", (value){
+    channel.on("com.iwayplus.empower", (value){
       NotificationData notification = NotificationData.fromJson(value);
-      PushNotifications.showSimpleNotificationwithImage(body: notification.title,imageUrl: notification.filepath,payload: notification.body,title: notification.title);
+      PushNotifications.showSimpleNotification(body: notification.title,payload: notification.body,title: notification.title);
       print("socketMessage${value}");
     });
     List<dynamic> receivedMessage = channel.receiveBuffer;

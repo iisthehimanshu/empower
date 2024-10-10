@@ -111,7 +111,6 @@ class _ProfilePageState extends State<ProfilePage> {
         headers: {
           'Content-Type': 'application/json',
           'x-access-token': '$accessToken',
-          'x-access-token': '$accessToken',
         },
       );
 
@@ -195,7 +194,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Account',

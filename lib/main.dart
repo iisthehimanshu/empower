@@ -11,6 +11,8 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'Empower/LOGIN SIGNUP/SignIn.dart';
 import 'Empower/MainScreen.dart';
+import 'Empower/websocket/NotifIcationSocket.dart';
+import 'Empower/websocket/UserLog.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/BeaconAPIModel.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/BuildingAPIModel.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/BuildingAllAPIModel.dart';
@@ -87,7 +89,22 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  wsocket soc = wsocket('com.iwaypus.empower');
+  NotificationSocket notificationSocket = NotificationSocket();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isIOS = Platform.isIOS; // Check if the current platform is iOS

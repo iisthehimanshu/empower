@@ -1,14 +1,15 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import '../../../../Navigation/API/RefreshTokenAPI.dart';
 import '../MODELS/SignInAPIModel.dart';
 
+
+
 class SignInAPI{
 
-  final String baseUrl = "https://maps.iwayplus.in/auth/signin2";
+  final String baseUrl = "https://dev.iwayplus.in/auth/signin2";
 
   Future<SignInApiModel?> signIN(String username, String password) async {
     //final signindataBox = FavouriteDataBaseModelBox.getData();
@@ -17,7 +18,7 @@ class SignInAPI{
     final Map<String, dynamic> data = {
       "username": username,
       "password": password,
-      "appId":"com.iwayplus.navigation"
+      "appId":"com.iwayplus.empower"
     };
 
     final response = await http.post(
@@ -51,7 +52,6 @@ class SignInAPI{
         print(responseBody["payload"]["roles"].runtimeType);
         signInBox.put("roles", roles);
 
-
         //------STORING USER CREDENTIALS FROM DATABASE----------
         // UserCredentials.setAccessToken(signInBox.get("accessToken"));
         // UserCredentials.setRefreshToken(signInBox.get("refreshToken"));
@@ -63,7 +63,6 @@ class SignInAPI{
 
         print("Sign in details saved to database");
         // Use signInResponse as needed
-
 
         return ss;
       } catch (e) {
@@ -83,12 +82,13 @@ class SignInAPI{
   static Future<int> sendOtpForgetPassword(String user) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
-        'POST', Uri.parse(kDebugMode? 'https://dev.iwayplus.in/auth/otp/username' : 'https://maps.iwayplus.in/auth/otp/username'));
-    request.body = json.encode({"username": "${user}", "digits":4,});
+        'POST', Uri.parse('https://dev.iwayplus.in/auth/otp/username'));
+    request.body = json.encode({"username": "${user}", "digits":4,"appId":"com.iwayplus.empower"});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
-
+    print("sendOtpForgetPassword");
+    print(response.statusCode);
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
       return 1;
@@ -102,16 +102,19 @@ class SignInAPI{
   static Future<int> changePassword(String user, String pass, String otp) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
-        'POST', Uri.parse(kDebugMode? 'https://dev.iwayplus.in/auth/reset-password' : 'https://maps.iwayplus.in/auth/reset-password'));
+        'POST', Uri.parse('https://dev.iwayplus.in/auth/reset-password'));
     request.body = json.encode({
       "username": "$user",
       "password": "$pass",
-      "otp": "$otp"
+      "otp": "$otp",
+      "appId":"com.iwayplus.empower"
+
     });
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
-
+    print("response while changing pass");
+    // print(response);
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
       return 1;
