@@ -11,7 +11,7 @@ class NotificationSocket{
     channel.connect();
   }
 
-  static final channel = io('https://dev.iwayplus.in', <String, dynamic>{
+  static final channel = io('https://maps.iwayplus.in', <String, dynamic>{
     'transports': ['websocket'],
     'autoConnect': false,
   });

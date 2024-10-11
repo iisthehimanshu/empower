@@ -1,4 +1,3 @@
-
 import 'package:flutter_localization/flutter_localization.dart';
 
 const List<MapLocale> LOCALES=[
@@ -336,7 +335,7 @@ mixin LocaleData {
     'You are on': 'You are on',
     'is on your':'is on your',
     'near':'near',
-    'Unable to find your location': 'Unable to find your location',
+    'Unable to find your location. Scan nearby QR to know your location': 'Unable to find your location. Scan nearby QR to know your location',
     'You are going away from the path. Click Reroute to Navigate from here.': 'You are going away from the path. Click Reroute to Navigate from here.',
     'is': 'is',
     'meter away': 'meter away',
@@ -462,7 +461,7 @@ mixin LocaleData {
     'You are on': 'आप हैं',
     'is on your':'आपके पर है',
     'near':'पास',
-    'Unable to find your location': 'आपकी वर्तमान जगह हम ढूँढ़ नहीं पा रहे है',
+    'Unable to find your location. Scan nearby QR to know your location': 'आपकी वर्तमान जगह हम ढूँढ़ नहीं पा रहे है अपना स्थान जानने के लिए नजदिकी QR को स्कैन करें',
     'You are going away from the path. Click Reroute to Navigate from here.': 'आप मार्ग से भटक रहे हैं। यहाँ से मार्गदर्शन करने के लिए पुनर्निर्देशित पर क्लिक करें।',
     'is': '',
     'meter away': 'मीटर दूर है',

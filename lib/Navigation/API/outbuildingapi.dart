@@ -48,7 +48,7 @@ class OutBuildingData{
         'Content-Type': 'application/json',
         'x-access-token':'${accessToken}'
       };
-      var request = http.Request('POST', Uri.parse('https://dev.iwayplus.in/secured/google/routing'));
+      var request = http.Request('POST', Uri.parse('https://maps.iwayplus.in/secured/google/routing'));
       request.body = json.encode({
         "source": {
           "lat": latitude1,

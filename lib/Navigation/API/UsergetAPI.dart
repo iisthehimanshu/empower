@@ -10,7 +10,7 @@ import 'RefreshTokenAPI.dart';
 
 class UsergetAPI{
 
-  final String baseUrl = kDebugMode? "https://dev.iwayplus.in/secured/user/get" : "https://maps.iwayplus.in/secured/user/get";
+  final String baseUrl ="https://maps.iwayplus.in/secured/user/get";
   static var signInBox = Hive.box('SignInDatabase');
   String accessToken = signInBox.get("accessToken");
   var userInfoBox=Hive.box('UserInformation');

@@ -56,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> logout() async {
-    final String logoutUrl = kDebugMode? "https://dev.iwayplus.in/api/refreshToken/delete" : "https://maps.iwayplus.in/api/refreshToken/delete";
+    final String logoutUrl ="https://maps.iwayplus.in/api/refreshToken/delete";
 
     try {
       final response = await http.delete(
@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> getUserDetails() async {
-    final String baseUrl = kDebugMode? "https://dev.iwayplus.in/secured/user/get" : "https://maps.iwayplus.in/secured/user/get";
+    final String baseUrl ="https://maps.iwayplus.in/secured/user/get";
 
     try {
       final response = await http.post(
@@ -159,7 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> refreshTokenAndRetryForGetUserDetails(String baseUrl) async {
-    final String refreshTokenUrl = kDebugMode? "https://dev.iwayplus.in/api/refreshToken":"https://maps.iwayplus.in/api/refreshToken";
+    final String refreshTokenUrl = "https://maps.iwayplus.in/api/refreshToken";
 
     try {
       final response = await http.post(
