@@ -1,6 +1,7 @@
 import 'package:empower/Empower/APIModel/Schedulemodel.dart';
 import 'package:empower/Navigation/Elements/HelperClass.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../APIModel/CardData.dart';
 import '../SessionDetail.dart';
@@ -85,8 +86,10 @@ class card extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
+      onTap: ()
+    {
+      if (!data.eventName!.contains("Lunch")) {
+      Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => SessionDetail(
@@ -112,15 +115,80 @@ class card extends StatelessWidget {
             ),
           ),
         );
+    }
       },
-      child: Container(
-        height: 121,
+      child: data.eventName!.contains("Lunch")?
+      Container(height: 121,
         width: screenWidth,
         margin: EdgeInsets.only(top: 16),
         decoration: BoxDecoration(
           color: data.isCurrentDateTimeBetween(
               data.startTime!, data.endTime!, data.eventDate!)
               ? Color(0xffF1FFFE)
+              : Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Colors.black12,
+            width: 1.0,
+          ),
+        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset("assets/emoji_food_beverage.svg"),
+          Text(
+            "${data.eventName}",
+            style: const TextStyle(
+              fontFamily: "Roboto",
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: Color(0xff000000),
+              height: 20/16,
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.access_time_outlined, size: 16),
+              SizedBox(width: 4),
+              Text(
+                "${data.startTime} - ${data.endTime}",
+                style: const TextStyle(
+                  fontFamily: "Roboto",
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff010100),
+                  height: 20 / 14,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            "${data.venueName}",
+            style: const TextStyle(
+              fontFamily: "Roboto",
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Color(0xff282828),
+              height: 20/14,
+            ),
+            textAlign: TextAlign.left,
+          )
+        ],
+      ),
+      )
+          :
+      Container(
+        height: data.venueName!.isEmpty?90:121,
+        width: screenWidth,
+        margin: EdgeInsets.only(top: 16),
+        decoration: BoxDecoration(
+          color: data.isCurrentDateTimeBetween(
+              data.startTime!, data.endTime!, data.eventDate!)
+              ? Color(0xffB4F1EE)
               : data.eventName!.contains("Lunch")
               ? Color(0xffBDBDBD)
               : Colors.white,
@@ -131,7 +199,7 @@ class card extends StatelessWidget {
           ),
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start, // Align top
+          crossAxisAlignment: CrossAxisAlignment.center, // Align top
           children: [
             // Left colored strip
             Container(
@@ -195,7 +263,7 @@ class card extends StatelessWidget {
                     SizedBox(height: 4),
 
                     // Location
-                    Row(
+                    data.venueName!.isEmpty?Container():Row(
                       children: [
                         Icon(Icons.location_on_outlined, size: 16),
                         SizedBox(width: 4),

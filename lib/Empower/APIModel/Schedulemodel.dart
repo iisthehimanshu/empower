@@ -144,6 +144,7 @@ class ThemesAndSessions {
   List<String>? eventIds;
   String? conferenceId;
   List<String>? dates;
+  List<String>? times;
   int? order;
   int? iV;
 
@@ -152,6 +153,7 @@ class ThemesAndSessions {
         this.eventIds,
         this.conferenceId,
         this.dates,
+    this.times,
         this.order,
         this.iV});
 
@@ -166,6 +168,14 @@ class ThemesAndSessions {
         dates!.add(v);
       });
     }
+
+    if (json['times'] != null) {
+      times = <String>[];
+      json['times'].forEach((v) {
+        times!.add(v);
+      });
+    }
+
     order = json['order'];
     iV = json['__v'];
   }
@@ -178,6 +188,9 @@ class ThemesAndSessions {
     data['conferenceId'] = this.conferenceId;
     if (this.dates != null) {
       data['dates'] = this.dates!.map((v) => v).toList();
+    }
+    if (this.times != null) {
+      data['times'] = this.times!.map((v) => v).toList();
     }
     data['order'] = this.order;
     data['__v'] = this.iV;
