@@ -182,7 +182,7 @@ class card extends StatelessWidget {
       )
           :
       Container(
-        height: data.venueName!.isEmpty?90:121,
+        height: data.venueName!.isEmpty?90:140,
         width: screenWidth,
         margin: EdgeInsets.only(top: 16),
         decoration: BoxDecoration(
