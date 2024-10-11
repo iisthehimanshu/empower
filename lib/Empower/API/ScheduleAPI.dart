@@ -14,10 +14,13 @@ class ScheduleAPI {
   static var signInBox = Hive.box('SignInDatabase');
   static String accessToken = signInBox.get("accessToken");
 
-  static Future<ScheduleModel?> fetchschedule() async {
+  static Future<ScheduleModel?> fetchschedule({bool fetchFromInternet = false}) async {
     final ScheduleBox = ScheduleApiModelBox.getData();
+    String refreshToken = signInBox.get("refreshToken");
+    DateTime currentDate = DateTime.now();
 
-    if(ScheduleBox.containsKey("66f3dd94da553117a972caab")){
+
+    if(!fetchFromInternet && ScheduleBox.containsKey("66f3dd94da553117a972caab")){
       print("SCHEDULE DATA FORM DATABASE ");
       Map<String, dynamic> responseBody = ScheduleBox.get("66f3dd94da553117a972caab")!.responseBody;
       return ScheduleModel.fromJson(responseBody);
@@ -47,6 +50,7 @@ class ScheduleAPI {
       return ScheduleModel.fromJson(responseBody);
     }else if(response.statusCode == 403){
       print("SCHEDULE DATA FROM API AFTER 403");
+      print(refreshToken);
       accessToken =  await RefreshTokenAPI.refresh();
       return ScheduleAPI.fetchschedule();
     } else{

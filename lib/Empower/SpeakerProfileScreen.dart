@@ -11,7 +11,8 @@ class SpeakerProfileScreen extends StatefulWidget {
   String designation;
   String description;
   bool fromCommiteePage;
-  SpeakerProfileScreen({required this.name,required this.designation,required this.description,required this.fromCommiteePage});
+  String speakerID;
+  SpeakerProfileScreen({required this.name,required this.designation,required this.description,required this.fromCommiteePage,this.speakerID= ''});
 
   @override
   State<SpeakerProfileScreen> createState() => _SpeakerProfileScreenState();
@@ -21,6 +22,9 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
   ScheduleModel? schedule;
   bool isLoading = true;
   List<CardData> speakerEventList = [];
+  String localname = '';
+  String localdesignation='';
+  String localdescription='';
 
 
   @override
@@ -30,21 +34,37 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
 
   Future<void> fetchSchedule() async {
     schedule = await ScheduleAPI.fetchschedule();
-
-
     Future.delayed(const Duration(seconds: 1)).then((e) {
       setState(() {
         isLoading = false;
       });
+      if(widget.speakerID!=""){
+        print("YESSSSSSSSSS");
+        for (var item in schedule!.speakers!) {
+          if(item.sId == widget.speakerID){
+            localname = item.name!;
+            localdesignation = item.designation!;
+            localdescription = item.about!;
+          }
+        }
+      }
       makerSpeakerList(schedule!);
     });
+
+    print(localname);
   }
 
   void makerSpeakerList(ScheduleModel schedule) {
     if (schedule.data != null) {
       for (var item in schedule.data!) {
-        if (item.speakerName == widget.name) {
-          speakerEventList.add(item);
+        if(widget.speakerID!=""){
+          if (item.speakerName == localname) {
+            speakerEventList.add(item);
+          }
+        }else {
+          if (item.speakerName == widget.name) {
+            speakerEventList.add(item);
+          }
         }
       }
     }
@@ -106,11 +126,11 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    widget.name,
+                    widget.speakerID!=""? localname : widget.name,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    widget.designation,
+                    widget.speakerID!=""? localdesignation : widget.designation,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
@@ -135,7 +155,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
             Container(
               margin: EdgeInsets.only(left: 20, top: 20, right: 20),
               child: Text(
-                widget.description,
+                widget.speakerID!=""? localdescription : widget.description,
                 style: const TextStyle(
                   fontFamily: "Roboto",
                   fontSize: 16,
@@ -159,7 +179,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
                     onTap: (){
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context)=>SessionDetail(title: speaker.eventName??"", date: speaker.eventDate??"", startDate: "", endDate: "", time: speaker.startTime??"", loc: speaker.venueName??"", hash: [""], seats: "", eventid: "", category: speaker.categories??"", subevents: speaker.subEvents?? <dynamic>[]
-                            , filename: speaker.filename??"", eventType: speaker.eventType??"", bookingType: speaker.bookingType??"", description:speaker.eventDetails, moderator: speaker.moderator??"",speakerName: speaker.speakerName,dataForHiveStorageAndFurtherUse: speaker,))
+                            , filename: speaker.filename??"", eventType: speaker.eventType??"", bookingType: speaker.bookingType??"", description:speaker.eventDetails, moderator: speaker.moderator??"",speakerName: speaker.speakerName,speakerID: speaker.speakerId,dataForHiveStorageAndFurtherUse: speaker,))
                       );
 
                     },

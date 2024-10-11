@@ -107,6 +107,7 @@ class card extends StatelessWidget {
               description: data.eventDetails,
               moderator: data.moderator ?? "",
               speakerName: data.speakerName,
+              speakerID: data.speakerId,
               dataForHiveStorageAndFurtherUse: data,
             ),
           ),
