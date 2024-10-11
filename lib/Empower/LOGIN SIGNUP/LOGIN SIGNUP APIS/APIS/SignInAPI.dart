@@ -10,7 +10,7 @@ import '../MODELS/SignInAPIModel.dart';
 
 class SignInAPI{
 
-  final String baseUrl = kDebugMode? "https://dev.iwayplus.in/auth/signin2" : "https://maps.iwayplus.in/auth/signin2";
+  final String baseUrl = "https://maps.iwayplus.in/auth/signin2";
 
   Future<SignInApiModel?> signIN(String username, String password) async {
     //final signindataBox = FavouriteDataBaseModelBox.getData();

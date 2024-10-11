@@ -21,6 +21,8 @@ class _CommiteescreenState extends State<Commiteescreen> {
   bool isLoading = true;
   HashMap<DateTime, List<Widget>> cards = HashMap();
   List<CommiteeMembers> speakerDataList = [];
+  bool isSearching = false;
+  String searchText = "";
 
 
   @override
@@ -45,16 +47,38 @@ class _CommiteescreenState extends State<Commiteescreen> {
   }
   void makerSpeakerList(ScheduleModel schedule) {
 
-    if (schedule.speakers != null) {
-      print("schedule.speakers.length");
-      print(schedule.speakers!.length);
+    if (schedule.commiteeMembers != null) {
+
       for (var item in schedule.commiteeMembers!) {
-        if(item != null){
-          speakerDataList.add(item);
-        }
+        speakerDataList.add(item);
       }
     }
   }
+  void filterCards(String query) {
+    // Clear the widgetCards before updating
+    speakerDataList.clear();
+
+    setState(() {
+      // Use a forEach loop to iterate over searchCards
+      schedule!.commiteeMembers!.forEach((e) {
+        if (e.name != null && e.name!.toLowerCase().contains(query.toLowerCase())) {
+          speakerDataList.add(e);
+        }
+      });
+    });
+  }
+
+  void toggleSearch() {
+    setState(() {
+      isSearching = !isSearching; // Toggle search mode
+      if (!isSearching) {
+        searchText = ""; // Reset search text
+        filterCards(""); // Reset the list when search is closed
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -72,18 +96,40 @@ class _CommiteescreenState extends State<Commiteescreen> {
               Navigator.pop(context);
             },
           ), // Set your desired background color
-          title: Text(
-            "Commitee",
+          title: isSearching
+              ? TextField(
+            onChanged: (value) {
+              searchText = value;
+              filterCards(searchText);
+            },
+            decoration: InputDecoration(
+              hintText: 'Search...',
+              border: InputBorder.none,
+            ),
+            style: TextStyle(
+              fontFamily: "Roboto",
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Color(0xff000000),
+              height: 23 / 16,
+            ),
+          )
+              : Text(
+            "Commitee Members",
             style: const TextStyle(
               fontFamily: "Roboto",
               fontSize: 16,
               fontWeight: FontWeight.w500,
               color: Color(0xff000000),
-              height: 23/16,
+              height: 23 / 16,
             ),
             textAlign: TextAlign.left,
           ),
           actions: [
+            IconButton(
+              icon: Icon(isSearching ? Icons.close : Icons.search),
+              onPressed: toggleSearch, // Toggle search mode
+            ),
           ],
         ),
         body: isLoading // Show loader while fetching data

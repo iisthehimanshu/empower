@@ -90,31 +90,31 @@ class card extends StatelessWidget {
     {
       if (!data.eventName!.contains("Lunch")) {
       Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              SessionDetail(
-                title: data.eventName ?? "",
-                date: data.eventDate ?? "",
-                startDate: "",
-                endDate: "",
-                time: data.startTime ?? "",
-                loc: data.venueName ?? "",
-                hash: [""],
-                seats: "",
-                eventid: data.sId!,
-                category: data.categories ?? "",
-                subevents: data.subEvents ?? <dynamic>[],
-                filename: data.filename ?? "",
-                eventType: data.eventType ?? "",
-                bookingType: data.bookingType ?? "",
-                description: data.eventDetails,
-                moderator: data.moderator ?? "",
-                speakerName: data.speakerName,
-                dataForHiveStorageAndFurtherUse: data,
-              ),
-        ),
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) => SessionDetail(
+              title: data.eventName ?? "",
+              date: data.eventDate ?? "",
+              startDate: "",
+              endDate: "",
+              time: data.startTime ?? "",
+              loc: data.venueName ?? "",
+              hash: [""],
+              seats: "",
+              eventid: data.sId!,
+              category: data.categories ?? "",
+              subevents: data.subEvents ?? <dynamic>[],
+              filename: data.filename ?? "",
+              eventType: data.eventType ?? "",
+              bookingType: data.bookingType ?? "",
+              description: data.eventDetails,
+              moderator: data.moderator ?? "",
+              speakerName: data.speakerName,
+              speakerID: data.speakerId,
+              dataForHiveStorageAndFurtherUse: data,
+            ),
+          ),
+        );
     }
       },
       child: data.eventName!.contains("Lunch")?

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:empower/Empower/CommiteeScreen.dart';
 import 'package:empower/Empower/SpeakerScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../Navigation/Navigation.dart';
 import '../Navigation/websocket/NotifIcationSocket.dart';
+import 'API/ScheduleAPI.dart';
 import 'NotificationScreen.dart';
 import 'Elements/ImageSlider.dart';
 import 'ExhibitorsScreen.dart';
@@ -43,9 +45,18 @@ class _HomePageState extends State<HomePage>{
     'Corousal Image'
   ];
 
+  Future<void> _refreshPage() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    print("Connectivity Result: $connectivityResult");
+
+    if (connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi)) {
+      await ScheduleAPI.fetchschedule(fetchFromInternet: true);
+    }
+  }
 
 
-  @override
+
+    @override
   void initState() {
     super.initState();
     NotificationSocket.receiveMessage();
@@ -187,154 +198,47 @@ class _HomePageState extends State<HomePage>{
 
 
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ImageSlider(images: images,imagesSemantics: imagesSemantic,),
-                      Container(
-                        margin: EdgeInsets.only(left: 20),
-                        child: Semantics(
-                          header: true,
-                          child: Text(
-                            "Explore",
-                            style: const TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xff242222),
-                              height: 26/20,
+                child: RefreshIndicator(
+                  onRefresh: _refreshPage,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ImageSlider(images: images,imagesSemantics: imagesSemantic,),
+                        Container(
+                          margin: EdgeInsets.only(left: 20),
+                          child: Semantics(
+                            header: true,
+                            child: Text(
+                              "Explore",
+                              style: const TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff242222),
+                                height: 26/20,
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                            textAlign: TextAlign.left,
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 20),
-                        child: Semantics(
-                          header: true,
-                          child: Wrap(
-                            runSpacing: 30,
-                            spacing: 30,
-                            children: [
-                              InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Navigation()));
-                                },
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset('assets/HomePage_Navigation.svg'),
-                                    Text(
-                                      "Navigation",
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff000000),
-                                        height: 18/12,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ScheduleScreen()));
-                                },
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset('assets/HomePage_Eventagenda.svg'),
-                                    Text(
-                                      "Schedule",
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff000000),
-                                        height: 18/12,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyScheduleScreen()));
-                                },
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset('assets/HomePage_Myschedule.svg'),
-                                    Text(
-                                      "My schedule",
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff000000),
-                                        height: 18/12,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Speakerscreen()));
-
-                                },
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset('assets/HomePage_Speaker.svg'),
-                                    Text(
-                                      "Speaker",
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff000000),
-                                        height: 18/12,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Commiteescreen()));
-                                },
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset('assets/HomePage_ProgramCommitee.svg'),
-                                    Text(
-                                      "Commitee",
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff000000),
-                                        height: 18/12,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    )
-                                  ],
-                                ),
-                              ),
-
-                              Container(
-                                margin: EdgeInsets.only(top: 10),
-                                child: InkWell(
+                        Container(
+                          margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+                          child: Semantics(
+                            header: true,
+                            child: Wrap(
+                              runSpacing: 30,
+                              spacing: 30,
+                              children: [
+                                InkWell(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ExhibitorsScreen()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Navigation()));
                                   },
                                   child: Column(
                                     children: [
-                                      SvgPicture.asset('assets/HomePage_Exhibitor.svg',height: 32,),
+                                      SvgPicture.asset('assets/HomePage_Navigation.svg'),
                                       Text(
-                                        "Exhibitors",
+                                        "Navigation",
                                         style: const TextStyle(
                                           fontFamily: "Roboto",
                                           fontSize: 12,
@@ -347,373 +251,483 @@ class _HomePageState extends State<HomePage>{
                                     ],
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.white12, // Divider color
-                        thickness: 10, // Divider thickness
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20,top: 20),
-                        child: Semantics(
-                          header: true,
-                          child: Text(
-                            "Sponsors",
-                            style: const TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xff242222),
-                              height: 26/20,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal, // Enable horizontal scrolling
-                          child: Row(
-                            children: [
-                              Semantics(
-                                  label: "Google",
-                                  excludeSemantics: true,
-                                  child: Container(
-                                      margin: EdgeInsets.only(left: 20),
-                                      child: Image.asset("assets/HomePage_google_logo.png",scale: 30,))
-                              ),
-                              Semantics(
-                                  label: "Microsoft",
-                                  excludeSemantics: true,
-                                  child: Container(
-                                      margin: EdgeInsets.only(left: 20),
-                                      child: Image.asset("assets/HomePage_microsoftLogo.png",scale: 5,))),
-                              Semantics(
-                                  label: "Global Disability Innovation Hub",
-                                  excludeSemantics: true,
-                                  child: Container(
-                                      margin: EdgeInsets.only(left: 20),
-
-                                      child: Image.asset("assets/sponsor1.jpg",scale: 8,))),
-                              Semantics(
-                                  label: "National Centre for Promotion of Employment for Disabled People",
-                                  excludeSemantics: true,
-                                  child: Container(
-                                      margin: EdgeInsets.only(left: 20,top: 10,right: 20),
-
-                                      child: Image.asset("assets/sponsor2.png",scale: 15,)))
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20,top: 20),
-                        child: Semantics(
-                          header: true,
-                          child: Text(
-                            "Organizers",
-                            style: const TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xff242222),
-                              height: 26/20,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal, // Enable horizontal scrolling
-
-                          child: Row(
-                            children: [
-                              Semantics(
-                                  label: "IIIT Bangalore",
-                                  excludeSemantics: true,
-                                  child: Container(
-                                      margin: EdgeInsets.only(left: 5),
-
-                                      child: Container(
-                                          margin: EdgeInsets.only(left: 5),
-
-                                          child: Image.asset("assets/organizer1.png",scale: 10,)))),
-                              Semantics(
-                                  label: "Social Justice Department",
-                                  excludeSemantics: true,
-                                  child: Container(
-                                      margin: EdgeInsets.only(left: 10),
-
-                                      child: Image.asset("assets/organizer2.png",scale: 1.5,))),
-
-                              Semantics(
-                                  label: "NISH",
-                                  excludeSemantics: true,
-                                  child: Container(
-                                      margin: EdgeInsets.only(left: 10,right: 20),
-
-                                      child: Image.asset("assets/organizer3.png",scale: 6,))),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20,top: 20),
-                        child: Semantics(
-                          header: true,
-                          child: Text(
-                            "Partners",
-                            style: const TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xff242222),
-                              height: 26/20,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Semantics(
-                                label: "WHO",
-                                excludeSemantics: true,
-                                child: Image.asset("assets/HomePage_WorldHealthORG.png",scale: 2.5,)),
-                            Semantics(
-                                label: "KMTC",
-                                excludeSemantics: true,
-                                child: Image.asset("assets/partner2.jpg",scale: 8,)),
-                          ],
-                        ),
-                      ),
-
-                      Container(
-                        margin: EdgeInsets.only(left: 20,top: 20),
-                        child: Semantics(
-                          header: true,
-                          child: Text(
-                            "Information",
-                            style: const TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xff242222),
-                              height: 26/20,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ),
-
-                      Semantics(
-                        label:'Venue Information',
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 8),
-                          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                          decoration: BoxDecoration(
-                            color: Color(0xffffffff),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Semantics(
-                                label: '',
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 14,top: 10),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ScheduleScreen()));
+                                  },
+                                  child: Column(
                                     children: [
-                                      Container(
-                                        //  margin: EdgeInsets.only(right: 16),
-                                        width: 24,
-                                        height: 24,
-                                        child: SvgPicture.asset(
-                                          'assets/HomePage_calendar.svg',
-                                          width: 24,
-                                          height: 24,
-                                          color: Colors.black,
+                                      SvgPicture.asset('assets/HomePage_Eventagenda.svg'),
+                                      Text(
+                                        "Schedule",
+                                        style: const TextStyle(
+                                          fontFamily: "Roboto",
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff000000),
+                                          height: 18/12,
                                         ),
-                                      ),
-                                      Container(
-                                        constraints: BoxConstraints(maxWidth: screenWidth - 88),
-                                        margin: EdgeInsets.only(top: 4,left: 12),
-                                        child: Text(
-                                          "Oct 17th - 19th",
+                                        textAlign: TextAlign.left,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyScheduleScreen()));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset('assets/HomePage_Myschedule.svg'),
+                                      Text(
+                                        "My schedule",
+                                        style: const TextStyle(
+                                          fontFamily: "Roboto",
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff000000),
+                                          height: 18/12,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Speakerscreen()));
+
+                                  },
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset('assets/HomePage_Speaker.svg'),
+                                      Text(
+                                        "Speaker",
+                                        style: const TextStyle(
+                                          fontFamily: "Roboto",
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff000000),
+                                          height: 18/12,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Commiteescreen()));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset('assets/HomePage_ProgramCommitee.svg'),
+                                      Text(
+                                        "Commitee",
+                                        style: const TextStyle(
+                                          fontFamily: "Roboto",
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff000000),
+                                          height: 18/12,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      )
+                                    ],
+                                  ),
+                                ),
+
+                                Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> ExhibitorsScreen()));
+                                    },
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset('assets/HomePage_Exhibitor.svg',height: 32,),
+                                        Text(
+                                          "Exhibitors",
                                           style: const TextStyle(
                                             fontFamily: "Roboto",
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.w400,
-                                            color: Color(0xff777777),
+                                            color: Color(0xff000000),
+                                            height: 18/12,
                                           ),
                                           textAlign: TextAlign.left,
-                                        ),
-                                      ),
-
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          color: Colors.white12, // Divider color
+                          thickness: 10, // Divider thickness
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20,top: 20),
+                          child: Semantics(
+                            header: true,
+                            child: Text(
+                              "Sponsors",
+                              style: const TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff242222),
+                                height: 26/20,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal, // Enable horizontal scrolling
+                            child: Row(
+                              children: [
+                                Semantics(
+                                    label: "Google",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 20),
+                                        child: Image.asset("assets/HomePage_google_logo.png",scale: 30,))
                                 ),
+                                Semantics(
+                                    label: "Microsoft",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 20),
+                                        child: Image.asset("assets/HomePage_microsoftLogo.png",scale: 5,))),
+                                Semantics(
+                                    label: "Global Disability Innovation Hub",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 20),
+
+                                        child: Image.asset("assets/sponsor1.jpg",scale: 8,))),
+                                Semantics(
+                                    label: "National Centre for Promotion of Employment for Disabled People",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 20,top: 10,right: 20),
+
+                                        child: Image.asset("assets/sponsor2.png",scale: 15,)))
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20,top: 20),
+                          child: Semantics(
+                            header: true,
+                            child: Text(
+                              "Organizers",
+                              style: const TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff242222),
+                                height: 26/20,
                               ),
-                              Divider(
-                                color: Colors.black12,
-                                indent: screenWidth*0.02,
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal, // Enable horizontal scrolling
+
+                            child: Row(
+                              children: [
+                                Semantics(
+                                    label: "IIIT Bangalore",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 5),
+
+                                        child: Container(
+                                            margin: EdgeInsets.only(left: 5),
+
+                                            child: Image.asset("assets/organizer1.png",scale: 10,)))),
+                                Semantics(
+                                    label: "Social Justice Department",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 10),
+
+                                        child: Image.asset("assets/organizer2.png",scale: 1.5,))),
+
+                                Semantics(
+                                    label: "NISH",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 10,right: 20),
+
+                                        child: Image.asset("assets/organizer3.png",scale: 6,))),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20,top: 20),
+                          child: Semantics(
+                            header: true,
+                            child: Text(
+                              "Partners",
+                              style: const TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff242222),
+                                height: 26/20,
                               ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
                               Semantics(
-                                label:'',
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 14,top: 10),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        //  margin: EdgeInsets.only(right: 16),
-                                        width: 24,
-                                        height: 24,
-                                        child: SvgPicture.asset(
-                                          'assets/HomePage_location_on.svg',
-                                          width: 24,
-                                          height: 24,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only( right: 14,left: 12),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              constraints: BoxConstraints(maxWidth: screenWidth*0.7),
-                                              child: Text(
-                                                "National Institute of Speech and Hearing, 4/564 NISH Road Thiruvananthapuram, Kerala, 695017, India",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff777777),
-                                                ),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Divider(
-                                color: Colors.black12,
-                                indent: screenWidth*0.02,
-                              ),
+                                  label: "WHO",
+                                  excludeSemantics: true,
+                                  child: Image.asset("assets/HomePage_WorldHealthORG.png",scale: 2.5,)),
                               Semantics(
-                                label:'',
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 14,top: 10),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        //  margin: EdgeInsets.only(right: 16),
-                                        width: 24,
-                                        height: 24,
-                                        child: SvgPicture.asset(
-                                          'assets/HomePage_call.svg',
-                                          width: 24,
-                                          height: 24,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(right: 14,left: 12),
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.only(top: 4),
-                                              constraints: BoxConstraints(maxWidth: screenWidth - 88),
-                                              child: Text(
-                                                "+91-4712944666",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff777777),
-                                                ),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                            ),
-
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Divider(
-                                color: Colors.black12,
-                                indent: screenWidth*0.02,
-                              ),
-                              Semantics(
-                                label:'',
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 14,top: 10),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        //  margin: EdgeInsets.only(right: 16),
-                                        width: 24,
-                                        height: 24,
-                                        child: SvgPicture.asset(
-                                          'assets/HomePage_mail.svg',
-                                          width: 24,
-                                          height: 24,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 12),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              constraints: BoxConstraints(maxWidth: screenWidth - 88),
-                                              child: Text(
-                                                "empower2024@nish.ac.in",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff777777),
-                                                  height: 20/14,
-                                                ),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                            ),
-
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-
+                                  label: "KMTC",
+                                  excludeSemantics: true,
+                                  child: Image.asset("assets/partner2.jpg",scale: 8,)),
                             ],
                           ),
                         ),
-                      ),
-                    ],
+
+                        Container(
+                          margin: EdgeInsets.only(left: 20,top: 20),
+                          child: Semantics(
+                            header: true,
+                            child: Text(
+                              "Information",
+                              style: const TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff242222),
+                                height: 26/20,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
+
+                        Semantics(
+                          label:'Venue Information',
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 8),
+                            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            decoration: BoxDecoration(
+                              color: Color(0xffffffff),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Semantics(
+                                  label: '',
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 14,top: 10),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          //  margin: EdgeInsets.only(right: 16),
+                                          width: 24,
+                                          height: 24,
+                                          child: SvgPicture.asset(
+                                            'assets/HomePage_calendar.svg',
+                                            width: 24,
+                                            height: 24,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Container(
+                                          constraints: BoxConstraints(maxWidth: screenWidth - 88),
+                                          margin: EdgeInsets.only(top: 4,left: 12),
+                                          child: Text(
+                                            "Oct 17th - 19th",
+                                            style: const TextStyle(
+                                              fontFamily: "Roboto",
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: Color(0xff777777),
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Divider(
+                                  color: Colors.black12,
+                                  indent: screenWidth*0.02,
+                                ),
+                                Semantics(
+                                  label:'',
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 14,top: 10),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          //  margin: EdgeInsets.only(right: 16),
+                                          width: 24,
+                                          height: 24,
+                                          child: SvgPicture.asset(
+                                            'assets/HomePage_location_on.svg',
+                                            width: 24,
+                                            height: 24,
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only( right: 14,left: 12),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                constraints: BoxConstraints(maxWidth: screenWidth*0.7),
+                                                child: Text(
+                                                  "National Institute of Speech and Hearing, 4/564 NISH Road Thiruvananthapuram, Kerala, 695017, India",
+                                                  style: const TextStyle(
+                                                    fontFamily: "Roboto",
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff777777),
+                                                  ),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Divider(
+                                  color: Colors.black12,
+                                  indent: screenWidth*0.02,
+                                ),
+                                Semantics(
+                                  label:'',
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 14,top: 10),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          //  margin: EdgeInsets.only(right: 16),
+                                          width: 24,
+                                          height: 24,
+                                          child: SvgPicture.asset(
+                                            'assets/HomePage_call.svg',
+                                            width: 24,
+                                            height: 24,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(right: 14,left: 12),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(top: 4),
+                                                constraints: BoxConstraints(maxWidth: screenWidth - 88),
+                                                child: Text(
+                                                  "+91-4712944666",
+                                                  style: const TextStyle(
+                                                    fontFamily: "Roboto",
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff777777),
+                                                  ),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ),
+
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Divider(
+                                  color: Colors.black12,
+                                  indent: screenWidth*0.02,
+                                ),
+                                Semantics(
+                                  label:'',
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 14,top: 10),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          //  margin: EdgeInsets.only(right: 16),
+                                          width: 24,
+                                          height: 24,
+                                          child: SvgPicture.asset(
+                                            'assets/HomePage_mail.svg',
+                                            width: 24,
+                                            height: 24,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 12),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                constraints: BoxConstraints(maxWidth: screenWidth - 88),
+                                                child: Text(
+                                                  "empower2024@nish.ac.in",
+                                                  style: const TextStyle(
+                                                    fontFamily: "Roboto",
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff777777),
+                                                    height: 20/14,
+                                                  ),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ),
+
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )

@@ -5,7 +5,7 @@ import '../APIModel/guestloginmodel.dart';
 
 class guestApi {
 
-  static const String baseUrl = "https://dev.iwayplus.in/auth/guest";
+  static const String baseUrl = "https://maps.iwayplus.in/auth/guest";
 
   static Future<guestloginmodel> guestlogin() async {
     final response = await http.get(

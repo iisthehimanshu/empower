@@ -26,6 +26,7 @@ import 'dart:ui' as ui;
 
 import 'APIModel/CardData.dart';
 import 'APIModel/Schedulemodel.dart';
+import 'SpeakerProfileScreen.dart';
 
 class SessionDetail extends StatefulWidget {
   late String title;
@@ -47,6 +48,7 @@ class SessionDetail extends StatefulWidget {
   late String? bookingType;
   late String? speakerName;
   late CardData? dataForHiveStorageAndFurtherUse;
+  late String? speakerID;
 
 
 
@@ -69,6 +71,7 @@ class SessionDetail extends StatefulWidget {
     required this.eventType,
     required this.bookingType,
     required this.speakerName,
+    required this.speakerID,
 
     required this.dataForHiveStorageAndFurtherUse
 
@@ -321,159 +324,6 @@ class SessionDetailState extends State<SessionDetail> {
     throw Exception('Failed to capture image');
   }
 
-  Future<Uint8List> _capturePng() async {
-    print("CreatePng");
-    final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder);
-
-    // Draw the image onto the canvas
-    final ui.Image img =
-    await loadImage(); // Replace this with your image loading logic
-
-    // Create a Paint object for border styling
-    final Paint borderPaint = Paint()
-      ..color = Color(0xff33194d) // Set the color for the border
-      ..style = PaintingStyle.stroke // Set the style to stroke
-      ..strokeWidth = 5.0; // Set the width of the border
-
-    // Define the border radius
-    final double borderRadius = 60.0; // Adjust the border radius as needed
-
-    // Draw a rounded rectangle to create a border around the image
-    canvas.drawRRect(
-      RRect.fromRectAndCorners(
-        Rect.fromLTWH(0, 0, img.width.toDouble(), img.height.toDouble()),
-        topLeft: Radius.circular(borderRadius),
-        topRight: Radius.circular(borderRadius),
-        bottomLeft: Radius.circular(borderRadius),
-        bottomRight: Radius.circular(borderRadius),
-      ),
-      Paint()..color = Colors.white,
-    );
-
-    // Draw the captured image onto the canvas
-    canvas.drawImage(img, Offset.zero, Paint()..color = Colors.white);
-
-    // Define text style for the main text
-    final ui.ParagraphStyle mainTextStyle = ui.ParagraphStyle(
-      textAlign: TextAlign.left,
-      fontSize: 148.0,
-      fontWeight: FontWeight.bold,
-    );
-
-    // Define text for the main title
-    final String mainText = widget.title;
-
-    // Create a paragraph builder for the main title
-    final ui.ParagraphBuilder mainParagraphBuilder =
-    ui.ParagraphBuilder(mainTextStyle)
-      ..pushStyle(ui.TextStyle(
-        color: ui.Color(0xffFFFFFFF),
-        fontWeight: FontWeight.w600,
-      ))
-      ..addText(mainText);
-    final Paragraph mainParagraph = mainParagraphBuilder.build()
-      ..layout(ui.ParagraphConstraints(width: 2600)); // Adjust width as needed
-    final double leftMargin = 80.0; // Adjust left margin as needed
-    canvas.drawParagraph(
-        mainParagraph, Offset(leftMargin, img.height.toDouble() + 80));
-
-    // Define text style for the additional text
-    final ui.ParagraphStyle additionalTextStyle = ui.ParagraphStyle(
-      textAlign: TextAlign.left,
-      fontSize: 76.0,
-      fontWeight: FontWeight.bold,
-    );
-
-    // Define text for the additional text
-    final String additionalText = widget.loc;
-
-    // Create a paragraph builder for the additional text
-    final ui.ParagraphBuilder additionalParagraphBuilder =
-    ui.ParagraphBuilder(additionalTextStyle)
-      ..pushStyle(ui.TextStyle(
-          color: ui.Color(0xffFFFFFFF), fontWeight: FontWeight.w600))
-      ..addText(additionalText);
-    final Paragraph additionalParagraph = additionalParagraphBuilder.build()
-      ..layout(ui.ParagraphConstraints(width: 2600)); // Adjust width as needed
-    canvas.drawParagraph(
-        additionalParagraph,
-        Offset(
-            80,
-            img.height.toDouble() +
-                mainParagraph.height +
-                30 +
-                60)); // Position the additional text below the main text
-
-    // Draw the logo and text onto the canvas
-    final ui.Image logo =
-    await loadLogo(); // Replace with your logo loading logic
-    final double scaleFactor =
-    0.5; // Adjust this scale factor as needed (e.g., 0.5 for half size)
-    final double logoWidth = logo.width.toDouble() * scaleFactor;
-    final double logoHeight = logo.height.toDouble() * scaleFactor;
-    canvas.drawImageRect(
-      logo,
-      Rect.fromLTWH(0, 0, logo.width.toDouble(),
-          logo.height.toDouble()), // Source rectangle (entire image)
-      Rect.fromLTWH(
-        80,
-        img.height.toDouble() +
-            mainParagraph.height +
-            additionalParagraph.height +
-            40 +
-            120,
-        logoWidth,
-        logoHeight,
-      ), // Destination rectangle (position and size on the canvas)
-      Paint()..color = Colors.white,
-    );
-
-    // Define text style for the text inside the logo
-    final ui.ParagraphStyle logoTextStyle = ui.ParagraphStyle(
-      textAlign: TextAlign.left,
-      fontSize: 48.0,
-      fontWeight: FontWeight.bold,
-    );
-
-    // Define the text for inside the logo
-    final String logoText = 'Iwayplus';
-
-    // Create a paragraph builder for the text inside the logo
-    final ui.ParagraphBuilder logoParagraphBuilder =
-    ui.ParagraphBuilder(logoTextStyle)
-      ..pushStyle(ui.TextStyle(color: ui.Color(0xffFFFFFFF)))
-      ..addText(logoText);
-    final Paragraph logoParagraph = logoParagraphBuilder.build()
-      ..layout(ui.ParagraphConstraints(width: 800)); // Adjust width as needed
-    canvas.drawParagraph(
-        logoParagraph,
-        Offset(
-            logo.width.toDouble() + 30,
-            img.height.toDouble() +
-                20 +
-                mainParagraph.height +
-                additionalParagraph.height +
-                160)); // Position the text inside the logo
-
-    // Convert the canvas to an image
-    final ui.Image capturedImage = await recorder.endRecording().toImage(
-        img.width,
-        (img.height +
-            mainParagraph.height +
-            additionalParagraph.height +
-            logo.height +
-            140)
-            .toInt());
-    // Convert the image to PNG format
-    final ByteData? byteData =
-    await capturedImage.toByteData(format: ui.ImageByteFormat.png);
-
-    if (byteData != null) {
-      return byteData.buffer.asUint8List();
-    }
-    throw Exception('Failed to capture image');
-  }
 
   void shareToInstagramStory() async {
     Uint8List imageBytes = await _capturePng2();
@@ -1038,75 +888,91 @@ class SessionDetailState extends State<SessionDetail> {
                                       //   children: subeventwidgetlist,
                                       // )
                                       // ):
-                                      Container(
-                                          padding:
-                                          EdgeInsets.fromLTRB(18, 16, 18, 8),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      width: 44,
-                                                      height: 44,
-                                                      decoration: BoxDecoration(
-                                                        color: Color(0xFFB2EFE4), // Hex color with 0xFF prefix
-                                                        shape: BoxShape.circle,   // Makes the container circular
+                                      GestureDetector(
+                                        onTap: (){
+                                          if(widget.speakerID! != "" || widget.speakerID! != null) {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SpeakerProfileScreen(
+                                                          name: "",
+                                                          description: "",
+                                                          designation: "",
+                                                          fromCommiteePage: false,
+                                                          speakerID: widget
+                                                              .speakerID!,)));
+                                          }
+                                        },
+                                        child: Container(
+                                            padding:
+                                            EdgeInsets.fromLTRB(18, 16, 18, 8),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        width: 44,
+                                                        height: 44,
+                                                        decoration: BoxDecoration(
+                                                          color: Color(0xFFB2EFE4), // Hex color with 0xFF prefix
+                                                          shape: BoxShape.circle,   // Makes the container circular
+                                                        ),
+                                                        child: Icon(Icons.person_outline_outlined),
                                                       ),
-                                                      child: Icon(Icons.person_outline_outlined),
-                                                    ),
-                                                    Container(
-                                                      margin:
-                                                      EdgeInsets.only(left: 20),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                        children: [
-                                                          Container(
-                                                            constraints: BoxConstraints(maxWidth: screenWidth*0.7),
+                                                      Container(
+                                                        margin:
+                                                        EdgeInsets.only(left: 20),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                          children: [
+                                                            Container(
+                                                              constraints: BoxConstraints(maxWidth: screenWidth*0.7),
 
-                                                            child: Text(
-                                                              widget.speakerName!,
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                'Roboto',
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                FontWeight.w500,
-                                                                color: Color(
-                                                                    0xff000000),
+                                                              child: Text(
+                                                                widget.speakerName??"",
+                                                                style: TextStyle(
+                                                                  fontFamily:
+                                                                  'Roboto',
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                  FontWeight.w500,
+                                                                  color: Color(
+                                                                      0xff000000),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          // Container(
-                                                          //   margin: EdgeInsets.only(top: 2),
-                                                          //   child: Text(
-                                                          //     'Coordinator 1 Desig.',
-                                                          //     style: TextStyle(
-                                                          //       fontFamily: 'Roboto',
-                                                          //       fontSize: 16,
-                                                          //       fontWeight: FontWeight.w400,
-                                                          //       color: Color(
-                                                          //           0xff282828),
-                                                          //     ),
-                                                          //   ),
-                                                          // )
-                                                        ],
+                                                            // Container(
+                                                            //   margin: EdgeInsets.only(top: 2),
+                                                            //   child: Text(
+                                                            //     'Coordinator 1 Desig.',
+                                                            //     style: TextStyle(
+                                                            //       fontFamily: 'Roboto',
+                                                            //       fontSize: 16,
+                                                            //       fontWeight: FontWeight.w400,
+                                                            //       color: Color(
+                                                            //           0xff282828),
+                                                            //     ),
+                                                            //   ),
+                                                            // )
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                    // Spacer(),
-                                                    // Container(
-                                                    //   child: Icon(Icons.phone_outlined, size: 24, color: Color(0xffECC113),),
-                                                    // ),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          )),
+                                                      // Spacer(),
+                                                      // Container(
+                                                      //   child: Icon(Icons.phone_outlined, size: 24, color: Color(0xffECC113),),
+                                                      // ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                      ),
                                     ],
                                   ),
                                 ),

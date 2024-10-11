@@ -47,6 +47,7 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
   void makerExhibitorList(ScheduleModel schedule) {
     if (schedule.data != null) {
       for (var item in schedule.exhibitors!) {
+        print(item.companyName);
           keyNoteDataList.add(item);
       }
     }
@@ -121,7 +122,7 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                   itemCount: keyNoteDataList.length,
                   itemBuilder: (context, index) {
                     final exhibitor = keyNoteDataList[index]; // Get the speaker data from the list
-                    return Card(
+                    return (exhibitor.companyName!=null)? Card(
                       elevation: 2,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -138,7 +139,7 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    (exhibitor.contactPersionName==null)?'':exhibitor.contactPersionName!, // Use speaker's name
+                                    (exhibitor.companyName==null)?'':exhibitor.companyName!, // Use speaker's name
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -165,7 +166,7 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                           ],
                         ),
                       ),
-                    );
+                    ) : Container();
                   },
                 ),
               ),

@@ -8,7 +8,7 @@ import '../../../../Navigation/Elements/HelperClass.dart';
 class DeleteApi {
 
   static String refreshToken = "";
-  static String baseUrl = kDebugMode? "https://dev.iwayplus.in/secured/user/delete" : "https://maps.iwayplus.in/secured/user/delete";
+  static String baseUrl =  "https://maps.iwayplus.in/secured/user/delete";
 
   static Future<bool> fetchPatchData() async {
     var signInBox = Hive.box('SignInDatabase');
