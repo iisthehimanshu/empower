@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../Navigation/Elements/HelperClass.dart';
 import 'API/ScheduleAPI.dart';
 import 'APIModel/CardData.dart';
 import 'APIModel/Schedulemodel.dart';
@@ -145,15 +146,20 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text(
-                                    (exhibitor.about==null)?'' :exhibitor.about!, // Use speaker's organization
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey[600],
+                                  (exhibitor.website==null)?Container():InkWell(
+                                    onTap: (){
+                                      HelperClass.launchURL(exhibitor.website!);
+                                    },
+                                    child: Text(
+                                      (exhibitor.website==null)?'' :exhibitor.website!, // Use speaker's organization
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
                                     ),
                                   ),
                                   Text(
-                                    (exhibitor.boothNo==null)?'':exhibitor.boothNo!, // Use speaker's location
+                                    "Booth No. ${(exhibitor.boothNo==null)?'':exhibitor.boothNo!}", // Use speaker's location
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[600],
