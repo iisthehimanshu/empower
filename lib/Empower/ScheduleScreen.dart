@@ -35,7 +35,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
   List<CardData> allEventData = [];
   HashMap<DateTime, HashMap<String,List<Widget>>> finalMap = HashMap();
-  List<String> keys = []; // Declare this at the class level
+  List<String> Sortedkeys = []; // Declare this at the class level
 
 
   @override
@@ -88,19 +88,21 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       }
 
       // Process events without themes
-      List<Widget> eventsWithoutThemes = [];
+      Map<DateTime,List<Widget>> eventsWithoutThemes = {};
       for (var event in schedule.data!) {
         if (!eventsWithThemes.contains(event.sId)) {
-          eventsWithoutThemes.add(card(event));
+          DateTime themeDate = DateTime.parse(event.eventDate!);
+          eventsWithoutThemes.putIfAbsent(themeDate, ()=>[]);
+          eventsWithoutThemes[themeDate]!.add(card(event));
         }
       }
 
       if (eventsWithoutThemes.isNotEmpty) {
         for (DateTime date in days) {
           if (finalMap.containsKey(date)) {
-            finalMap[date]!['Open Events'] = eventsWithoutThemes;
+            finalMap[date]!['Open Events'] = eventsWithoutThemes[date]??[];
           } else {
-            finalMap[date] = HashMap<String, List<Widget>>()..putIfAbsent('Open Events', () => eventsWithoutThemes);
+            finalMap[date] = HashMap<String, List<Widget>>()..putIfAbsent('Open Events', () => eventsWithoutThemes[date]??[]);
           }
         }
       }
@@ -171,21 +173,33 @@ class _ScheduleScreenState extends State<ScheduleScreen>
         List<String> sortedKeys = currentMap.keys.toList()
           ..sort((a, b) {
             // Extract numbers from the theme names and sort based on that
-            int extractNumber(String themeName) {
+            Map<String, Object> extractNumber(String themeName) {
+              List<ThemesAndSessions> themes = schedule!.themesAndSessions!.where((e)=> e.themeName == themeName).toList();
+              String t = "";
+              int time = 0;
+              if(themes.isNotEmpty && themes.first.times != null && themes.first.times!.isNotEmpty){
+                ThemesAndSessions theme = themes.first;
+                t = theme.times!.first;
+                time = int.parse(t.split(':')[0]);
+              }
               final match = RegExp(r'\d+').firstMatch(themeName);
-              print("returning ${match != null ? int.parse(match.group(0)!) : 0} for $themeName");
-              return match != null ? int.parse(match.group(0)!) : 0;
+              return {"time":time,"number":match != null ? int.parse(match.group(0)!) : 0};
             }
-
-            return extractNumber(a).compareTo(extractNumber(b));
+            Map<String,dynamic>aMap = extractNumber(a);
+            Map<String,dynamic>bMap = extractNumber(b);
+            if(aMap["time"] == bMap["time"]){
+              return aMap["number"].compareTo(bMap["number"]);
+            }
+            return aMap["time"].compareTo(bMap["time"]);
           });
+
         print("sortedKeys $sortedKeys");
 
         // Update state variable 'keys' with sorted list
-        keys = sortedKeys;
+        Sortedkeys = sortedKeys;
       } else {
         currentMap = HashMap();
-        keys = [];
+        Sortedkeys = [];
       }
 
       currentCards = cards[selectedDay] ?? [];
@@ -259,7 +273,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                       header: true,
                       child: Container(
                         height: screenHeight*0.8,
-                        padding: EdgeInsets.only(left: 10, top: 10, right: 10,bottom: 10),
+                        padding: EdgeInsets.only(left: 10, top: 10, right: 10,bottom: 70),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -271,7 +285,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                             //   ),
                             // ),
 
-                            Expanded(
+                            Flexible(
                               child: AnimatedSwitcher(
                                 duration: const Duration(milliseconds: 500),
                                 transitionBuilder: (Widget child,
@@ -280,15 +294,15 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                                       opacity: animation, child: child);
                                 },
                                 child: ListView.builder(
-                                  itemCount: keys.length,
+                                  itemCount: Sortedkeys.length,
                                   itemBuilder: (context, index) {
-                                    String key = keys[index];  // Use the sorted keys
+                                    String key = Sortedkeys[index];  // Use the sorted keys
                                     List<Widget> widgets = currentMap[key] ?? []; // Get the widgets for the current key
 
                                     return Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Container(
+                                        key == "Open Events"?Container():Container(
                                           padding: const EdgeInsets.all(8.0),
                                           margin: EdgeInsets.only(top: 10),
                                           decoration: BoxDecoration(
