@@ -8,8 +8,8 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:geolocator/geolocator.dart';
+import '../Empower/websocket/UserLog.dart';
 import '../Navigation/singletonClass.dart';
-import '../Navigation/websocket/NotifIcationSocket.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 import 'package:bluetooth_enable_fork/bluetooth_enable_fork.dart';
 import 'package:collection/collection.dart';
@@ -34,7 +34,6 @@ import '../Navigation/fetchrouteParams.dart';
 import '../Navigation/realWorldModel.dart';
 import '../Navigation/wayPointPath.dart';
 import '../Navigation/waypoint.dart';
-import '../Navigation/websocket/UserLog.dart';
 import 'API/DataVersionApi.dart';
 import 'API/outBuilding.dart';
 import 'API/slackApi.dart';
@@ -3649,7 +3648,6 @@ double? minDistance;
 
   }
 
-  var versionBox = Hive.box('VersionData');
   final DataVersionLocalModelBox = DataVersionLocalModelBOX.getData();
 
   void findCentroid(List<Coordinates> vertices, String bid) {

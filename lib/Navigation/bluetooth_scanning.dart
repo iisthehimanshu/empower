@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:collection';
 import 'package:collection/collection.dart';
-import 'package:empower/Navigation/websocket/UserLog.dart';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import '../Empower/websocket/UserLog.dart';
 import 'APIMODELS/beaconData.dart';
 import 'Elements/HelperClass.dart';
 

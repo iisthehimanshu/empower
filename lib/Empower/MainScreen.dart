@@ -1,5 +1,6 @@
 import 'package:empower/Empower/HomePage.dart';
 import 'package:empower/Empower/ScheduleScreen.dart';
+import 'package:empower/Empower/websocket/NotifIcationSocket.dart';
 import 'package:empower/Navigation/Elements/HelperClass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -34,6 +35,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    NotificationSocket.receiveMessage();
+
     checkPermission();
     MainScreenController.setIndex(widget.initialIndex);
   }

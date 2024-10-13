@@ -32,6 +32,8 @@ class _MyScheduleScreenState extends State<MyScheduleScreen>{
 
   Future<void> fetchSchedule() async {
     schedule = await ScheduleAPI.fetchschedule();
+    print("testBox.keys");
+    print(testBox.keys);
 
     testBox.keys.forEach((currentValue){
       for(var currentScheduleData in schedule!.data!){

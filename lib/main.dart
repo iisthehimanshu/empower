@@ -12,6 +12,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import 'Empower/LOGIN SIGNUP/SignIn.dart';
 import 'Empower/MainScreen.dart';
 import 'Empower/websocket/NotifIcationSocket.dart';
+import 'Empower/websocket/PushNotifications.dart';
 import 'Empower/websocket/UserLog.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/BeaconAPIModel.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/BuildingAPIModel.dart';
@@ -33,6 +34,8 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   WakelockPlus.enable();
+  PushNotifications.localNotiInit();
+
   var directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(LandMarkApiModelAdapter());
@@ -97,8 +100,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   wsocket soc = wsocket('com.iwaypus.empower');
-  NotificationSocket notificationSocket = NotificationSocket();
 
   @override
   void initState() {

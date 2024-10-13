@@ -16,7 +16,6 @@ import '../../Empower/API/guestloginapi.dart';
 class DataVersionApi {
   final String baseUrl = kDebugMode? "https://maps.iwayplus.in/secured/data-version" : "https://maps.iwayplus.in/secured/data-version";
   static var signInBox = Hive.box('SignInDatabase');
-  var versionBox = Hive.box('VersionData');
   String accessToken = signInBox.get("accessToken");
 
   final DataBox = DataVersionLocalModelBOX.getData();

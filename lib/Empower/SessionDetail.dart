@@ -501,6 +501,9 @@ class SessionDetailState extends State<SessionDetail> {
   @override
   void initState() {
     super.initState();
+
+    print("testBox${testBox.containsKey(widget.eventid)}");
+    print(widget.eventid);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
@@ -508,8 +511,6 @@ class SessionDetailState extends State<SessionDetail> {
 
   @override
   Widget build(BuildContext context) {
-
-
 
     finallongText = widget.description=="" ? longText: finallongText;
     print("long text $finallongText");
@@ -555,16 +556,17 @@ class SessionDetailState extends State<SessionDetail> {
                 label: 'Boorkmark Event',
                 child: Icon(
                   // Check if the event ID exists in the bookmarked cards
-                  testBox.containsKey(widget.eventid)
+                  widget.eventid!="" ? testBox.containsKey(widget.eventid)
                       ? Icons.bookmark_rounded // If event is bookmarked, show filled icon
-                      : Icons.bookmark_outline_rounded, // Otherwise, show outlined icon
+                      : Icons.bookmark_outline_rounded : Icons.bookmark_outline_rounded , // Otherwise, show outlined icon
                   size: 34,
-                  color: testBox.containsKey(widget.eventid)
+                  color: widget.eventid!="" ? testBox.containsKey(widget.eventid)
                       ? Colors.yellow // If bookmarked, color is yellow
-                      : Colors.black26, // Otherwise, color is black26
+                      : Colors.black26 : Colors.black26, // Otherwise, color is black26
                 ),
               ),
               onTap: () async {
+
                 if(testBox.containsKey(widget.eventid)){
                   testBox.delete(widget.eventid);
                 }else{

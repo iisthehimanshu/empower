@@ -117,8 +117,8 @@ class _DisabilityFormScreenState extends State<DisabilityFormScreen> {
         isLoading=false;
       });
     });
-
   }
+
   Future<void> setPageInfo() async{
     Username = userInfoBox.get("name");
     if(userInfoBox.containsKey('email') && userInfoBox.get("email") != null) {

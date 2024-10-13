@@ -6,27 +6,19 @@ import 'dart:ui';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:empower/Empower/CommiteeScreen.dart';
 import 'package:empower/Empower/SpeakerScreen.dart';
+import 'package:empower/Empower/websocket/NotifIcationSocket.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:photo_view/photo_view.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
-
-import 'package:url_launcher/url_launcher.dart';
-
+import 'package:hive/hive.dart';
 import '../Navigation/Navigation.dart';
-import '../Navigation/websocket/NotifIcationSocket.dart';
 import 'API/ScheduleAPI.dart';
 import 'NotificationScreen.dart';
 import 'Elements/ImageSlider.dart';
 import 'ExhibitorsScreen.dart';
 import 'MyScheduleScreen.dart';
 import 'ScheduleScreen.dart';
-import 'DisabilityFormScreen.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -44,6 +36,8 @@ class _HomePageState extends State<HomePage>{
   List<String> imagesSemantic = [
     'Corousal Image'
   ];
+  var versionBox = Hive.box('VersionData');
+
 
   Future<void> _refreshPage() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -62,6 +56,9 @@ class _HomePageState extends State<HomePage>{
     NotificationSocket.receiveMessage();
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    versionBox.put(DateTime(2024, 10, 17).toString(), true);
+    versionBox.put("Day18", true);
+    versionBox.put("Day19", 0);
   }
 
   @override

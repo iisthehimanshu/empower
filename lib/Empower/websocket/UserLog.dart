@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 class wsocket{
   static String appId = "";
-  static final channel = io.io('https://dev.iwayplus.in', <String, dynamic>{
+  static final channel = io.io('https://maps.iwayplus.in', <String, dynamic>{
     'transports': ['websocket'],
     'autoConnect': false,
   });
