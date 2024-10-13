@@ -551,7 +551,7 @@ class SessionDetailState extends State<SessionDetail> {
             ),
           ),
           actions: [
-            InkWell(
+            widget.eventid!=""?InkWell(
               child: Semantics(
                 label: 'Boorkmark Event',
                 child: Icon(
@@ -575,7 +575,7 @@ class SessionDetailState extends State<SessionDetail> {
 
                 setState(() {}); // Ensure UI updates after the bookmark state change
               },
-            ),
+            ):Container(),
 
 
             // InkWell(
