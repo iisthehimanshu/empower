@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:empower/Empower/DATABASE/DATABASEMODEL/ConferenceAllDataBaseModel.dart';
 import 'package:empower/Empower/DATABASE/DATABASEMODEL/ScheduleApiModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,10 @@ void main() async {
 
   Hive.registerAdapter(ScheduleApiModelAdapter());
   await Hive.openBox<ScheduleApiModel>('ScheduleApiModelFile');
+
+  Hive.registerAdapter(ConferenceAllDataBaseModelAdapter());
+  await Hive.openBox<ConferenceAllDataBaseModel>('ConferenceAllDataBaseModelBOX');
+
   await Hive.openBox('Favourites');
 
   await Hive.openBox('UserInformation');

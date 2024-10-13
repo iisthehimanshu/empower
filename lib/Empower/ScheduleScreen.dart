@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:empower/Empower/Elements/MainScreenController.dart';
 import 'package:empower/Empower/MainScreen.dart';
 import 'package:flutter/material.dart';
@@ -206,7 +207,14 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     });
   }
 
+  Future<void> _refreshPage() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    print("Connectivity Result: $connectivityResult");
 
+    if (connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi)) {
+      await ScheduleAPI.fetchschedule(fetchFromInternet: true);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -268,69 +276,72 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                       label: "Session Dates",
                       header: true,
                         child: DaySelection(days, onDateSelected: filterCardsForDay)),
-                    Semantics(
-                      label: "Session Events",
-                      header: true,
-                      child: Container(
-                        height: screenHeight*0.8,
-                        padding: EdgeInsets.only(left: 10, top: 10, right: 10,bottom: 70),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // InkWell(
-                            //   onTap: () {},
-                            //   child: Semantics(
-                            //     label: 'Filter',
-                            //     child: SvgPicture.asset("assets/filter.svg"),
-                            //   ),
-                            // ),
+                    RefreshIndicator(
+                      onRefresh: _refreshPage,
+                      child: Semantics(
+                        label: "Session Events",
+                        header: true,
+                        child: Container(
+                          height: screenHeight*0.8,
+                          padding: EdgeInsets.only(left: 10, top: 10, right: 10,bottom: 70),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // InkWell(
+                              //   onTap: () {},
+                              //   child: Semantics(
+                              //     label: 'Filter',
+                              //     child: SvgPicture.asset("assets/filter.svg"),
+                              //   ),
+                              // ),
 
-                            Flexible(
-                              child: AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 500),
-                                transitionBuilder: (Widget child,
-                                    Animation<double> animation) {
-                                  return FadeTransition(
-                                      opacity: animation, child: child);
-                                },
-                                child: ListView.builder(
-                                  itemCount: Sortedkeys.length,
-                                  itemBuilder: (context, index) {
-                                    String key = Sortedkeys[index];  // Use the sorted keys
-                                    List<Widget> widgets = currentMap[key] ?? []; // Get the widgets for the current key
+                              Flexible(
+                                child: AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 1500),
+                                  transitionBuilder: (Widget child,
+                                      Animation<double> animation) {
+                                    return FadeTransition(
+                                        opacity: animation, child: child);
+                                  },
+                                  child: ListView.builder(
+                                    itemCount: Sortedkeys.length,
+                                    itemBuilder: (context, index) {
+                                      String key = Sortedkeys[index];  // Use the sorted keys
+                                      List<Widget> widgets = currentMap[key] ?? []; // Get the widgets for the current key
 
-                                    return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        key == "Open Events"?Container():Container(
-                                          padding: const EdgeInsets.all(8.0),
-                                          margin: EdgeInsets.only(top: 10),
-                                          decoration: BoxDecoration(
-                                            color: Color(0xffEBEBEB),
-                                            border: Border.all(color: Color(0xff777777), width: 0.5),
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: Text(
-                                            key,  // Render the sorted key (theme name)
-                                            style: const TextStyle(
-                                              fontFamily: "Roboto",
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color(0xff000000),
-                                              height: 23/16,
+                                      return Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          key == "Open Events"?Container():Container(
+                                            padding: const EdgeInsets.all(8.0),
+                                            margin: EdgeInsets.only(top: 10),
+                                            decoration: BoxDecoration(
+                                              color: Color(0xffEBEBEB),
+                                              border: Border.all(color: Color(0xff777777), width: 0.5),
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Text(
+                                              key,  // Render the sorted key (theme name)
+                                              style: const TextStyle(
+                                                fontFamily: "Roboto",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xff000000),
+                                                height: 23/16,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Column(
-                                          children: widgets, // Render the list of widgets under the key
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                          Column(
+                                            children: widgets, // Render the list of widgets under the key
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
