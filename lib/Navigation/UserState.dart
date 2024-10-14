@@ -3,10 +3,10 @@ import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:geodesy/geodesy.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../Empower/websocket/UserLog.dart';
 import '../Navigation/API/buildingAllApi.dart';
 import '../Navigation/MotionModel.dart';
 import '../Navigation/pathState.dart';
-import '../Navigation/websocket/UserLog.dart';
 import 'buildingState.dart' as b;
 
 import 'APIMODELS/beaconData.dart';
@@ -14,7 +14,6 @@ import 'Cell.dart';
 import 'Elements/locales.dart';
 import 'navigationTools.dart';
 import 'package:geodesy/geodesy.dart' as geo;
-import '../Navigation/websocket/UserLog.dart';
 
 class UserState {
   int floor;

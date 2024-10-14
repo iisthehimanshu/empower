@@ -178,7 +178,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
                   return GestureDetector(
                     onTap: (){
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context)=>SessionDetail(title: speaker.eventName??"", date: speaker.eventDate??"", startDate: "", endDate: "", time: speaker.startTime??"", loc: speaker.venueName??"", hash: [""], seats: "", eventid: "", category: speaker.categories??"", subevents: speaker.subEvents?? <dynamic>[]
+                          MaterialPageRoute(builder: (context)=>SessionDetail(title: speaker.eventName??"", date: speaker.eventDate??"", startDate: "", endDate: "", time: speaker.startTime??"", loc: speaker.venueName??"", hash: [""], seats: "", eventid: speaker.sId??"", category: speaker.categories??"", subevents: speaker.subEvents?? <dynamic>[]
                             , filename: speaker.filename??"", eventType: speaker.eventType??"", bookingType: speaker.bookingType??"", description:speaker.eventDetails, moderator: speaker.moderator??"",speakerName: speaker.speakerName,speakerID: speaker.speakerId,dataForHiveStorageAndFurtherUse: speaker,))
                       );
 
