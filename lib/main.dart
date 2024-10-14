@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -27,6 +28,7 @@ import 'Navigation/DATABASE/DATABASEMODEL/PatchAPIModel.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/PolyLineAPIModel.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/SignINAPIModel.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/WayPointModel.dart';
+import 'Navigation/Elements/locales.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -69,12 +71,9 @@ void main() async {
 
   Hive.registerAdapter(ConferenceAllDataBaseModelAdapter());
   await Hive.openBox<ConferenceAllDataBaseModel>('ConferenceAllDataBaseModelBOX');
-
   await Hive.openBox('Favourites');
-
   await Hive.openBox('UserInformation');
   await Hive.openBox('testingSave');
-
   await Hive.openBox('Filters');
   await Hive.openBox('SignInDatabase');
   await Hive.openBox('LocationPermission');
@@ -83,10 +82,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
   WakelockPlus.enable();
-
-
   runApp(MyApp());
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
@@ -107,9 +103,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   wsocket soc = wsocket('com.iwaypus.empower');
+  final FlutterLocalization localization = FlutterLocalization.instance;
+  void ontranslatedLanguage(Locale? locale){
+    setState(() {
+
+    });
+  }
+
+  void configureLocalization(){
+    localization.init(mapLocales: LOCALES, initLanguageCode: 'en');
+    localization.onTranslatedLanguage = ontranslatedLanguage;
+  }
 
   @override
   void initState() {
+    configureLocalization();
     super.initState();
   }
 
@@ -154,6 +162,17 @@ class _MyAppState extends State<MyApp> {
           }
         },
       ),
+      supportedLocales: [
+        Locale('en'), // English
+        Locale('hi'), // Hindi
+        // Locale('es'), // Spanish
+        // Locale('fr'), // French
+        // Locale('de'), // German
+        Locale('ta'), // Tamil
+        Locale('te'), // Telugu
+        Locale('pa'), // Punjabi
+      ],
+      localizationsDelegates: localization.localizationsDelegates,
     );
   }
 }

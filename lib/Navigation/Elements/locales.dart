@@ -1,3 +1,4 @@
+
 import 'package:flutter_localization/flutter_localization.dart';
 
 const List<MapLocale> LOCALES=[
@@ -38,7 +39,6 @@ mixin LocaleData {
   static const String less5Feet = '< 5 Feet';
   static const String between56Feet = '5 to 6 Feet';
   static const String more6Feet = '> 6 Feet';
-
   static const String straight='Straight';
   static const String right='Right';
   static const String tright='tRight';
@@ -46,8 +46,6 @@ mixin LocaleData {
   static const String tslightleft= 'tSlightLeft';
   static const String tsharpright= 'tSharpRight';
   static const String tsharpleft= 'tSharpLeft';
-
-
   static const String ttsright='ttsRight';
   static const String ttsleft='ttsLeft';
   static const String ttsback='ttsBack';
@@ -57,9 +55,6 @@ mixin LocaleData {
   static const String ttssharpright='ttsSharpRight';
   static const String ttssharpleft='ttsSharpLeft';
   static const String ttsuturn='ttsUTurn';
-
-
-
   static const String uturn='U Turn';
   static const String sharpleft='Sharp Left';
   static const String left='Left';
@@ -67,16 +62,13 @@ mixin LocaleData {
   static const String slightright='Slight Right';
   static const String slightleft='Slight Left';
   static const String sharpright='Sharp Right';
-
   static const String tsright='tsRight';
   static const String tsuturn='tsU Turn';
   static const String tssharpleft='tsSharp Left';
   static const String tsleft='tsLeft';
-
   static const String tsslightright='tsSlight Right';
   static const String tsslightleft='tsSlight Left';
   static const String tssharpright='tsSharp Right';
-
   static const String hright='hRight';
   static const String hleft='hLeft';
   static const String gostraight='Go Straight';
@@ -129,7 +121,6 @@ mixin LocaleData {
   static const String scanQr="Scan nearby QR to know your location";
   static const String reroute="You are going away from the path. Rerouting you to the destination";
 
-
   static Map<String, String> get properties => {
     'Slight Right': tsslightright,
     'Right': tsright,
@@ -147,9 +138,6 @@ mixin LocaleData {
     'on your Back':onyourleft,
     'on your Right':onyourright,
     'None':none
-
-
-
   };
 
 
@@ -221,9 +209,6 @@ mixin LocaleData {
 
 
   static String getProperty5(String propertyName,context) {
-
-
-
     if(properties5[propertyName]!=null){
       print("property5 ${properties5[propertyName]!.getString(context)}");
       return properties5[propertyName]!.getString(context);
@@ -471,7 +456,6 @@ mixin LocaleData {
     'Turn from':'से मुड़ो',
     'Approaching': 'पास आ रहे हैं',
     'Location':'लोकेशन',
-
     'ttsRight':'राइट',
     'ttsLeft':'लेफ्ट',
     'ttsBack':'बैक',
