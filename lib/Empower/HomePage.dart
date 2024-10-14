@@ -13,7 +13,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
+import '../Navigation/API/buildingAllApi.dart';
 import '../Navigation/Navigation.dart';
+import '../Navigation/singletonClass.dart';
 import '../Navigation/websocket/NotifIcationSocket.dart';
 import 'API/ConferenceAllAPI.dart';
 import 'API/ScheduleAPI.dart';
@@ -33,14 +35,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>{
-
   List<String> images = [
     'https://i.ytimg.com/vi/9hUqhunGsUM/maxresdefault.jpg'
   ];
   List<String> imagesSemantic = [
     'Corousal Image'
   ];
-
   Future<void> _refreshPage() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     print("Connectivity Result: $connectivityResult");
@@ -62,6 +62,7 @@ class _HomePageState extends State<HomePage>{
     super.initState();
     NotificationSocket.receiveMessage();
     fetchEventData();
+    SingletonFunctionController().executeFunction(buildingAllApi.allBuildingID);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 

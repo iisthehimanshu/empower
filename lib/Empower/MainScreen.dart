@@ -24,6 +24,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
   final screens = [
     HomePage(),
     Navigation(),
@@ -32,14 +33,16 @@ class _MainScreenState extends State<MainScreen> {
     ProfilePage(),
   ];
 
+  late int index;
+
   @override
   void initState() {
     super.initState();
     NotificationSocket.receiveMessage();
-
+    index=widget.initialIndex;
     checkPermission();
-    MainScreenController.setIndex(widget.initialIndex);
   }
+
   checkPermission()async{
     await requestNotificationPermission();
     await requestBluetoothConnectPermission();
@@ -77,9 +80,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[MainScreenController.getIndex()],
-
-
+      body: screens[index],
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           indicatorColor: Colors.transparent,
@@ -91,15 +92,21 @@ class _MainScreenState extends State<MainScreen> {
             height: 20/14,
           )),
         ),
-
         child: NavigationBar(
           backgroundColor: Color(0xffFFFFFF),
-          selectedIndex: MainScreenController.getIndex(),
-          onDestinationSelected: (index)=>setState(() {
-            if(index == 2){
-              HelperClass.showToast("Feature Comming Soon!!");
+          selectedIndex: index,
+          onDestinationSelected:(index)=>setState((){
+            if(index==1){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Navigation()),
+              );
+            }
+           else if(index == 2){
+              HelperClass.showToast("Feature Coming Soon!!");
             }else {
-              MainScreenController.setIndex(index);
+              this.index=index;
             }
           }),
           destinations: [

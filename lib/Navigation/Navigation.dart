@@ -7,6 +7,7 @@ import 'dart:isolate';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import '../Empower/websocket/UserLog.dart';
 import '../Navigation/singletonClass.dart';
@@ -20,7 +21,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:flutter_localization/flutter_localization.dart';
 import 'package:http/http.dart';
 import '../Navigation/API/RatingsaveAPI.dart';
 import '../Navigation/API/waypoint.dart';
@@ -587,8 +587,10 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
     try {
       _flutterLocalization = FlutterLocalization.instance;
       _currentLocale = _flutterLocalization.currentLocale!.languageCode;
+      print("current locale");
+      print(_currentLocale);
     }catch(e){
-
+      print("errorrrr $e");
     }
     if (UserCredentials().getUserOrentationSetting() == 'Focus Mode') {
       UserState.ttsOnlyTurns = true;
@@ -2660,7 +2662,6 @@ double? minDistance;
               ));
             }
           }
-
           if (widget.directLandID.length < 2) {
             circles.clear();
             SingletonFunctionController.building.floor[
