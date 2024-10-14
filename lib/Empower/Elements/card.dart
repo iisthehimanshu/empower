@@ -111,10 +111,12 @@ class card extends StatelessWidget {
               moderator: data.moderator ?? "",
               speakerName: data.speakerName,
               speakerID: data.speakerId,
-              dataForHiveStorageAndFurtherUse: data,
+              dataForHiveStorageAndFurtherUse: data, venueId: data.venueId,
             ),
           ),
         );
+
+
     }
       },
       child: data.eventName!.contains("Lunch")?

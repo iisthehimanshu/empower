@@ -26,6 +26,7 @@ class _SpeakerscreenState extends State<Speakerscreen>{
   List<Speakers> speakerDataList = [];
   bool isSearching = false;
   String searchText = "";
+  final FocusNode _focusNode = FocusNode();
 
 
 
@@ -35,6 +36,12 @@ class _SpeakerscreenState extends State<Speakerscreen>{
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     fetchSchedule();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   Future<void> fetchSchedule() async {
@@ -83,6 +90,8 @@ class _SpeakerscreenState extends State<Speakerscreen>{
       if (!isSearching) {
         searchText = ""; // Reset search text
         filterCards(""); // Reset the list when search is closed
+      }else{
+        _focusNode.requestFocus();
       }
     });
   }
@@ -108,6 +117,7 @@ class _SpeakerscreenState extends State<Speakerscreen>{
           ), // Set your desired background color
           title: isSearching
               ? TextField(
+            focusNode: _focusNode,
             onChanged: (value) {
               searchText = value;
               filterCards(searchText);
@@ -181,7 +191,7 @@ class _SpeakerscreenState extends State<Speakerscreen>{
                         onTap: (){
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,description: speakerDataList[index].about!, fromCommiteePage: false,)),
+                            MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,description: speakerDataList[index].about!, fromCommiteePage: false, fileName: speakerDataList[index].filename,)),
                           );
 
                         },
@@ -201,7 +211,7 @@ class _SpeakerscreenState extends State<Speakerscreen>{
                               CircleAvatar(
                                 radius: 30,
                                 backgroundColor: Color(0xffB2EFE4),
-                                backgroundImage: NetworkImage(speaker.filename??""), // Use speaker's image URL
+                                backgroundImage: NetworkImage("https://maps.iwayplus.in/uploads/${speaker.filename}"??""), // Use speaker's image URL
                               ),
                               VerticalDivider(
                                 width: 20, // Space between the widgets

@@ -24,6 +24,7 @@ import 'dart:typed_data';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import '../Navigation/Navigation.dart';
 import 'APIModel/CardData.dart';
 import 'APIModel/Schedulemodel.dart';
 import 'SpeakerProfileScreen.dart';
@@ -35,6 +36,7 @@ class SessionDetail extends StatefulWidget {
   late String endDate;
   late String time;
   late String loc;
+  late String? venueId;
   late List<String>? hash;
   late String seats;
   late String eventid;
@@ -50,40 +52,34 @@ class SessionDetail extends StatefulWidget {
   late CardData? dataForHiveStorageAndFurtherUse;
   late String? speakerID;
 
-
-
-  SessionDetail({
-    required this.title,
-    required this.date,
-    required this.startDate,
-    required this.endDate,
-    required this.time,
-    required this.loc,
-    required this.hash,
-    required this.seats,
-    required this.eventid,
-    required this.moderator ,
-    required this.category,
-    required this.subevents,
-    required this.filename,
-    this.notificationMessage = '',
-    required this.description,
-    required this.eventType,
-    required this.bookingType,
-    required this.speakerName,
-    required this.speakerID,
-
-    required this.dataForHiveStorageAndFurtherUse
-
-  });
+  SessionDetail(
+      {required this.title,
+      required this.date,
+      required this.startDate,
+      required this.endDate,
+      required this.time,
+      required this.loc,
+        required this.venueId,
+      required this.hash,
+      required this.seats,
+      required this.eventid,
+      required this.moderator,
+      required this.category,
+      required this.subevents,
+      required this.filename,
+      this.notificationMessage = '',
+      required this.description,
+      required this.eventType,
+      required this.bookingType,
+      required this.speakerName,
+      required this.speakerID,
+      required this.dataForHiveStorageAndFurtherUse});
 
   @override
   SessionDetailState createState() => SessionDetailState();
 }
 
 class SessionDetailState extends State<SessionDetail> {
-
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Color heartcolor = Color(0xffBDBDBD);
   GlobalKey _globalKey = GlobalKey();
@@ -91,12 +87,11 @@ class SessionDetailState extends State<SessionDetail> {
   final String imageUrl =
       'https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-scenery-free-photo.jpg?w=2210&quality=70';
 
-  final String longText ="Experience the indomitable spirit of athletes. Witness extraordinary talent in events such as Blind Football, Special Olympics, Para Olympics, Asian Blind Chess Championship and many more.";
-
-
+  final String longText =
+      "Experience the indomitable spirit of athletes. Witness extraordinary talent in events such as Blind Football, Special Olympics, Para Olympics, Asian Blind Chess Championship and many more.";
 
   bool isExpanded = false;
-  String finallongText="";
+  String finallongText = "";
 
   Future<ui.Image> loadImage() async {
     final String imageUrl =
@@ -107,7 +102,7 @@ class SessionDetailState extends State<SessionDetail> {
     final HttpClientResponse response = await request.close();
     if (response.statusCode == 200) {
       final Uint8List bytes =
-      await consolidateHttpClientResponseBytes(response);
+          await consolidateHttpClientResponseBytes(response);
       final ui.Codec codec = await ui.instantiateImageCodec(bytes);
       final ui.FrameInfo frameInfo = await codec.getNextFrame();
       final ui.Image rawImage = frameInfo.image;
@@ -154,9 +149,9 @@ class SessionDetailState extends State<SessionDetail> {
 
       // Convert the canvas to an image
       final roundedImage = await recorder.endRecording().toImage(
-        rawImage.width,
-        rawImage.height,
-      );
+            rawImage.width,
+            rawImage.height,
+          );
 
       return roundedImage;
     } else {
@@ -198,7 +193,7 @@ class SessionDetailState extends State<SessionDetail> {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(recorder);
     final ui.Image img1 =
-    await loadImage(); // Replace this with your image loading logic
+        await loadImage(); // Replace this with your image loading logic
     final ui.Image img = await createImage(
         300, 200); // Replace this with your image loading logic
     final double borderRadius = 10.0; // Adjust the border radius as needed
@@ -237,12 +232,12 @@ class SessionDetailState extends State<SessionDetail> {
 
     // Create a paragraph builder for the main title
     final ui.ParagraphBuilder mainParagraphBuilder =
-    ui.ParagraphBuilder(mainTextStyle)
-      ..pushStyle(ui.TextStyle(
-        color: ui.Color(0xffFFFFFFF),
-        fontWeight: FontWeight.w600,
-      ))
-      ..addText(mainText);
+        ui.ParagraphBuilder(mainTextStyle)
+          ..pushStyle(ui.TextStyle(
+            color: ui.Color(0xffFFFFFFF),
+            fontWeight: FontWeight.w600,
+          ))
+          ..addText(mainText);
     final Paragraph mainParagraph = mainParagraphBuilder.build()
       ..layout(ui.ParagraphConstraints(width: 1300)); // Adjust width as needed
     final double leftMargin = 35.0; // Adjust left margin as needed
@@ -259,10 +254,10 @@ class SessionDetailState extends State<SessionDetail> {
 
     // Create a paragraph builder for the additional text
     final ui.ParagraphBuilder additionalParagraphBuilder =
-    ui.ParagraphBuilder(additionalTextStyle)
-      ..pushStyle(ui.TextStyle(
-          color: ui.Color(0xffFFFFFFF), fontWeight: FontWeight.w600))
-      ..addText(additionalText);
+        ui.ParagraphBuilder(additionalTextStyle)
+          ..pushStyle(ui.TextStyle(
+              color: ui.Color(0xffFFFFFFF), fontWeight: FontWeight.w600))
+          ..addText(additionalText);
     final Paragraph additionalParagraph = additionalParagraphBuilder.build()
       ..layout(ui.ParagraphConstraints(width: 2600)); // Adjust width as needed
     canvas.drawParagraph(
@@ -275,9 +270,9 @@ class SessionDetailState extends State<SessionDetail> {
     //----logo--
     // Draw the logo and text onto the canvas
     final ui.Image logo =
-    await loadLogo(); // Replace with your logo loading logic
+        await loadLogo(); // Replace with your logo loading logic
     final double scaleFactor =
-    0.2; // Adjust this scale factor as needed (e.g., 0.5 for half size)
+        0.2; // Adjust this scale factor as needed (e.g., 0.5 for half size)
     final double logoWidth = logo.width.toDouble() * scaleFactor;
     final double logoHeight = logo.height.toDouble() * scaleFactor;
     canvas.drawImageRect(
@@ -301,9 +296,9 @@ class SessionDetailState extends State<SessionDetail> {
 
     // Create a paragraph builder for the text inside the logo
     final ui.ParagraphBuilder logoParagraphBuilder =
-    ui.ParagraphBuilder(logoTextStyle)
-      ..pushStyle(ui.TextStyle(color: ui.Color(0xffFFFFFFF)))
-      ..addText(logoText);
+        ui.ParagraphBuilder(logoTextStyle)
+          ..pushStyle(ui.TextStyle(color: ui.Color(0xffFFFFFFF)))
+          ..addText(logoText);
     final Paragraph logoParagraph = logoParagraphBuilder.build()
       ..layout(ui.ParagraphConstraints(width: 800)); // Adjust width as needed
     canvas.drawParagraph(
@@ -316,14 +311,13 @@ class SessionDetailState extends State<SessionDetail> {
         .toImage(img1.width, (img1.height + 240).toInt());
 
     final ByteData? byteData =
-    await capturedImage.toByteData(format: ui.ImageByteFormat.png);
+        await capturedImage.toByteData(format: ui.ImageByteFormat.png);
 
     if (byteData != null) {
       return byteData.buffer.asUint8List();
     }
     throw Exception('Failed to capture image');
   }
-
 
   void shareToInstagramStory() async {
     Uint8List imageBytes = await _capturePng2();
@@ -339,7 +333,7 @@ class SessionDetailState extends State<SessionDetail> {
     //     mimeTypes: ['image/png']);
 
     String textToShare =
-        '${widget.title} \n \n${widget.description}' ; // Replace with the text you want to share
+        '${widget.title} \n \n${widget.description}'; // Replace with the text you want to share
     //Share.shareFiles([tempPath],subject: widget.eventType, text: textToShare, );
   }
 
@@ -497,7 +491,6 @@ class SessionDetailState extends State<SessionDetail> {
   bool savedCard = false;
   static var testBox = Hive.box('testingSave');
 
-
   @override
   void initState() {
     super.initState();
@@ -507,19 +500,15 @@ class SessionDetailState extends State<SessionDetail> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
-    finallongText = widget.description=="" ? longText: finallongText;
+    finallongText = widget.description == "" ? longText : finallongText;
     print("long text $finallongText");
     print(widget.description);
 
     final data = ModalRoute.of(context)!.settings.arguments;
     print('Coming Data');
     print(data);
-
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -533,7 +522,8 @@ class SessionDetailState extends State<SessionDetail> {
           leading: IconButton(
             icon: Semantics(
                 label: 'Back',
-                child: Icon(Icons.arrow_back_ios_new, color: Color(0xff000000))),
+                child:
+                    Icon(Icons.arrow_back_ios_new, color: Color(0xff000000))),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -551,32 +541,43 @@ class SessionDetailState extends State<SessionDetail> {
             ),
           ),
           actions: [
-            widget.eventid!=""?InkWell(
-              child: Semantics(
-                label: 'Boorkmark Event',
-                child: Icon(
-                  // Check if the event ID exists in the bookmarked cards
-                  widget.eventid!="" ? testBox.containsKey(widget.eventid)
-                      ? Icons.bookmark_rounded // If event is bookmarked, show filled icon
-                      : Icons.bookmark_outline_rounded : Icons.bookmark_outline_rounded , // Otherwise, show outlined icon
-                  size: 34,
-                  color: widget.eventid!="" ? testBox.containsKey(widget.eventid)
-                      ? Colors.yellow // If bookmarked, color is yellow
-                      : Colors.black26 : Colors.black26, // Otherwise, color is black26
-                ),
-              ),
-              onTap: () async {
+            widget.eventid != ""
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: InkWell(
+                      child: Semantics(
+                        label: 'Boorkmark Event',
+                        child: Icon(
+                          // Check if the event ID exists in the bookmarked cards
+                          widget.eventid != ""
+                              ? testBox.containsKey(widget.eventid)
+                                  ? Icons
+                                      .bookmark_rounded // If event is bookmarked, show filled icon
+                                  : Icons.bookmark_outline_rounded
+                              : Icons
+                                  .bookmark_outline_rounded, // Otherwise, show outlined icon
+                          size: 34,
+                          color: widget.eventid != ""
+                              ? testBox.containsKey(widget.eventid)
+                                  ? Colors
+                                      .yellow // If bookmarked, color is yellow
+                                  : Colors.black26
+                              : Colors.black26, // Otherwise, color is black26
+                        ),
+                      ),
+                      onTap: () async {
+                        if (testBox.containsKey(widget.eventid)) {
+                          testBox.delete(widget.eventid);
+                        } else {
+                          testBox.put(widget.eventid, widget.eventid);
+                        }
 
-                if(testBox.containsKey(widget.eventid)){
-                  testBox.delete(widget.eventid);
-                }else{
-                  testBox.put(widget.eventid, widget.eventid);
-                }
-
-                setState(() {}); // Ensure UI updates after the bookmark state change
-              },
-            ):Container(),
-
+                        setState(
+                            () {}); // Ensure UI updates after the bookmark state change
+                      },
+                    ),
+                  )
+                : Container(),
 
             // InkWell(
             //   onTap: () async {
@@ -596,20 +597,15 @@ class SessionDetailState extends State<SessionDetail> {
           ],
           elevation: 0,
         ),
-        body: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Container(
-                    height: screenHeight - 158,
-                    padding: EdgeInsets.only(bottom: 4),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          widget.filename != null && widget.filename!.length > 0
-                              ? Container(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    widget.filename != null && widget.filename!.length > 0
+                        ? Container(
                             alignment: Alignment.topRight,
                             height: 220,
                             decoration: BoxDecoration(
@@ -621,7 +617,7 @@ class SessionDetailState extends State<SessionDetail> {
                             ),
                             padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
                           )
-                              : Container(
+                        : Container(
                             alignment: Alignment.topRight,
                             decoration: BoxDecoration(
                               image: DecorationImage(
@@ -631,86 +627,42 @@ class SessionDetailState extends State<SessionDetail> {
                               ),
                             ),
                           ),
-                          SizedBox(height: screenHeight*0.02,),
+                    SizedBox(
+                      height: screenHeight * 0.02,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, top: 12),
+                      width: screenWidth,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Semantics(
+                            header: true,
+                            child: Container(
+                              child: Text(
+                                widget.title,
+                                style: const TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xff171717),
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                          ),
                           Container(
-                            margin: EdgeInsets.only(left: 20, top: 12),
-                            width: screenWidth,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            margin: EdgeInsets.only(top: 11),
+                            child: Row(
                               children: [
-                                Semantics(
-                                  header:true,
-                                  child: Container(
-                                    child: Text(
-                                      widget.title,
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xff171717),
-                                      ),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                ),
                                 Container(
-                                  margin: EdgeInsets.only(top: 11),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          child: Icon(Icons.calendar_month,
-                                              size: 24, color: Color(0xff282828))),
-                                      widget.date.isNotEmpty
-                                          ? Container(
-                                          margin: EdgeInsets.only(left: 8),
-                                          child: Text(
-                                            formattedDate,
-                                            style: const TextStyle(
-                                              fontFamily: "Roboto",
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff282828),
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ))
-                                          : Container(),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 8),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          child: Icon(Icons.access_time,
-                                              size: 24, color: Color(0xff282828))),
-                                      Container(
+                                    child: Icon(Icons.calendar_month,
+                                        size: 24, color: Color(0xff282828))),
+                                widget.date.isNotEmpty
+                                    ? Container(
                                         margin: EdgeInsets.only(left: 8),
                                         child: Text(
-                                          convertToAmPm(widget.time),
-                                          style: const TextStyle(
-                                            fontFamily: "Roboto",
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xff4A4545),
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 8),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          child: Icon(Icons.location_on_outlined,
-                                              size: 24, color: Color(0xff282828))),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 8),
-                                        child: Text(
-                                          widget.loc,
+                                          formattedDate,
                                           style: const TextStyle(
                                             fontFamily: "Roboto",
                                             fontSize: 16,
@@ -718,84 +670,127 @@ class SessionDetailState extends State<SessionDetail> {
                                             color: Color(0xff282828),
                                           ),
                                           textAlign: TextAlign.center,
-                                        ),
-                                      )
-                                    ],
+                                        ))
+                                    : Container(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 8),
+                            child: Row(
+                              children: [
+                                Container(
+                                    child: Icon(Icons.access_time,
+                                        size: 24, color: Color(0xff282828))),
+                                Container(
+                                  margin: EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    convertToAmPm(widget.time),
+                                    style: const TextStyle(
+                                      fontFamily: "Roboto",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xff4A4545),
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 8),
+                            child: Row(
+                              children: [
+                                Container(
+                                    child: Icon(Icons.location_on_outlined,
+                                        size: 24, color: Color(0xff282828))),
+                                Container(
+                                  margin: EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    widget.loc,
+                                    style: const TextStyle(
+                                      fontFamily: "Roboto",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xff282828),
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 )
                               ],
                             ),
-                          ),
-
-
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(top: 8, left: 8, right: 8),
-                              padding: EdgeInsets.only(bottom: 8),
-                              width: screenWidth,
-                              child: DefaultTabController(
-                                length: 3, // Number of tabs
-                                child: Scaffold(
-                                  appBar: TabBar(
-                                    dividerColor: Color(0xffEBEBEB),
-                                    labelColor: Color(0xff171717),
-                                    // unselectedLabelColor: Color(0xff282828),
-                                    unselectedLabelStyle: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff282828)),
-                                    indicatorColor: Color(0xffECC113),
-                                    tabs: [
-                                      Tab(
-                                          child: Text(
-                                            "About",
-                                            style: const TextStyle(
-                                              fontFamily: "Roboto",
-                                              fontSize: 16,
-                                              // fontWeight: FontWeight.w500,
-                                              //  color: Color(0xff48246C),
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          )),
-                                      // Tab(
-                                      //     child: Text(
-                                      //       "Venue Map",
-                                      //       style: const TextStyle(
-                                      //         fontFamily: "Roboto",
-                                      //         fontSize: 16,
-                                      //         //  fontWeight: FontWeight.w400,
-                                      //         // color: Color(0xff48246C),
-                                      //       ),
-                                      //       textAlign: TextAlign.center,
-                                      //     )),
-                                      Tab(
-                                          child: Text(
-                                            "Co-ordinator",
-                                            //  subeventwidgetlist.isNotEmpty?"Sub Events":"Co-Ordinators",
-                                            style: const TextStyle(
-                                              fontFamily: "Roboto",
-                                              fontSize: 16,
-                                              //  fontWeight: FontWeight.w400,
-                                              // color: Color(0xff48246C),
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          )),
-                                    ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 8, left: 8, right: 8),
+                        width: screenWidth,
+                        child: DefaultTabController(
+                          length: 3, // Number of tabs
+                          child: Scaffold(
+                            appBar: const TabBar(
+                              dividerColor: Color(0xffEBEBEB),
+                              labelColor: Color(0xff171717),
+                              // unselectedLabelColor: Color(0xff282828),
+                              unselectedLabelStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff282828)),
+                              indicatorColor: Color(0xffECC113),
+                              tabs: [
+                                Tab(
+                                    child: Text(
+                                  "About",
+                                  style: TextStyle(
+                                    fontFamily: "Roboto",
+                                    fontSize: 16,
+                                    // fontWeight: FontWeight.w500,
+                                    //  color: Color(0xff48246C),
                                   ),
-                                  body: TabBarView(
-                                    children: [
-                                      // Content of Tab 1
-                                      Container(
-                                        //     margin: EdgeInsets.only(top : 16),
-                                          padding:
-                                          EdgeInsets.fromLTRB(18, 16, 18, 8),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                isExpanded = !isExpanded;
-                                              });
-                                            },
-                                            child: SingleChildScrollView(
-                                              child: widget.description == ""?  Text(
+                                  textAlign: TextAlign.center,
+                                )),
+                                // Tab(
+                                //     child: Text(
+                                //       "Venue Map",
+                                //       style: const TextStyle(
+                                //         fontFamily: "Roboto",
+                                //         fontSize: 16,
+                                //         //  fontWeight: FontWeight.w400,
+                                //         // color: Color(0xff48246C),
+                                //       ),
+                                //       textAlign: TextAlign.center,
+                                //     )),
+                                Tab(
+                                    child: Text(
+                                  "Co-ordinator",
+                                  //  subeventwidgetlist.isNotEmpty?"Sub Events":"Co-Ordinators",
+                                  style: TextStyle(
+                                    fontFamily: "Roboto",
+                                    fontSize: 16,
+                                    //  fontWeight: FontWeight.w400,
+                                    // color: Color(0xff48246C),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                )),
+                              ],
+                            ),
+                            body: TabBarView(
+                              children: [
+                                // Content of Tab 1
+                                Container(
+                                    //     margin: EdgeInsets.only(top : 16),
+                                    padding: EdgeInsets.fromLTRB(18, 16, 18, 0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isExpanded = !isExpanded;
+                                        });
+                                      },
+                                      child: SingleChildScrollView(
+                                        child: widget.description == ""
+                                            ? Text(
                                                 "No Description Available",
                                                 textAlign: TextAlign.start,
                                                 style: const TextStyle(
@@ -804,9 +799,11 @@ class SessionDetailState extends State<SessionDetail> {
                                                   fontWeight: FontWeight.w400,
                                                   color: Color(0xff777777),
                                                 ),
-                                              ) : Container(
-                                                constraints: BoxConstraints(maxWidth: screenWidth*0.7),
-
+                                              )
+                                            : Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth:
+                                                        screenWidth * 0.7),
                                                 child: Text(
                                                   widget.description!,
                                                   textAlign: TextAlign.start,
@@ -818,209 +815,222 @@ class SessionDetailState extends State<SessionDetail> {
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          )),
-                                      // Content of Tab 2
-                                      // Container(
-                                      //     height: 150,
-                                      //     padding:
-                                      //     EdgeInsets.fromLTRB(18, 16, 18, 8),
-                                      //     width: screenWidth,
-                                      //     decoration: BoxDecoration(
-                                      //       borderRadius: BorderRadius.circular(6),
-                                      //       boxShadow: [
-                                      //         BoxShadow(
-                                      //             color: Colors.black26,
-                                      //             offset: Offset.zero,
-                                      //             spreadRadius: 0,
-                                      //             blurRadius: 4,
-                                      //             blurStyle: BlurStyle.outer)
-                                      //       ],
-                                      //     ),
-                                      //     child: FutureBuilder(
-                                      //       future: _loadMap(),
-                                      //       builder: (context, snapshot) {
-                                      //         if (snapshot.connectionState ==
-                                      //             ConnectionState.waiting) {
-                                      //           return Center(
-                                      //               child:
-                                      //               CircularProgressIndicator());
-                                      //         } else if (snapshot.hasError) {
-                                      //           return Center(
-                                      //               child:
-                                      //               Text('Error loading map'));
-                                      //         } else {
-                                      //           return Container(
-                                      //             // width: 237.0,
-                                      //             // height: 247.0,
-                                      //             child: GoogleMap(
-                                      //               onMapCreated: _onMapCreated,
-                                      //               initialCameraPosition:
-                                      //               CameraPosition(
-                                      //                 target: LatLng(
-                                      //                     15.49829, 73.82099),
-                                      //                 zoom: 16,
-                                      //               ),
-                                      //               markers: {
-                                      //                 Marker(
-                                      //                   markerId:
-                                      //                   MarkerId('Marker'),
-                                      //                   position: LatLng(
-                                      //                       15.49829, 73.82099),
-                                      //                   infoWindow: InfoWindow(
-                                      //                       title: 'Marker Title'),
-                                      //                 ),
-                                      //               },
-                                      //               onTap: (value) {
-                                      //                 _launchInBrowser(Uri.parse(
-                                      //                     'https://www.google.com/maps/dir/?api=1&destination=15.516698054561358, 73.83534886845493&travelmode=driving&dirflg=d'));
-                                      //               },
-                                      //               onCameraMove: (value) {
-                                      //                 print(value);
-                                      //               },
-                                      //             ),
-                                      //           );
-                                      //         }
-                                      //       },
-                                      //     )),
-                                      // Content of Tab 3
-                                      // subeventwidgetlist.isNotEmpty?
-                                      // Expanded(
-                                      //   child: Column(
-                                      //   children: subeventwidgetlist,
-                                      // )
-                                      // ):
-                                      GestureDetector(
-                                        onTap: (){
-                                          if(widget.speakerID! != "" || widget.speakerID! != null) {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SpeakerProfileScreen(
-                                                          name: "",
-                                                          description: "",
-                                                          designation: "",
-                                                          fromCommiteePage: false,
-                                                          speakerID: widget
-                                                              .speakerID!,)));
-                                          }
-                                        },
-                                        child: Container(
-                                            padding:
-                                            EdgeInsets.fromLTRB(18, 16, 18, 8),
-                                            child: Column(
+                                      ),
+                                    )),
+                                // Content of Tab 2
+                                // Container(
+                                //     height: 150,
+                                //     padding:
+                                //     EdgeInsets.fromLTRB(18, 16, 18, 8),
+                                //     width: screenWidth,
+                                //     decoration: BoxDecoration(
+                                //       borderRadius: BorderRadius.circular(6),
+                                //       boxShadow: [
+                                //         BoxShadow(
+                                //             color: Colors.black26,
+                                //             offset: Offset.zero,
+                                //             spreadRadius: 0,
+                                //             blurRadius: 4,
+                                //             blurStyle: BlurStyle.outer)
+                                //       ],
+                                //     ),
+                                //     child: FutureBuilder(
+                                //       future: _loadMap(),
+                                //       builder: (context, snapshot) {
+                                //         if (snapshot.connectionState ==
+                                //             ConnectionState.waiting) {
+                                //           return Center(
+                                //               child:
+                                //               CircularProgressIndicator());
+                                //         } else if (snapshot.hasError) {
+                                //           return Center(
+                                //               child:
+                                //               Text('Error loading map'));
+                                //         } else {
+                                //           return Container(
+                                //             // width: 237.0,
+                                //             // height: 247.0,
+                                //             child: GoogleMap(
+                                //               onMapCreated: _onMapCreated,
+                                //               initialCameraPosition:
+                                //               CameraPosition(
+                                //                 target: LatLng(
+                                //                     15.49829, 73.82099),
+                                //                 zoom: 16,
+                                //               ),
+                                //               markers: {
+                                //                 Marker(
+                                //                   markerId:
+                                //                   MarkerId('Marker'),
+                                //                   position: LatLng(
+                                //                       15.49829, 73.82099),
+                                //                   infoWindow: InfoWindow(
+                                //                       title: 'Marker Title'),
+                                //                 ),
+                                //               },
+                                //               onTap: (value) {
+                                //                 _launchInBrowser(Uri.parse(
+                                //                     'https://www.google.com/maps/dir/?api=1&destination=15.516698054561358, 73.83534886845493&travelmode=driving&dirflg=d'));
+                                //               },
+                                //               onCameraMove: (value) {
+                                //                 print(value);
+                                //               },
+                                //             ),
+                                //           );
+                                //         }
+                                //       },
+                                //     )),
+                                // Content of Tab 3
+                                // subeventwidgetlist.isNotEmpty?
+                                // Expanded(
+                                //   child: Column(
+                                //   children: subeventwidgetlist,
+                                // )
+                                // ):
+                                GestureDetector(
+                                  onTap: () {
+                                    if (widget.speakerID! != "" ||
+                                        widget.speakerID! != null) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SpeakerProfileScreen(
+                                                    name: "",
+                                                    description: "",
+                                                    designation: "",
+                                                    fromCommiteePage: false,
+                                                    speakerID:
+                                                        widget.speakerID!,
+                                                    fileName: null,
+                                                  )));
+                                    }
+                                  },
+                                  child: Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(18, 16, 18, 8),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            child: Row(
                                               children: [
                                                 Container(
-                                                  child: Row(
+                                                  width: 44,
+                                                  height: 44,
+                                                  decoration: BoxDecoration(
+                                                    color: Color(
+                                                        0xFFB2EFE4), // Hex color with 0xFF prefix
+                                                    shape: BoxShape
+                                                        .circle, // Makes the container circular
+                                                  ),
+                                                  child: Icon(Icons
+                                                      .person_outline_outlined),
+                                                ),
+                                                Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 20),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Container(
-                                                        width: 44,
-                                                        height: 44,
-                                                        decoration: BoxDecoration(
-                                                          color: Color(0xFFB2EFE4), // Hex color with 0xFF prefix
-                                                          shape: BoxShape.circle,   // Makes the container circular
-                                                        ),
-                                                        child: Icon(Icons.person_outline_outlined),
-                                                      ),
-                                                      Container(
-                                                        margin:
-                                                        EdgeInsets.only(left: 20),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                          children: [
-                                                            Container(
-                                                              constraints: BoxConstraints(maxWidth: screenWidth*0.7),
-
-                                                              child: Text(
-                                                                widget.speakerName??"",
-                                                                style: TextStyle(
-                                                                  fontFamily:
-                                                                  'Roboto',
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                  FontWeight.w500,
-                                                                  color: Color(
-                                                                      0xff000000),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            // Container(
-                                                            //   margin: EdgeInsets.only(top: 2),
-                                                            //   child: Text(
-                                                            //     'Coordinator 1 Desig.',
-                                                            //     style: TextStyle(
-                                                            //       fontFamily: 'Roboto',
-                                                            //       fontSize: 16,
-                                                            //       fontWeight: FontWeight.w400,
-                                                            //       color: Color(
-                                                            //           0xff282828),
-                                                            //     ),
-                                                            //   ),
-                                                            // )
-                                                          ],
+                                                        constraints:
+                                                            BoxConstraints(
+                                                                maxWidth:
+                                                                    screenWidth *
+                                                                        0.7),
+                                                        child: Text(
+                                                          widget.speakerName ??
+                                                              "",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Roboto',
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Color(
+                                                                0xff000000),
+                                                          ),
                                                         ),
                                                       ),
-                                                      // Spacer(),
                                                       // Container(
-                                                      //   child: Icon(Icons.phone_outlined, size: 24, color: Color(0xffECC113),),
-                                                      // ),
+                                                      //   margin: EdgeInsets.only(top: 2),
+                                                      //   child: Text(
+                                                      //     'Coordinator 1 Desig.',
+                                                      //     style: TextStyle(
+                                                      //       fontFamily: 'Roboto',
+                                                      //       fontSize: 16,
+                                                      //       fontWeight: FontWeight.w400,
+                                                      //       color: Color(
+                                                      //           0xff282828),
+                                                      //     ),
+                                                      //   ),
+                                                      // )
                                                     ],
                                                   ),
-                                                )
+                                                ),
+                                                // Spacer(),
+                                                // Container(
+                                                //   child: Icon(Icons.phone_outlined, size: 24, color: Color(0xffECC113),),
+                                                // ),
                                               ],
-                                            )),
-                                      ),
-                                    ],
-                                  ),
+                                            ),
+                                          )
+                                        ],
+                                      )),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
-
-                        ]),
-                  ),
+                        ),
+                      ),
+                    ),
+                  ]),
+            ),
+            (widget.venueId == null || widget.venueId!.isEmpty) ?Container():ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xffECC113), // Button background color
+                fixedSize: Size(screenWidth, 72), // Width and height
+                padding: const EdgeInsets.only(bottom: 22),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero, // Square borders
                 ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Navigation(directLandID: widget.venueId!,),
+                  ),
+                );
+              },
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Direction",
+                      style: const TextStyle(
+                        fontFamily: "Roboto",
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff171717),
+                      ),
+                    ),
+                    Icon(Icons.turn_right_outlined, color: Color(0xff171717)), // Icon color
+                  ],
+                ),
+              ),
+            )
 
-                // Container(
-                //   margin: EdgeInsets.only(bottom:  100,left: 20),
-                //   width: 200,
-                //   color: Color(0xffffffff),
-                //   child: Container(
-                //       height: 44,
-                //       margin: EdgeInsets.only(bottom:  100),
-                //       padding:
-                //       EdgeInsets.only(top: 12, bottom: 12, left: 24, right: 24),
-                //       decoration: BoxDecoration(
-                //         color: Color(0xffECC113),
-                //         borderRadius: BorderRadius.circular(3),
-                //         // border: Border.all(
-                //         //     width: 1.0,
-                //         //     color: Color(0xff48246C),
-                //         //     style: BorderStyle.solid)
-                //       ),
-                //       child: Container(
-                //         child: Text(
-                //           "Interested",
-                //           style: const TextStyle(
-                //             fontFamily: "Roboto",
-                //             fontSize: 16,
-                //             fontWeight: FontWeight.w500,
-                //           ),
-                //           textAlign: TextAlign.center,
-                //         ),
-                //       )
-                //
-                //   ),
-                // )
-              ],
-            )));
+          ],
+        ));
   }
-
 
   Future<void> _launchGoogleCalendar(
       String eventName, DateTime eventDateTime, String time) async {
@@ -1079,7 +1089,6 @@ String convertToAmPm(String time) {
   return '${hour.toString().padLeft(2, '0')}:$minute $period';
 }
 
-
 void showToast(String mssg) {
   Fluttertoast.showToast(
     msg: mssg,
@@ -1091,4 +1100,3 @@ void showToast(String mssg) {
     fontSize: 16.0,
   );
 }
-

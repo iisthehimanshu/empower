@@ -24,8 +24,9 @@ class _ScheduleScreenSearchState extends State<ScheduleScreenSearch>{
   List<CardData> searchCards = []; // List to store the filtered cards
   List<Widget> widgetCards = []; // List to store the filtered cards
   bool isLoading = true; // Add this flag for loading state
-  bool isSearching = false; // Track if search mode is enabled
+  bool isSearching = true; // Track if search mode is enabled
   String searchText = ""; // Store the search text
+  final FocusNode _focusNode = FocusNode();
 
 
 
@@ -35,6 +36,15 @@ class _ScheduleScreenSearchState extends State<ScheduleScreenSearch>{
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     fetchSchedule();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   Future<void> fetchSchedule() async {
@@ -130,6 +140,7 @@ class _ScheduleScreenSearchState extends State<ScheduleScreenSearch>{
           ), // Set your desired background color
           title: isSearching
               ? TextField(
+            focusNode: _focusNode,
             onChanged: (value) {
               searchText = value;
               filterCards(searchText);

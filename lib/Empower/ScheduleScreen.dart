@@ -269,21 +269,21 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                   size: screenHeight*0.2,
                 ),// Show a loader
               )
-            : SingleChildScrollView(
-              child: Column(
-                  children: [
-                    Semantics(
-                      label: "Session Dates",
-                      header: true,
-                        child: DaySelection(days, onDateSelected: filterCardsForDay)),
-                    RefreshIndicator(
+            : Column(
+                children: [
+                  Semantics(
+                    label: "Session Dates",
+                    header: true,
+                      child: DaySelection(days, onDateSelected: filterCardsForDay)),
+                  Expanded(
+                    child: RefreshIndicator(
                       onRefresh: _refreshPage,
                       child: Semantics(
                         label: "Session Events",
                         header: true,
                         child: Container(
                           height: screenHeight*0.8,
-                          padding: EdgeInsets.only(left: 10, top: 10, right: 10,bottom: 70),
+                          padding: EdgeInsets.only(left: 10, top: 10, right: 10,),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -294,7 +294,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                               //     child: SvgPicture.asset("assets/filter.svg"),
                               //   ),
                               // ),
-
+                    
                               Flexible(
                                 child: AnimatedSwitcher(
                                   duration: const Duration(milliseconds: 1500),
@@ -304,11 +304,12 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                                         opacity: animation, child: child);
                                   },
                                   child: ListView.builder(
+                                    shrinkWrap: true,
                                     itemCount: Sortedkeys.length,
                                     itemBuilder: (context, index) {
                                       String key = Sortedkeys[index];  // Use the sorted keys
                                       List<Widget> widgets = currentMap[key] ?? []; // Get the widgets for the current key
-
+                    
                                       return Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -345,9 +346,9 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                         ),
                       ),
                     ),
-                  ],
-                ),
-            ),
+                  ),
+                ],
+              ),
       ),
     );
   }

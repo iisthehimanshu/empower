@@ -23,6 +23,7 @@ class _CommiteescreenState extends State<Commiteescreen> {
   List<CommiteeMembers> speakerDataList = [];
   bool isSearching = false;
   String searchText = "";
+  final FocusNode _focusNode = FocusNode();
 
 
   @override
@@ -30,6 +31,13 @@ class _CommiteescreenState extends State<Commiteescreen> {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     fetchSchedule();
+  }
+
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   Future<void> fetchSchedule() async {
@@ -74,6 +82,8 @@ class _CommiteescreenState extends State<Commiteescreen> {
       if (!isSearching) {
         searchText = ""; // Reset search text
         filterCards(""); // Reset the list when search is closed
+      }else{
+        _focusNode.requestFocus();
       }
     });
   }
@@ -98,6 +108,7 @@ class _CommiteescreenState extends State<Commiteescreen> {
           ), // Set your desired background color
           title: isSearching
               ? TextField(
+            focusNode: _focusNode,
             onChanged: (value) {
               searchText = value;
               filterCards(searchText);
@@ -171,7 +182,7 @@ class _CommiteescreenState extends State<Commiteescreen> {
                       onTap: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,description: speakerDataList[index].about!, fromCommiteePage: true,)),
+                          MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,description: speakerDataList[index].about!, fromCommiteePage: true, fileName: speakerDataList[index].filename,)),
                         );
                       },
                       child: Container(
@@ -190,7 +201,7 @@ class _CommiteescreenState extends State<Commiteescreen> {
                             CircleAvatar(
                               radius: 30,
                               backgroundColor: Color(0xffB2EFE4),
-                              backgroundImage: NetworkImage(speaker.filename??""), // Use speaker's image URL
+                              backgroundImage: NetworkImage("https://maps.iwayplus.in/uploads/${speaker.filename}"??""), // Use speaker's image URL
                             ),
                             VerticalDivider(
                               width: 20, // Space between the widgets
@@ -258,4 +269,5 @@ class _CommiteescreenState extends State<Commiteescreen> {
       ),
     );
   }
+
 }

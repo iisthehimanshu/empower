@@ -125,51 +125,50 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                     final exhibitor = keyNoteDataList[index]; // Get the speaker data from the list
                     return (exhibitor.companyName!=null)? Card(
                       elevation: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Color(0xffB2EFE4),
-                              backgroundImage: NetworkImage(""), // Use speaker's image URL
-                            ),
-                            SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    (exhibitor.companyName==null)?'':exhibitor.companyName!, // Use speaker's name
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                      child: InkWell(
+                        onTap: (){
+                          HelperClass.launchURL(exhibitor.website!);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundImage: AssetImage('assets/speaker_image.jpg'),
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      (exhibitor.companyName==null)?'':exhibitor.companyName!, // Use speaker's name
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  (exhibitor.website==null)?Container():InkWell(
-                                    onTap: (){
-                                      HelperClass.launchURL(exhibitor.website!);
-                                    },
-                                    child: Text(
+                                    (exhibitor.website==null)?Container():Text(
                                       (exhibitor.website==null)?'' :exhibitor.website!, // Use speaker's organization
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey[600],
                                       ),
                                     ),
-                                  ),
-                                  Text(
-                                    "Booth No. ${(exhibitor.boothNo==null)?'':exhibitor.boothNo!}", // Use speaker's location
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey[600],
+                                    Text(
+                                      "Booth No. ${(exhibitor.boothNo==null)?'':exhibitor.boothNo!}", // Use speaker's location
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                
-                          ],
+
+                            ],
+                          ),
                         ),
                       ),
                     ) : Container();

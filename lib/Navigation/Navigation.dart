@@ -12016,6 +12016,7 @@ bool onStart=false;
     _isBuildingPannelOpen = false;
 
     if (!DirectlyStartNavigation) {
+      print(snapshot!.landmarksMap!);
       if (snapshot!.landmarksMap![ID]!.floor != 0) {
         List<PolyArray> prevFloorLifts = findLift(
             tools.numericalToAlphabetical(0),

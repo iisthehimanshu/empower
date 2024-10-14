@@ -19,8 +19,8 @@ class HelperClass{
   static bool SemanticEnabled = false;
 
   static Future<void> launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchURL(url);
     } else {
       throw 'Could not launch $url';
     }

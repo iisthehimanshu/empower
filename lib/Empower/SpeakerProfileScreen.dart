@@ -12,7 +12,8 @@ class SpeakerProfileScreen extends StatefulWidget {
   String description;
   bool fromCommiteePage;
   String speakerID;
-  SpeakerProfileScreen({required this.name,required this.designation,required this.description,required this.fromCommiteePage,this.speakerID= ''});
+  String? fileName;
+  SpeakerProfileScreen({required this.name,required this.designation,required this.description,required this.fromCommiteePage,required this.fileName,this.speakerID= ''});
 
   @override
   State<SpeakerProfileScreen> createState() => _SpeakerProfileScreenState();
@@ -120,9 +121,33 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
+                  widget.fileName==null?CircleAvatar(
                     radius: 50,
                     backgroundImage: AssetImage('assets/speaker_image.jpg'),
+                  ):GestureDetector(
+                    onLongPress: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            backgroundColor: Colors.transparent,
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              child: CircleAvatar(
+                                radius: 150, // Larger size for the pop out image
+                                backgroundColor: Color(0xffB2EFE4),
+                                backgroundImage: NetworkImage("https://maps.iwayplus.in/uploads/${widget.fileName}"),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Color(0xffB2EFE4),
+                      backgroundImage: NetworkImage("https://maps.iwayplus.in/uploads/${widget.fileName}"),
+                    ),
                   ),
                   SizedBox(height: 16),
                   Text(
@@ -179,7 +204,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
                     onTap: (){
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context)=>SessionDetail(title: speaker.eventName??"", date: speaker.eventDate??"", startDate: "", endDate: "", time: speaker.startTime??"", loc: speaker.venueName??"", hash: [""], seats: "", eventid: speaker.sId??"", category: speaker.categories??"", subevents: speaker.subEvents?? <dynamic>[]
-                            , filename: speaker.filename??"", eventType: speaker.eventType??"", bookingType: speaker.bookingType??"", description:speaker.eventDetails, moderator: speaker.moderator??"",speakerName: speaker.speakerName,speakerID: speaker.speakerId,dataForHiveStorageAndFurtherUse: speaker,))
+                            , filename: speaker.filename??"", eventType: speaker.eventType??"", bookingType: speaker.bookingType??"", description:speaker.eventDetails, moderator: speaker.moderator??"",speakerName: speaker.speakerName,speakerID: speaker.speakerId,dataForHiveStorageAndFurtherUse: speaker, venueId: speaker.venueId,))
                       );
 
                     },
