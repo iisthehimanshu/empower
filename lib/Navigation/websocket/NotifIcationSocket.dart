@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:socket_io_client/socket_io_client.dart';
 
-import 'Model/NotificationData.dart';
+import '../../Empower/websocket/Model/NotificationData.dart';
 import 'PushNotifications.dart';
 
 class NotificationSocket{
