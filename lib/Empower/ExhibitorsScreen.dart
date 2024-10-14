@@ -2,6 +2,7 @@
 
 import 'dart:collection';
 
+import 'package:empower/Empower/IndivisualExhibitor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -191,7 +192,10 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                       elevation: 2,
                       child: InkWell(
                         onTap: (){
-                          HelperClass.launchURL(exhibitor.website!);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => IndivisualExhibitor(name: exhibitor.companyName??"", designation: exhibitor.website??"", description: exhibitor.about??"", fromCommiteePage: false, fileName: exhibitor.filename, linkedin: exhibitor.linkedIn, venueId: exhibitor.venueId,)
+                          ));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
