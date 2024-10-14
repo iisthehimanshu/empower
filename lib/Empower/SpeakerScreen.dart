@@ -57,6 +57,7 @@ class _SpeakerscreenState extends State<Speakerscreen>{
       makerSpeakerList(schedule!);
     });
   }
+
   void makerSpeakerList(ScheduleModel schedule) {
 
     if (schedule.speakers != null) {
@@ -146,9 +147,13 @@ class _SpeakerscreenState extends State<Speakerscreen>{
             textAlign: TextAlign.left,
           ),
           actions: [
-            IconButton(
-              icon: Icon(isSearching ? Icons.close : Icons.search),
-              onPressed: toggleSearch, // Toggle search mode
+            Semantics(
+              label: !isSearching? 'Speaker Search': 'Close text input',
+              excludeSemantics: true,
+              child: IconButton(
+                icon: Icon(isSearching ? Icons.close : Icons.search),
+                onPressed: toggleSearch, // Toggle search mode
+              ),
             ),
           ],
         ),

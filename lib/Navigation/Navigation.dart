@@ -12616,110 +12616,113 @@ bool onStart=false;
                 : Semantics(excludeSemantics: true, child: Container()),
             Stack(children: [
               Container(
-                child: GoogleMap(
-                  padding:
-                      EdgeInsets.only(left: 20), // <--- padding added here
-                  initialCameraPosition: _initialCameraPosition,
-                  // myLocationButtonEnabled: true,
-                  // myLocationEnabled: true,
-                  zoomControlsEnabled: false,
-                  zoomGesturesEnabled: true,
-                  mapToolbarEnabled: false,
-                  // circles: _userLocation != null && _accuracy != null
-                  //     ? {
-                  //   Circle(
-                  //     circleId: CircleId('accuracyCircle'),
-                  //     center: _userLocation!,
-                  //     radius: _accuracy!,  // Draw accuracy circle
-                  //     strokeColor: Colors.blueAccent,
-                  //     fillColor: Colors.blueAccent.withOpacity(0.2),
-                  //     strokeWidth: 1,
-                  //   )
-                  // }
-                  //     : {},
+                child: Semantics(
+                  excludeSemantics: true,
+                  child: GoogleMap(
+                    padding:
+                        EdgeInsets.only(left: 20), // <--- padding added here
+                    initialCameraPosition: _initialCameraPosition,
+                    // myLocationButtonEnabled: true,
+                    // myLocationEnabled: true,
+                    zoomControlsEnabled: false,
+                    zoomGesturesEnabled: true,
+                    mapToolbarEnabled: false,
+                    // circles: _userLocation != null && _accuracy != null
+                    //     ? {
+                    //   Circle(
+                    //     circleId: CircleId('accuracyCircle'),
+                    //     center: _userLocation!,
+                    //     radius: _accuracy!,  // Draw accuracy circle
+                    //     strokeColor: Colors.blueAccent,
+                    //     fillColor: Colors.blueAccent.withOpacity(0.2),
+                    //     strokeWidth: 1,
+                    //   )
+                    // }
+                    //     : {},
 
-                  polygons: patch
-                      .union(getCombinedPolygons())
-                      .union(otherpatch)
-                      .union(_polygon)
-                      .union(blurPatch),
-                  polylines: getCombinedPolylines(),
-                  markers: getCombinedMarkers()
-                      .union(_markers)
-                      .union(focusturnArrow)
-                      .union(Markers)
-                      .union(restBuildingMarker),
-                  onTap: (x) {
-                    mapState.interaction = true;
-                  },
-                  mapType: MapType.normal,
-                  buildingsEnabled: false,
-                  compassEnabled: true,
-                  rotateGesturesEnabled: true,
-                  minMaxZoomPreference: MinMaxZoomPreference(2, 30),
-                  onMapCreated: (controller) {
-                    controller.setMapStyle(maptheme);
-                    _googleMapController = controller;
-                    zoomWhileWait(buildingAllApi.allBuildingID, controller);
+                    polygons: patch
+                        .union(getCombinedPolygons())
+                        .union(otherpatch)
+                        .union(_polygon)
+                        .union(blurPatch),
+                    polylines: getCombinedPolylines(),
+                    markers: getCombinedMarkers()
+                        .union(_markers)
+                        .union(focusturnArrow)
+                        .union(Markers)
+                        .union(restBuildingMarker),
+                    onTap: (x) {
+                      mapState.interaction = true;
+                    },
+                    mapType: MapType.normal,
+                    buildingsEnabled: false,
+                    compassEnabled: true,
+                    rotateGesturesEnabled: true,
+                    minMaxZoomPreference: MinMaxZoomPreference(2, 30),
+                    onMapCreated: (controller) {
+                      controller.setMapStyle(maptheme);
+                      _googleMapController = controller;
+                      zoomWhileWait(buildingAllApi.allBuildingID, controller);
 
-                    _initMarkers();
-                  },
-                  onCameraMove: (CameraPosition cameraPosition) {
+                      _initMarkers();
+                    },
+                    onCameraMove: (CameraPosition cameraPosition) {
 
-                    if(cameraPosition.zoom>15.5){
-                      focusBuildingChecker(cameraPosition);
-                    }else{
-                      renderCampusPatchTransition(buildingAllApi.outdoorID);
-                    }
+                      if(cameraPosition.zoom>15.5){
+                        focusBuildingChecker(cameraPosition);
+                      }else{
+                        renderCampusPatchTransition(buildingAllApi.outdoorID);
+                      }
 
 
-                    if (cameraPosition.target.latitude.toStringAsFixed(5) !=
-                        mapState.target.latitude.toStringAsFixed(5)) {
-                      mapState.aligned = false;
-                    } else {
-                      mapState.aligned = true;
-                    }
-                    mapState.interaction = true;
-                    mapbearing = cameraPosition.bearing;
-                    if (!mapState.interaction) {
-                      mapState.zoom = cameraPosition.zoom;
-                    }
-                    if (true) {
-                      _updateMarkers(cameraPosition.zoom);
-                      //_updateBuilding(cameraPosition.zoom);
-                    }
-                    // _updateMarkers(cameraPosition.zoom);
-                    if (cameraPosition.zoom < 17) {
-                      _markers.clear();
-                      markerSldShown = false;
-                    } else {
-                      if (user.isnavigating) {
+                      if (cameraPosition.target.latitude.toStringAsFixed(5) !=
+                          mapState.target.latitude.toStringAsFixed(5)) {
+                        mapState.aligned = false;
+                      } else {
+                        mapState.aligned = true;
+                      }
+                      mapState.interaction = true;
+                      mapbearing = cameraPosition.bearing;
+                      if (!mapState.interaction) {
+                        mapState.zoom = cameraPosition.zoom;
+                      }
+                      if (true) {
+                        _updateMarkers(cameraPosition.zoom);
+                        //_updateBuilding(cameraPosition.zoom);
+                      }
+                      // _updateMarkers(cameraPosition.zoom);
+                      if (cameraPosition.zoom < 17) {
                         _markers.clear();
                         markerSldShown = false;
                       } else {
-                        markerSldShown = true;
+                        if (user.isnavigating) {
+                          _markers.clear();
+                          markerSldShown = false;
+                        } else {
+                          markerSldShown = true;
+                        }
                       }
-                    }
-                    if (markerSldShown) {
-                     _updateMarkers11(cameraPosition.zoom);
-                    } else {
+                      if (markerSldShown) {
+                       _updateMarkers11(cameraPosition.zoom);
+                      } else {
 
-                    }
+                      }
 
-                    // _updateEntryMarkers11(cameraPosition.zoom);
-                    //_markerLocations.clear();
-                    //
-                  },
-                  onCameraIdle: () {
-                    if (!mapState.interaction) {
-                      mapState.interaction2 = true;
-                    }
-                  },
-                  onCameraMoveStarted: () {
-                    user.building = SingletonFunctionController.building;
-                    mapState.interaction2 = false;
-                  },
-                  circles: circles,
+                      // _updateEntryMarkers11(cameraPosition.zoom);
+                      //_markerLocations.clear();
+                      //
+                    },
+                    onCameraIdle: () {
+                      if (!mapState.interaction) {
+                        mapState.interaction2 = true;
+                      }
+                    },
+                    onCameraMoveStarted: () {
+                      user.building = SingletonFunctionController.building;
+                      mapState.interaction2 = false;
+                    },
+                    circles: circles,
+                  ),
                 ),
               ),
               Positioned(

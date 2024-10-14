@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage>{
   late ConferenceAllAPIModel? eventData;
 
   Future<void> fetchEventData() async{
+    await ScheduleAPI.fetchschedule();
     eventData = await ConferenceAllApi.fetchdata();
     List<Data>? data = eventData?.data;
     data?.forEach((e){
@@ -136,19 +137,23 @@ class _HomePageState extends State<HomePage>{
                     ),
                   ),
                   Spacer(),
-                  Container(
-                    margin: EdgeInsets.only(right: 20),
-                    child: IconButton(
-                      icon: Icon(Icons.notifications_none_outlined),
-                      color: Color(0xff18181b),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NotificationScreen(),
-                          ),
-                        );
-                      },
+                  Semantics(
+                    label: "Notifications",
+                    excludeSemantics: true,
+                    child: Container(
+                      margin: EdgeInsets.only(right: 20),
+                      child: IconButton(
+                        icon: Icon(Icons.notifications_none_outlined),
+                        color: Color(0xff18181b),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NotificationScreen(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -544,18 +549,33 @@ class _HomePageState extends State<HomePage>{
 
                         Container(
                           margin: EdgeInsets.only(top: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Semantics(
-                                  label: "WHO",
-                                  excludeSemantics: true,
-                                  child: Image.asset("assets/HomePage_WorldHealthORG.png",scale: 2.5,)),
-                              Semantics(
-                                  label: "KMTC",
-                                  excludeSemantics: true,
-                                  child: Image.asset("assets/partner2.jpg",scale: 8,)),
-                            ],
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal, // Enable horizontal scrolling
+
+                            child: Row(
+
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Semantics(
+                                    label: "WHO",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Image.asset("assets/HomePage_WorldHealthORG.png",scale: 2.5,))),
+                                Semantics(
+                                    label: "KMTC",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 20),
+                                        child: Image.asset("assets/partner2.jpg",scale: 8.5,))),
+                                Semantics(
+                                    label: "KERALA STARTUP MISSION",
+                                    excludeSemantics: true,
+                                    child: Container(
+                                        margin: EdgeInsets.only(left: 20),
+                                        child: Image.asset("assets/partner1.jpg",scale: 5,))),
+                              ],
+                            ),
                           ),
                         ),
 
@@ -589,7 +609,7 @@ class _HomePageState extends State<HomePage>{
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 date!=""?Semantics(
-                                  label: '',
+                                  label: 'Event Date ${date}',
                                   child: Container(
                                     margin: EdgeInsets.only(left: 14,top: 10),
                                     child: Row(
@@ -630,7 +650,7 @@ class _HomePageState extends State<HomePage>{
                                   indent: screenWidth*0.02,
                                 ),
                                 location!=""? Semantics(
-                                  label:'',
+                                  label:'Event location ${location}',
                                   child: Container(
                                     margin: EdgeInsets.only(left: 14,top: 10),
                                     child: Row(
@@ -676,7 +696,7 @@ class _HomePageState extends State<HomePage>{
                                   indent: screenWidth*0.02,
                                 ),
                                 phone!=""?Semantics(
-                                  label:'',
+                                  label:'Event phone ${phone}',
                                   child: Container(
                                     margin: EdgeInsets.only(left: 14,top: 10),
                                     child: Row(
@@ -725,7 +745,7 @@ class _HomePageState extends State<HomePage>{
                                   indent: screenWidth*0.02,
                                 ),
                                 email!=""?Semantics(
-                                  label:'',
+                                  label:'Event email ${email}',
                                   child: Container(
                                     margin: EdgeInsets.only(left: 14,top: 10),
                                     child: Row(
