@@ -137,9 +137,14 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                           padding: const EdgeInsets.all(12.0),
                           child: Row(
                             children: [
-                              CircleAvatar(
+                              exhibitor.filename==null?CircleAvatar(
                                 radius: 30,
                                 backgroundImage: AssetImage('assets/speaker_image.jpg'),
+                              ):
+                              CircleAvatar(
+                                radius: 30, // Larger size for the pop out image
+                                backgroundColor: Color(0xffB2EFE4),
+                                backgroundImage: NetworkImage("https://maps.iwayplus.in/uploads/${exhibitor.filename}"),
                               ),
                               SizedBox(width: 12),
                               Expanded(
