@@ -297,7 +297,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
                               Flexible(
                                 child: AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 1500),
+                                  duration: const Duration(milliseconds: 3500),
                                   transitionBuilder: (Widget child,
                                       Animation<double> animation) {
                                     return FadeTransition(

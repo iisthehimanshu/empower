@@ -4,22 +4,18 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:empower/Empower/APIModel/ConferenceAllAPIModel.dart';
 import 'package:empower/Empower/CommiteeScreen.dart';
 import 'package:empower/Empower/SpeakerScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:photo_view/photo_view.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
-
-import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 import '../Navigation/Navigation.dart';
 import '../Navigation/websocket/NotifIcationSocket.dart';
+import 'API/ConferenceAllAPI.dart';
 import 'API/ScheduleAPI.dart';
 import 'NotificationScreen.dart';
 import 'Elements/ImageSlider.dart';
@@ -51,17 +47,65 @@ class _HomePageState extends State<HomePage>{
 
     if (connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi)) {
       await ScheduleAPI.fetchschedule(fetchFromInternet: true);
+      await ConferenceAllApi.fetchdata(fetchFromInternet: true);
     }
   }
 
+  String email="";
+  String phone="";
+  String location="";
+  String date="";
 
 
-    @override
+  @override
   void initState() {
     super.initState();
     NotificationSocket.receiveMessage();
-
+    fetchEventData();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
+
+  late ConferenceAllAPIModel? eventData;
+
+  Future<void> fetchEventData() async{
+    eventData = await ConferenceAllApi.fetchdata();
+    List<Data>? data = eventData?.data;
+    data?.forEach((e){
+      if(e.sId == '66f3dd94da553117a972caab') {
+        email = e.email ?? "";
+        phone = e.mobile ?? "";
+        location = e.location ?? "";
+        // Parse the strings to DateTime
+        if (e.startDate != null && e.endDate != null) {
+          DateTime startDate = DateTime.parse(e.startDate!);
+          DateTime endDate = DateTime.parse(e.endDate!);
+
+          // Define a DateFormat to format the month and year
+          final DateFormat dayFormat = DateFormat('d'); // Just day (e.g., 18)
+          final DateFormat monthYearFormat = DateFormat(
+              'MMMM yyyy'); // Month and Year (e.g., October 2024)
+
+          // Build the final output
+          String formattedDateRange;
+
+          // Check if the start and end dates are in the same month and year
+          if (startDate.month == endDate.month &&
+              startDate.year == endDate.year) {
+            formattedDateRange =
+            "${dayFormat.format(startDate)}-${dayFormat.format(
+                endDate)} ${monthYearFormat.format(startDate)}";
+          } else {
+            // If the start and end dates are in different months or years, format accordingly
+            final DateFormat fullDateFormat = DateFormat('d MMMM yyyy'); // e.g., 17 October 2024
+            formattedDateRange = "${fullDateFormat.format(startDate)} - ${fullDateFormat.format(endDate)}";
+          }
+          date = formattedDateRange;
+        }
+      }
+    });
+    setState(() {
+
+    });
   }
 
   @override
@@ -82,26 +126,29 @@ class _HomePageState extends State<HomePage>{
                     // },
                     label: "Empower 2024",
                     child: Container(
-                      margin: EdgeInsets.only(top: 20,left: 20,bottom: 10),
+                        margin: EdgeInsets.only(top: 20,left: 20,bottom: 10),
                         child: Semantics(
-                          label: "Empower 2024",
+                            label: "Empower 2024",
                             excludeSemantics: true,
                             child: Image.asset("assets/download.png",scale: 4,)
                         )
                     ),
                   ),
                   Spacer(),
-                  IconButton(
-                    icon: Icon(Icons.notifications_none_outlined),
-                    color: Color(0xff18181b),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NotificationScreen(),
-                        ),
-                      );
-                    },
+                  Container(
+                    margin: EdgeInsets.only(right: 20),
+                    child: IconButton(
+                      icon: Icon(Icons.notifications_none_outlined),
+                      color: Color(0xff18181b),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NotificationScreen(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -540,7 +587,7 @@ class _HomePageState extends State<HomePage>{
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Semantics(
+                                date!=""?Semantics(
                                   label: '',
                                   child: Container(
                                     margin: EdgeInsets.only(left: 14,top: 10),
@@ -562,7 +609,7 @@ class _HomePageState extends State<HomePage>{
                                           constraints: BoxConstraints(maxWidth: screenWidth - 88),
                                           margin: EdgeInsets.only(top: 4,left: 12),
                                           child: Text(
-                                            "Oct 17th - 19th",
+                                            date,
                                             style: const TextStyle(
                                               fontFamily: "Roboto",
                                               fontSize: 14,
@@ -576,12 +623,12 @@ class _HomePageState extends State<HomePage>{
                                       ],
                                     ),
                                   ),
-                                ),
+                                ):Container(),
                                 Divider(
                                   color: Colors.black12,
                                   indent: screenWidth*0.02,
                                 ),
-                                Semantics(
+                                location!=""? Semantics(
                                   label:'',
                                   child: Container(
                                     margin: EdgeInsets.only(left: 14,top: 10),
@@ -606,7 +653,7 @@ class _HomePageState extends State<HomePage>{
                                               Container(
                                                 constraints: BoxConstraints(maxWidth: screenWidth*0.7),
                                                 child: Text(
-                                                  "National Institute of Speech and Hearing, 4/564 NISH Road Thiruvananthapuram, Kerala, 695017, India",
+                                                  location,
                                                   style: const TextStyle(
                                                     fontFamily: "Roboto",
                                                     fontSize: 14,
@@ -622,12 +669,12 @@ class _HomePageState extends State<HomePage>{
                                       ],
                                     ),
                                   ),
-                                ),
+                                ):Container(),
                                 Divider(
                                   color: Colors.black12,
                                   indent: screenWidth*0.02,
                                 ),
-                                Semantics(
+                                phone!=""?Semantics(
                                   label:'',
                                   child: Container(
                                     margin: EdgeInsets.only(left: 14,top: 10),
@@ -654,7 +701,7 @@ class _HomePageState extends State<HomePage>{
                                                 margin: EdgeInsets.only(top: 4),
                                                 constraints: BoxConstraints(maxWidth: screenWidth - 88),
                                                 child: Text(
-                                                  "+91-4712944666",
+                                                  phone,
                                                   style: const TextStyle(
                                                     fontFamily: "Roboto",
                                                     fontSize: 14,
@@ -671,12 +718,12 @@ class _HomePageState extends State<HomePage>{
                                       ],
                                     ),
                                   ),
-                                ),
+                                ):Container(),
                                 Divider(
                                   color: Colors.black12,
                                   indent: screenWidth*0.02,
                                 ),
-                                Semantics(
+                                email!=""?Semantics(
                                   label:'',
                                   child: Container(
                                     margin: EdgeInsets.only(left: 14,top: 10),
@@ -702,7 +749,7 @@ class _HomePageState extends State<HomePage>{
                                               Container(
                                                 constraints: BoxConstraints(maxWidth: screenWidth - 88),
                                                 child: Text(
-                                                  "empower2024@nish.ac.in",
+                                                  email,
                                                   style: const TextStyle(
                                                     fontFamily: "Roboto",
                                                     fontSize: 14,
@@ -720,7 +767,7 @@ class _HomePageState extends State<HomePage>{
                                       ],
                                     ),
                                   ),
-                                ),
+                                ):Container(),
 
                               ],
                             ),

@@ -41,12 +41,23 @@ class _MainScreenState extends State<MainScreen> {
     MainScreenController.setIndex(widget.initialIndex);
   }
   checkPermission()async{
+    await requestNotificationPermission();
     await requestBluetoothConnectPermission();
   }
   // void setIDforWebSocket()async{
   //   final signInBox = await Hive.openBox('SignInDatabase');
   //   wsocket.message["userId"] = signInBox.get("userId");
   // }
+  Future<void> requestNotificationPermission() async {
+    if (await Permission.notification.isDenied) {
+      PermissionStatus status = await Permission.notification.request();
+      if (status.isGranted) {
+        print("Notification permission granted");
+      } else {
+        print("Notification permission denied");
+      }
+    }
+  }
 
 
 
