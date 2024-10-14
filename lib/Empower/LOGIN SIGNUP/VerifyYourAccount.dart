@@ -224,7 +224,7 @@ class _VerifyYourAccountState extends State<VerifyYourAccount> {
     var headers = {
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('https://dev.iwayplus.in/auth/otp/token'));
+    var request = http.Request('POST', Uri.parse('https://maps.iwayplus.in/auth/otp/token'));
     request.body = json.encode({
       "username": username,
       "otp": otp

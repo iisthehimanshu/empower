@@ -55,7 +55,7 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       isLoading = true;
     });
-    final String baseUrl = kDebugMode? "https://dev.iwayplus.in/secured/user/get" : "https://maps.iwayplus.in/secured/user/get";
+    final String baseUrl = "https://maps.iwayplus.in/secured/user/get";
 
     try {
       final response = await http.post(
@@ -92,7 +92,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future<void> refreshTokenAndRetryForGetUserDetails(String baseUrl) async {
-    final String refreshTokenUrl = kDebugMode? "https://dev.iwayplus.in/api/refreshToken" : "https://maps.iwayplus.in/api/refreshToken";
+    final String refreshTokenUrl ="https://maps.iwayplus.in/api/refreshToken";
 
     try {
       final response = await http.post(
@@ -179,7 +179,7 @@ class _EditProfileState extends State<EditProfile> {
   //   }
   // }
   Future<void> updateUser(BuildContext context) async {
-    final String updateUrl = kDebugMode ? "https://dev.iwayplus.in/secured/user/update/$userId" : "https://maps.iwayplus.in/secured/user/update/$userId";
+    final String updateUrl = "https://maps.iwayplus.in/secured/user/update/$userId";
 
     // Show a loading indicator
     QuickAlert.show(
@@ -245,7 +245,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future<void> refreshTokenAndRetry(String updateUrl) async {
-    final String refreshTokenUrl = kDebugMode? "https://dev.iwayplus.in/api/refreshToken" : "https://maps.iwayplus.in/api/refreshToken";
+    final String refreshTokenUrl = "https://maps.iwayplus.in/api/refreshToken";
 
     try {
       final response = await http.post(

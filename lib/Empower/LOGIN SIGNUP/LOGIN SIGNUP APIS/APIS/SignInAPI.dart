@@ -83,7 +83,7 @@ class SignInAPI{
   static Future<int> sendOtpForgetPassword(String user) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
-        'POST', Uri.parse(kDebugMode? 'https://dev.iwayplus.in/auth/otp/username' : 'https://maps.iwayplus.in/auth/otp/username'));
+        'POST', Uri.parse('https://maps.iwayplus.in/auth/otp/username'));
     request.body = json.encode({"username": "${user}", "digits":4,"appId":"com.iwayplus.empower"});
     request.headers.addAll(headers);
 
@@ -103,7 +103,7 @@ class SignInAPI{
   static Future<int> changePassword(String user, String pass, String otp) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
-        'POST', Uri.parse(kDebugMode? 'https://dev.iwayplus.in/auth/reset-password' : 'https://maps.iwayplus.in/auth/reset-password'));
+        'POST', Uri.parse('https://maps.iwayplus.in/auth/reset-password'));
     request.body = json.encode({
       "username": "$user",
       "password": "$pass",

@@ -6536,7 +6536,7 @@ cachedPolygon.clear();
                               child: IconButton(
                                   onPressed: () {
                                     HelperClass.shareContent(
-                                        "https://dev.iwayplus.in/#/iway-apps/iwaymaps.com/landmark?bid=${buildingAllApi.getStoredString()}&landmark=${SingletonFunctionController.building.selectedLandmarkID!}&appStore=rgci-navigation/id6505062168&playStore=com.iwayplus.rgcinavigation");
+                                        "https://maps.iwayplus.in/#/iway-apps/iwaymaps.com/landmark?bid=${buildingAllApi.getStoredString()}&landmark=${SingletonFunctionController.building.selectedLandmarkID!}&appStore=rgci-navigation/id6505062168&playStore=com.iwayplus.rgcinavigation");
                                   },
                                   icon: Semantics(
                                       label: "Share route information",
