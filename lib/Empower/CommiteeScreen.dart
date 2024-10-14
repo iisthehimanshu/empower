@@ -137,9 +137,13 @@ class _CommiteescreenState extends State<Commiteescreen> {
             textAlign: TextAlign.left,
           ),
           actions: [
-            IconButton(
-              icon: Icon(isSearching ? Icons.close : Icons.search),
-              onPressed: toggleSearch, // Toggle search mode
+            Semantics(
+              label: !isSearching? 'Commitee Search': 'Close text input',
+              excludeSemantics: true,
+              child: IconButton(
+                icon: Icon(isSearching ? Icons.close : Icons.search),
+                onPressed: toggleSearch, // Toggle search mode
+              ),
             ),
           ],
         ),

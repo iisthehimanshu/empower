@@ -26,6 +26,10 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
   bool isLoading = true;
   HashMap<DateTime, List<Widget>> cards = HashMap();
   List<Exhibitors> keyNoteDataList = [];
+  final FocusNode _focusNode = FocusNode();
+  String searchText = "";
+
+
 
 
   @override
@@ -55,6 +59,35 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
     }
   }
 
+  void filterCards(String query) {
+    // Clear the widgetCards before updating
+    keyNoteDataList.clear();
+
+    setState(() {
+      // Use a forEach loop to iterate over searchCards
+      schedule!.exhibitors!.forEach((e) {
+        if (e.companyName != null && e.companyName!.toLowerCase().contains(query.toLowerCase())) {
+          keyNoteDataList.add(e);
+        }
+      });
+    });
+  }
+
+  bool isSearching = false;
+
+  void toggleSearch() {
+    setState(() {
+      isSearching = !isSearching; // Toggle search mode
+      if (!isSearching) {
+        searchText = ""; // Reset search text
+        filterCards(""); // Reset the list when search is closed
+      }else{
+        _focusNode.requestFocus();
+      }
+    });
+  }
+
+
 
 
   @override
@@ -74,18 +107,49 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
               Navigator.pop(context);
             },
           ), // Set your desired background color
-          title: Text(
-            "Exhibitors",
-            style: const TextStyle(
+          title: isSearching
+              ? TextField(
+            focusNode: _focusNode,
+            onChanged: (value) {
+              searchText = value;
+              filterCards(searchText);
+            },
+            decoration: InputDecoration(
+              hintText: 'Search...',
+              border: InputBorder.none,
+            ),
+            style: TextStyle(
               fontFamily: "Roboto",
               fontSize: 16,
               fontWeight: FontWeight.w500,
               color: Color(0xff000000),
-              height: 23/16,
+              height: 23 / 16,
             ),
-            textAlign: TextAlign.left,
-          ),
+          )
+              : Semantics(
+                label: 'Exhibitors Screen',
+                excludeSemantics: true,
+                child: Text(
+                            "Exhibitors",
+                            style: const TextStyle(
+                fontFamily: "Roboto",
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Color(0xff000000),
+                height: 23 / 16,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+              ),
           actions: [
+            IconButton(
+              icon: Semantics(
+                  label: !isSearching? 'Search Exhibitors': 'Close text input',
+
+                excludeSemantics: true,
+                  child: Icon(isSearching ? Icons.close : Icons.search)),
+              onPressed: toggleSearch, // Toggle search mode
+            ),
           ],
         ),
         body: isLoading // Show loader while fetching data
