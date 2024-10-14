@@ -81,13 +81,13 @@ class BLueToothClass {
       // print("himanshu 4 $apibeaconmap");
       for (ScanResult result in results) {
         if(result.device.platformName.length > 2){
-        //  print("himanshu 5 ${result}");
+          //print("himanshu 5 ${result}");
           String MacId = "${result.device.platformName}";
           int Rssi = result.rssi;
           wsocket.message["AppInitialization"]["bleScanResults"][MacId]=Rssi;
           if (apibeaconmap.containsKey(MacId)) {
             //print(MacId);
-            //print("mac1 $MacId    rssi $Rssi");
+            print("mac1 $MacId    rssi $Rssi");
             beacondetail[MacId] = Rssi * -1;
             addtoBin(MacId, Rssi);
             _binController.add(BIN); // Emitting event when BIN changes
