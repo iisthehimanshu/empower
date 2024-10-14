@@ -7,6 +7,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:empower/Empower/APIModel/ConferenceAllAPIModel.dart';
 import 'package:empower/Empower/CommiteeScreen.dart';
 import 'package:empower/Empower/SpeakerScreen.dart';
+import 'package:empower/Navigation/Elements/HelperClass.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +26,7 @@ import 'ExhibitorsScreen.dart';
 import 'MyScheduleScreen.dart';
 import 'ScheduleScreen.dart';
 import 'DisabilityFormScreen.dart';
+import 'ScheduleSearchScreen.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -131,7 +133,7 @@ class _HomePageState extends State<HomePage>{
                         child: Semantics(
                             label: "Empower 2024",
                             excludeSemantics: true,
-                            child: Image.asset("assets/maxresdefault.jpg",scale: 4,)
+                            child: Image.asset("assets/download.png",scale: 4,)
                         )
                     ),
                   ),
@@ -158,7 +160,7 @@ class _HomePageState extends State<HomePage>{
                 onTap: () {
 
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context)=> ScheduleScreen()));
+                      MaterialPageRoute(builder: (context)=> ScheduleScreenSearch()));
 
                 },
                 child: Semantics(
@@ -629,45 +631,50 @@ class _HomePageState extends State<HomePage>{
                                   color: Colors.black12,
                                   indent: screenWidth*0.02,
                                 ),
-                                location!=""? Semantics(
-                                  label:'',
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 14,top: 10),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          //  margin: EdgeInsets.only(right: 16),
-                                          width: 24,
-                                          height: 24,
-                                          child: SvgPicture.asset(
-                                            'assets/HomePage_location_on.svg',
+                                location!=""? InkWell(
+                                  onTap: (){
+                                    HelperClass.launchURL("geo:8.5259945,76.8961421");
+                                  },
+                                  child: Semantics(
+                                    label:'',
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 14,top: 10),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            //  margin: EdgeInsets.only(right: 16),
                                             width: 24,
                                             height: 24,
+                                            child: SvgPicture.asset(
+                                              'assets/HomePage_location_on.svg',
+                                              width: 24,
+                                              height: 24,
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only( right: 14,left: 12),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                constraints: BoxConstraints(maxWidth: screenWidth*0.7),
-                                                child: Text(
-                                                  location,
-                                                  style: const TextStyle(
-                                                    fontFamily: "Roboto",
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Color(0xff777777),
+                                          Container(
+                                            margin: EdgeInsets.only( right: 14,left: 12),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  constraints: BoxConstraints(maxWidth: screenWidth*0.7),
+                                                  child: Text(
+                                                    location,
+                                                    style: const TextStyle(
+                                                      fontFamily: "Roboto",
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Color(0xff777777),
+                                                    ),
+                                                    textAlign: TextAlign.left,
                                                   ),
-                                                  textAlign: TextAlign.left,
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ):Container(),
@@ -675,48 +682,53 @@ class _HomePageState extends State<HomePage>{
                                   color: Colors.black12,
                                   indent: screenWidth*0.02,
                                 ),
-                                phone!=""?Semantics(
-                                  label:'',
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 14,top: 10),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          //  margin: EdgeInsets.only(right: 16),
-                                          width: 24,
-                                          height: 24,
-                                          child: SvgPicture.asset(
-                                            'assets/HomePage_call.svg',
+                                phone!=""?InkWell(
+                                  onTap: (){
+                                    HelperClass.makePhoneCall(phone);
+                                  },
+                                  child: Semantics(
+                                    label:'',
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 14,top: 10),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            //  margin: EdgeInsets.only(right: 16),
                                             width: 24,
                                             height: 24,
-                                            color: Colors.black,
+                                            child: SvgPicture.asset(
+                                              'assets/HomePage_call.svg',
+                                              width: 24,
+                                              height: 24,
+                                              color: Colors.black,
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(right: 14,left: 12),
-                                          child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(top: 4),
-                                                constraints: BoxConstraints(maxWidth: screenWidth - 88),
-                                                child: Text(
-                                                  phone,
-                                                  style: const TextStyle(
-                                                    fontFamily: "Roboto",
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Color(0xff777777),
+                                          Container(
+                                            margin: EdgeInsets.only(right: 14,left: 12),
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(top: 4),
+                                                  constraints: BoxConstraints(maxWidth: screenWidth - 88),
+                                                  child: Text(
+                                                    phone,
+                                                    style: const TextStyle(
+                                                      fontFamily: "Roboto",
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Color(0xff777777),
+                                                    ),
+                                                    textAlign: TextAlign.left,
                                                   ),
-                                                  textAlign: TextAlign.left,
                                                 ),
-                                              ),
 
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ):Container(),
@@ -724,48 +736,53 @@ class _HomePageState extends State<HomePage>{
                                   color: Colors.black12,
                                   indent: screenWidth*0.02,
                                 ),
-                                email!=""?Semantics(
-                                  label:'',
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 14,top: 10),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          //  margin: EdgeInsets.only(right: 16),
-                                          width: 24,
-                                          height: 24,
-                                          child: SvgPicture.asset(
-                                            'assets/HomePage_mail.svg',
+                                email!=""?InkWell(
+                                  onTap: (){
+                                    HelperClass.sendMailto(email : email);
+                                  },
+                                  child: Semantics(
+                                    label:'',
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 14,top: 10),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            //  margin: EdgeInsets.only(right: 16),
                                             width: 24,
                                             height: 24,
-                                            color: Colors.black,
+                                            child: SvgPicture.asset(
+                                              'assets/HomePage_mail.svg',
+                                              width: 24,
+                                              height: 24,
+                                              color: Colors.black,
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(left: 12),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                constraints: BoxConstraints(maxWidth: screenWidth - 88),
-                                                child: Text(
-                                                  email,
-                                                  style: const TextStyle(
-                                                    fontFamily: "Roboto",
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Color(0xff777777),
-                                                    height: 20/14,
+                                          Container(
+                                            margin: EdgeInsets.only(left: 12),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  constraints: BoxConstraints(maxWidth: screenWidth - 88),
+                                                  child: Text(
+                                                    email,
+                                                    style: const TextStyle(
+                                                      fontFamily: "Roboto",
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Color(0xff777777),
+                                                      height: 20/14,
+                                                    ),
+                                                    textAlign: TextAlign.left,
                                                   ),
-                                                  textAlign: TextAlign.left,
                                                 ),
-                                              ),
 
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ):Container(),

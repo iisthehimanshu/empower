@@ -263,6 +263,8 @@ class Exhibitors {
   String? website;
   String? linkedIn;
   String? boothNo;
+  String? venueId;
+  String? filename;
   int? iV;
 
   Exhibitors(
@@ -274,6 +276,8 @@ class Exhibitors {
         this.website,
         this.linkedIn,
         this.boothNo,
+        this.venueId,
+        this.filename,
         this.iV});
 
   Exhibitors.fromJson(Map<dynamic, dynamic> json) {
@@ -285,6 +289,8 @@ class Exhibitors {
     website = json['website'];
     linkedIn = json['linkedIn'];
     boothNo = json['boothNo'];
+    venueId = json['venueId'];
+    filename = json['filename'];
     iV = json['__v'];
   }
 
@@ -298,6 +304,8 @@ class Exhibitors {
     data['website'] = this.website;
     data['linkedIn'] = this.linkedIn;
     data['boothNo'] = this.boothNo;
+    data['venueId'] = this.venueId;
+    data['filename'] = this.filename;
     data['__v'] = this.iV;
     return data;
   }
