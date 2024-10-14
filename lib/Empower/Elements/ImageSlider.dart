@@ -7,8 +7,8 @@ class ImageSlider extends StatefulWidget {
   late List<String> images;
   late List<String> imagesSemantics;
 
-
   ImageSlider({required this.images, required this.imagesSemantics});
+
   @override
   _ImageSliderState createState() => _ImageSliderState();
 }
@@ -17,27 +17,14 @@ class _ImageSliderState extends State<ImageSlider> {
   int _currentImageIndex = 0;
   int _ImageIndex = 0;
 
-
-  // List<String>? images = [
-  //   //'https://maps.iwayplus.in/uploads/Frame%20471.png',
-  //   // 'https://purplefest.goa.gov.in/wp-content/uploads/2023/10/SLIDER_PURPLE_FEST_INAUGRAL.jpg',
-  //   // 'https://purplefest.goa.gov.in/wp-content/uploads/2023/09/Gallery_1.jpg',
-  //   // 'https://maps.iwayplus.in/uploads/Gallery_13.jpg',
-  //   // 'https://purplefest.goa.gov.in/wp-content/uploads/2023/09/Gallery_9.jpg',
-  //   // 'https://maps.iwayplus.in/uploads/Gallery_6.jpg',
-  //   // Add more image URLs or local assets as needed
-  // ];
-
   @override
   Widget build(BuildContext context) {
-
-    if(_ImageIndex>widget.images.length){
-      _ImageIndex=0;
+    if (_ImageIndex > widget.images.length) {
+      _ImageIndex = 0;
     }
     return Column(
       children: [
         CarouselSlider(
-
           options: CarouselOptions(
             enlargeCenterPage: true,
             autoPlay: false,
@@ -52,39 +39,31 @@ class _ImageSliderState extends State<ImageSlider> {
                 _ImageIndex = index;
               });
             },
-
-
           ),
-
           items: widget.images.map((item) {
             return Builder(
               builder: (BuildContext context) {
                 return Semantics(
                   label: "Header Image",
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       showDialog(
                         context: context,
                         builder: (BuildContext dialogContext) {
                           return Dialog(
                             child: GestureDetector(
-                              onTap: () {
-
-                              },
-
+                              onTap: () {},
                               child: Semantics(
-                                label:widget.imagesSemantics[_ImageIndex],
+                                label: widget.imagesSemantics[_ImageIndex],
                                 child: Container(
                                   width: MediaQuery.of(dialogContext).size.width,
-                                  height: MediaQuery.of(dialogContext).size.width /14*9 ,
-
+                                  height: MediaQuery.of(dialogContext).size.width / 14 * 9,
                                   child: PhotoView(
                                     imageProvider: NetworkImage(item),
                                     minScale: PhotoViewComputedScale.contained * 0.8,
                                     maxScale: PhotoViewComputedScale.covered * 2.0,
                                     initialScale: PhotoViewComputedScale.contained,
                                   ),
-
                                 ),
                               ),
                             ),
@@ -104,22 +83,26 @@ class _ImageSliderState extends State<ImageSlider> {
                         child: Image.network(
                           item,
                           fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                            // Return the default image when an error occurs
+                            return Image.asset(
+                              'assets/HomePage_google_logo.png', // Provide the path to your default image here
+                              fit: BoxFit.cover,
+                            );
+                          },
                         ),
                       ),
-
                     ),
                   ),
                 );
               },
-
             );
           }).toList(),
-
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: widget.images!.map((url) {
-            int index = widget.images!.indexOf(url);
+          children: widget.images.map((url) {
+            int index = widget.images.indexOf(url);
             return Container(
               width: 8.0,
               height: 8.0,
@@ -130,7 +113,6 @@ class _ImageSliderState extends State<ImageSlider> {
                     ? Color(0xffB2EFE4)
                     : Colors.grey.withOpacity(0.5),
               ),
-
             );
           }).toList(),
         ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:empower/Navigation/Elements/HelperClass.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -33,11 +34,15 @@ class LocalNotificationAPI{
 
 
     if(!deviceConnected){
+      HelperClass.showToast("No Internet Connection!!");
       print("LocalNotificationAPI DATA FROM DATABASE");
-      Map<String, dynamic> responseBody = NotifiBox.get("com.iwayplus.empower")!.responseBody;
-      LocalNotificationAPIModel notificationData =LocalNotificationAPIModel.fromJson(responseBody);
-      List<NotificationsInLocalNotificationModule> notificationsList = notificationData.notifications!;
-      return notificationsList;
+      if(NotifiBox.containsKey("com.iwayplus.empower")){
+        Map<String, dynamic> responseBody = NotifiBox.get("com.iwayplus.empower")!.responseBody;
+        LocalNotificationAPIModel notificationData =LocalNotificationAPIModel.fromJson(responseBody);
+        List<NotificationsInLocalNotificationModule> notificationsList = notificationData.notifications!;
+        return notificationsList;
+      }
+
     }
 
     final response = await http.get(

@@ -6,15 +6,12 @@ class NotificationSocket{
   NotificationSocket(){
     channel.connect();
   }
-
   static final channel = io('https://maps.iwayplus.in', <String, dynamic>{
     'transports': ['websocket'],
     'autoConnect': false,
   });
-
   static void receiveMessage(){
     channel.on("com.iwayplus.empower", (value){
-
       NotificationData notification = NotificationData.fromJson(value);
       print("notification.filepath");
       print(notification.filepath);
@@ -27,6 +24,5 @@ class NotificationSocket{
     //print(receivedMessage[0]);
     //print(receivedMessage);
   }
-
 }
 
