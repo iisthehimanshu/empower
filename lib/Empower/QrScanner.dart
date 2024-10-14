@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as g;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import '../Navigation/API/QRDataAPI.dart';
+import '../Navigation/API/buildingAllApi.dart';
+import '../Navigation/ApiModels/QRDataAPIModel.dart';
+import '../Navigation/Elements/HelperClass.dart';
 import '../Navigation/Elements/Translator.dart';
+import '../Navigation/Navigation.dart';
 
 
 
@@ -28,7 +33,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     controller?.pauseCamera();
     controller?.resumeCamera();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,33 +73,37 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
-      // if (!_isDeepLinkHandled) {
-      //   _isDeepLinkHandled = true;
-      //   try {
-      //     final uri = Uri.parse(scanData.code ?? '');
-      //     String qrCode = uri.fragment.split('/').last;
-      //     print("qrCode");
-      //     print(qrCode);
-      //
-      //     List<QRDataAPIModel>? qrData = await QRDataAPI().fetchQRData(buildingAllApi.allBuildingID.keys.toList());
-      //     qrData?.forEach((e){
-      //       if(e.code == qrCode){
-      //         if(e.landmarkId == null){
-      //           HelperClass.launchURL(scanData.code!);
-      //         }else{
-      //           PassLocationId(context,e.landmarkId!);
-      //         }
-      //       }
-      //     });
-      //     print(qrData);
-      //     print("qrScanner");
-      //     print(uri);
-      //     iwaymapsDeepLink(uri, context, "rgci.com");
-      //     controller.stopCamera();
-      //   } catch (e) {
-      //     print('Error parsing URL: $e');
-      //   }
-      // }
+      if (!_isDeepLinkHandled) {
+        _isDeepLinkHandled = true;
+        try {
+          final uri = Uri.parse(scanData.code ?? '');
+          String qrCode = uri.fragment.split('/').last;
+          print("qrCode");
+          print(qrCode);
+
+          List<QRDataAPIModel>? qrData = await QRDataAPI().fetchQRData(buildingAllApi.allBuildingID.keys.toList());
+          qrData?.forEach((e){
+            if(e.code == qrCode){
+              if(e.landmarkId == null){
+                HelperClass.launchURL(scanData.code!);
+              }else{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>   Navigation(directLandID: e.landmarkId!),
+                  ),
+                );
+              }
+            }
+          });
+          print(qrData);
+          print("qrScanner");
+          print(uri);
+          controller.stopCamera();
+        } catch (e) {
+          print('Error parsing URL: $e');
+        }
+      }
     });
   }
 

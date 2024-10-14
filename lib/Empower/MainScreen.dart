@@ -103,9 +103,7 @@ class _MainScreenState extends State<MainScreen> {
                     builder: (context) => Navigation()),
               );
             }
-           else if(index == 2){
-              HelperClass.showToast("Feature Coming Soon!!");
-            }else {
+           else {
               this.index=index;
             }
           }),

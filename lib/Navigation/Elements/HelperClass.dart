@@ -11,6 +11,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as g;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../API/buildingAllApi.dart';
 import '../APIMODELS/buildingAll.dart';
 import '../MODELS/VenueModel.dart';
@@ -20,9 +21,26 @@ class HelperClass{
 
   static Future<void> launchURL(String url) async {
     if (await canLaunchUrl(Uri.parse(url))) {
-      await launchURL(url);
+      await launchUrlString(url);
     } else {
       throw 'Could not launch $url';
+    }
+  }
+
+  static void addEventToCalendar(String title, String description, String location, DateTime startTime, DateTime endTime) async {
+
+    final String formattedStartTime = startTime.toString();
+    final String formattedEndTime = endTime.toString();
+
+    // Construct the calendar URL
+    final String calendarUrl =
+        'https://www.google.com/calendar/render?action=TEMPLATE&text=$title&details=$description&location=$location&dates=$formattedStartTime/$formattedEndTime';
+
+    // Launch the URL
+    if (await canLaunch(calendarUrl)) {
+      await launch(calendarUrl);
+    } else {
+      throw 'Could not launch $calendarUrl';
     }
   }
 

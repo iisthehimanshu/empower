@@ -86,7 +86,7 @@ class _ImageSliderState extends State<ImageSlider> {
                           errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                             // Return the default image when an error occurs
                             return Image.asset(
-                              'assets/HomePage_google_logo.png', // Provide the path to your default image here
+                              'assets/maxresdefault.jpg', // Provide the path to your default image here
                               fit: BoxFit.cover,
                             );
                           },
