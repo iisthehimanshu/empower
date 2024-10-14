@@ -3744,10 +3744,11 @@ double? minDistance;
   Future<void> localizeUser({bool speakTTS = true}) async {
     double highestweight = 0;
     String nearestBeacon = "";
-
+    print("btadapter bin ${SingletonFunctionController.btadapter.BIN}");
+    if(await FlutterBluePlus.isOn){
       for (int i = 0;
-          i < SingletonFunctionController.btadapter.BIN.length;
-          i++) {
+      i < SingletonFunctionController.btadapter.BIN.length;
+      i++) {
         if (SingletonFunctionController.btadapter.BIN[i]!.isNotEmpty) {
           SingletonFunctionController.btadapter.BIN[i]!.forEach((key, value) {
             if (value < 0) {
@@ -3761,6 +3762,10 @@ double? minDistance;
           break;
         }
       }
+    }
+
+
+
 
 
     setState(() {
@@ -3801,6 +3806,7 @@ double? minDistance;
         });
       }
     }
+    SingletonFunctionController.btadapter.BIN.clear();
   }
 
   String nearbeacon = 'null';
@@ -13010,9 +13016,9 @@ bool onStart=false;
                       child: FloatingActionButton(
                         onPressed: () async {
                           //  _getUserLocation();
-
+                          SingletonFunctionController.btadapter.emptyBin();
                           if (!user.isnavigating && !isLocalized) {
-                            SingletonFunctionController.btadapter.emptyBin();
+
                             SingletonFunctionController.btadapter
                                 .stopScanning();
                             if (Platform.isAndroid) {
