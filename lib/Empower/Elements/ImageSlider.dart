@@ -82,7 +82,7 @@ class _ImageSliderState extends State<ImageSlider> {
                         borderRadius: BorderRadius.circular(8.0), // Clip the image to rounded corners
                         child: Image.network(
                           item,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fitHeight,
                           errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                             // Return the default image when an error occurs
                             return Image.asset(
