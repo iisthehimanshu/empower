@@ -44,7 +44,7 @@ class _ImageSliderState extends State<ImageSlider> {
             return Builder(
               builder: (BuildContext context) {
                 return Semantics(
-                  label: "Header Image",
+                  label: widget.imagesSemantics[_ImageIndex],
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.95,
                     margin: EdgeInsets.symmetric(horizontal: 0.0),

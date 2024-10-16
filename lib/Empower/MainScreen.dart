@@ -81,42 +81,57 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[index],
-      bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-          indicatorColor: Colors.transparent,
-          labelTextStyle: MaterialStateProperty.all(TextStyle(
-            fontFamily: "Roboto",
-            fontSize: 13,
-            fontWeight: FontWeight.w400,
-            color: Color(0xff4B4B4B),
-            height: 20/14,
-          )),
-        ),
-        child: NavigationBar(
-          backgroundColor: Color(0xffFFFFFF),
-          selectedIndex: index,
-          onDestinationSelected:(index)=>setState((){
-            if(index==1){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Navigation()),
-              );
-            }
-           else {
-              this.index=index;
-            }
-          }),
-          destinations: [
-            NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff1C1B1F)),selectedIcon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff24B9B0),), label: 'Home',),
-            NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Map.svg",color: Color(0xff1C1B1F)),selectedIcon: SvgPicture.asset("assets/MainScreen_Map.svg",color: Color(0xff24B9B0),), label: "Map",),
-            NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),),selectedIcon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),width: 34,height: 34,), label: 'Scan',),
-            NavigationDestination(icon: Icon(Icons.event_outlined, color: Color(0xff1C1B1F)), // Unselected state
-              selectedIcon: Icon(Icons.event_outlined, color: Color(0xff24B9B0)), // Selected state
-              label: "Schedule",
-            ),
-            NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Profile.svg",color: Color(0xff1C1B1F),),selectedIcon: SvgPicture.asset("assets/MainScreen_Profile.svg",color: Color(0xff1C1B1F),), label: "Profile"),
-          ],
+      bottomNavigationBar: Semantics(
+        label: "Navigation Tab",
+        header: true,
+        child: NavigationBarTheme(
+          data: NavigationBarThemeData(
+            indicatorColor: Colors.transparent,
+            labelTextStyle: MaterialStateProperty.all(TextStyle(
+              fontFamily: "Roboto",
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              color: Color(0xff4B4B4B),
+              height: 20/14,
+            )),
+          ),
+          child: NavigationBar(
+            backgroundColor: Color(0xffFFFFFF),
+            selectedIndex: index,
+            onDestinationSelected:(index)=>setState((){
+              if(index==1){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Navigation()),
+                );
+              }
+             else {
+                this.index=index;
+              }
+            }),
+            destinations: [
+              Semantics(
+                label: "Home",
+                  child: NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff1C1B1F)),selectedIcon: SvgPicture.asset("assets/MainScreen_home.svg",color: Color(0xff24B9B0),), label: 'Home',)),
+              Semantics(
+                  label: "Map",
+                  child: NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Map.svg",color: Color(0xff1C1B1F)),selectedIcon: SvgPicture.asset("assets/MainScreen_Map.svg",color: Color(0xff24B9B0),), label: "Map",)),
+              Semantics(
+                  label: "QR Scan",
+                  child: NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),),selectedIcon: SvgPicture.asset("assets/MainScreen_Scanner.svg",color: Color(0xff1C1B1F),width: 34,height: 34,), label: 'Scan',)),
+              Semantics(
+                label: "Schedule",
+                child: NavigationDestination(icon: Icon(Icons.event_outlined, color: Color(0xff1C1B1F)), // Unselected state
+                  selectedIcon: Icon(Icons.event_outlined, color: Color(0xff24B9B0)), // Selected state
+                  label: "Schedule",
+                ),
+              ),
+              Semantics(
+                label: "Profile",
+                  child: NavigationDestination(icon: SvgPicture.asset("assets/MainScreen_Profile.svg",color: Color(0xff1C1B1F),),selectedIcon: SvgPicture.asset("assets/MainScreen_Profile.svg",color: Color(0xff1C1B1F),), label: "Profile")),
+            ],
+          ),
         ),
       ),
     );

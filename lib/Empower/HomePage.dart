@@ -182,91 +182,95 @@ class _HomePageState extends State<HomePage>{
                 ],
               ),
 
-              InkWell(
-                onTap: () {
+              Semantics(
+                header: true,
+                label: "Schedule Search",
+                child: InkWell(
+                  onTap: () {
 
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context)=> ScheduleScreenSearch()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=> ScheduleScreenSearch()));
 
-                },
-                child: Semantics(
-                  child: Container(
-                    width: screenWidth,
-                    margin: EdgeInsets.only(bottom: 4),
-                    // height: 100,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.center,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xffffffff),
-                            Color(0xffffffff)
-                          ],
-                          stops: [0.1, 0.1]
+                  },
+                  child: Semantics(
+                    child: Container(
+                      width: screenWidth,
+                      margin: EdgeInsets.only(bottom: 4),
+                      // height: 100,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.center,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(0xffffffff),
+                              Color(0xffffffff)
+                            ],
+                            stops: [0.1, 0.1]
+                        ),
                       ),
-                    ),
-                    padding: EdgeInsets.fromLTRB(20, 12, 0, 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            width: screenWidth - 40,
-                            height: screenHeight*0.045,
-                            padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
-                            decoration: BoxDecoration(
-                                border:
-                                Border.all(color: Color(0xffbdbdbd)),
-                                color: Color(0xffffffff),
-                                borderRadius: BorderRadius.circular(4),
-                                boxShadow: [
-                                  // BoxShadow(
-                                  //     color: Colors.black26,
-                                  //     offset: Offset.zero,
-                                  //     spreadRadius: 0,
-                                  //     blurRadius: 4,
-                                  //     blurStyle: BlurStyle.outer)
-                                ]
-                              //borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 11),
-                                  child: Icon(
-                                    Icons.search,
-                                    size: 26,
-                                    color: Color(0xffB3B3B3),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 8),
-                                    child: Text(
-                                      "Search ",
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xffbdbdbd),
-                                        height: 23/14,
-                                      ),
-                                      textAlign: TextAlign.left,
+                      padding: EdgeInsets.fromLTRB(20, 12, 0, 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              width: screenWidth - 40,
+                              height: screenHeight*0.045,
+                              padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
+                              decoration: BoxDecoration(
+                                  border:
+                                  Border.all(color: Color(0xffbdbdbd)),
+                                  color: Color(0xffffffff),
+                                  borderRadius: BorderRadius.circular(4),
+                                  boxShadow: [
+                                    // BoxShadow(
+                                    //     color: Colors.black26,
+                                    //     offset: Offset.zero,
+                                    //     spreadRadius: 0,
+                                    //     blurRadius: 4,
+                                    //     blurStyle: BlurStyle.outer)
+                                  ]
+                                //borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(left: 11),
+                                    child: Icon(
+                                      Icons.search,
+                                      size: 26,
+                                      color: Color(0xffB3B3B3),
                                     ),
                                   ),
-                                ),
-                                Spacer(),
-                                // Container(
-                                //     margin: EdgeInsets.only(right: 9),
-                                //     child: Icon(Icons.mic_none_outlined,
-                                //         size: 25,
-                                //         color: Color(0xffBDBDBD))),
-                              ],
-                            )
-                        ),
-                      ],
+                                  Expanded(
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 8),
+                                      child: Text(
+                                        "Search ",
+                                        style: const TextStyle(
+                                          fontFamily: "Roboto",
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xffbdbdbd),
+                                          height: 23/14,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  // Container(
+                                  //     margin: EdgeInsets.only(right: 9),
+                                  //     child: Icon(Icons.mic_none_outlined,
+                                  //         size: 25,
+                                  //         color: Color(0xffBDBDBD))),
+                                ],
+                              )
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
