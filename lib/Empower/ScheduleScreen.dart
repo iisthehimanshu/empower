@@ -182,6 +182,9 @@ class _ScheduleScreenState extends State<ScheduleScreen>
             }
             Map<String,dynamic>aMap = extractNumber(a);
             Map<String,dynamic>bMap = extractNumber(b);
+            print("aMap[time]");
+            print(aMap["time"]);
+            print(bMap["time"]);
             if(aMap["time"] == bMap["time"]){
               return aMap["number"].compareTo(bMap["number"]);
             }

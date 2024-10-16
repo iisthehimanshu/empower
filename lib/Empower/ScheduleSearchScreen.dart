@@ -139,38 +139,46 @@ class _ScheduleScreenSearchState extends State<ScheduleScreenSearch>{
             },
           ), // Set your desired background color
           title: isSearching
-              ? TextField(
-            focusNode: _focusNode,
-            onChanged: (value) {
-              searchText = value;
-              filterCards(searchText);
-            },
-            decoration: InputDecoration(
-              hintText: 'Search...',
-              border: InputBorder.none,
-            ),
-            style: TextStyle(
-              fontFamily: "Roboto",
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Color(0xff000000),
-              height: 23 / 16,
-            ),
-          )
-              : Text(
-            "Schedule Search",
-            style: const TextStyle(
-              fontFamily: "Roboto",
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Color(0xff000000),
-              height: 23 / 16,
-            ),
-            textAlign: TextAlign.left,
-          ),
+              ? Semantics(
+            label: 'Search field',
+                excludeSemantics: true,
+                child: TextField(
+                            focusNode: _focusNode,
+                            onChanged: (value) {
+                searchText = value;
+                filterCards(searchText);
+                            },
+                            decoration: InputDecoration(
+                hintText: 'Search...',
+                border: InputBorder.none,
+                            ),
+                            style: TextStyle(
+                fontFamily: "Roboto",
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Color(0xff000000),
+                height: 23 / 16,
+                            ),
+                          ),
+              )
+              : Semantics(
+                child: Text(
+                            "Schedule Search",
+                            style: const TextStyle(
+                fontFamily: "Roboto",
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Color(0xff000000),
+                height: 23 / 16,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+              ),
           actions: [
             IconButton(
-              icon: Icon(isSearching ? Icons.close : Icons.search),
+              icon: Semantics(
+                label: isSearching ? "Close" : "Search",
+                  child: Icon(isSearching ? Icons.close : Icons.search)),
               onPressed: toggleSearch, // Toggle search mode
             ),
           ],

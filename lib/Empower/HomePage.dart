@@ -39,10 +39,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>{
   List<CarouselImages> carouselImages = [];
   List<String> images = [
-    'https://www.empower24.in/img/pitch.png'
+    //'https://www.empower24.in/img/pitch.png'
   ];
   List<String> imagesSemantic = [
-    'Corousal Image'
+    // 'Corousal Image'
   ];
   Future<void> _refreshPage() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -112,6 +112,7 @@ class _HomePageState extends State<HomePage>{
     setState(() {
       carouselImages.forEach((current){
         images.add("https://maps.iwayplus.in/uploads/${current.filename}");
+        imagesSemantic.add(current.description??"");
       });
     });
 
@@ -132,19 +133,13 @@ class _HomePageState extends State<HomePage>{
             children: [
               Row(
                 children: [
-                  Semantics(
-                    // onTap: (){
-                    //   Navigator.push(context, MaterialPageRoute(builder: (context)=> DisabilityFormScreen()));
-                    // },
-                    label: "Empower 2024",
-                    child: Container(
-                        margin: EdgeInsets.only(top: 20,left: 20,bottom: 10),
-                        child: Semantics(
-                            label: "Empower 2024",
-                            excludeSemantics: true,
-                            child: Image.asset("assets/download.png",scale:2,)
-                        )
-                    ),
+                  Container(
+                      margin: EdgeInsets.only(top: 20,left: 20,bottom: 10),
+                      child: Semantics(
+                          label: "Empower 2024",
+                          excludeSemantics: true,
+                          child: Image.asset("assets/download.png",scale:2,)
+                      )
                   ),
                   Spacer(),
                   Semantics(
@@ -152,20 +147,38 @@ class _HomePageState extends State<HomePage>{
                     excludeSemantics: true,
                     child: Container(
                       margin: EdgeInsets.only(right: 20),
-                      child: IconButton(
-                        icon: Icon(Icons.notifications_none_outlined),
-                        color: Color(0xff18181b),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NotificationScreen(),
+                      child: Stack(
+                        clipBehavior: Clip.none, // Allows the dot to overflow the bounds of the icon
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.notifications_none_outlined),
+                            color: Color(0xff18181b),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NotificationScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          Positioned(
+                            right: 15, // Position the dot horizontally
+                            top: 15,   // Position the dot vertically
+                            child: Container(
+                              width: 8,  // Adjust the size of the dot
+                              height: 8, // Adjust the size of the dot
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
                     ),
                   ),
+
                 ],
               ),
 
