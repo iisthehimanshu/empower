@@ -326,6 +326,7 @@ class _IndivisualExhibitorState extends State<IndivisualExhibitor> {
                       ],
                     ),
                   ):Container(),
+                  SizedBox(height: 12,)
                 ],
               ),
             ),

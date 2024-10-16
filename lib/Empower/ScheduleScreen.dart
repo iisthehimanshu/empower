@@ -3,11 +3,13 @@ import 'dart:collection';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:empower/Empower/Elements/MainScreenController.dart';
 import 'package:empower/Empower/MainScreen.dart';
+import 'package:empower/Navigation/Elements/HelperClass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../Navigation/API/slackApi.dart';
 import 'API/ScheduleAPI.dart';
 import 'APIModel/CardData.dart';
 import 'APIModel/Schedulemodel.dart';
@@ -60,6 +62,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   }
 
   void getThemes(ScheduleModel schedule){
+
     if(schedule.themesAndSessions != null){
       List<ThemesAndSessions> themeAndSession = schedule.themesAndSessions!;
       HashSet<String> eventsWithThemes = HashSet(); // To track events that are part of a theme
@@ -69,15 +72,28 @@ class _ScheduleScreenState extends State<ScheduleScreen>
         List<Widget> themenEvents = [];
 
         if (currentTheme.eventIds != null) {
+          List<CardData> matchedEvents = [];
+
           currentTheme.eventIds!.forEach((eventId) {
             schedule.data!.forEach((event) {
               if (event.sId == eventId) {
-                themenEvents.add(card(event));
+                matchedEvents.add(event);
                 eventsWithThemes.add(event.sId!); // Add event ID to the set
               }
             });
           });
+
+          // Sort events based on startTime
+          matchedEvents.sort((a, b) {
+            return a.startTime!.compareTo(b.startTime!);
+          });
+
+          // Add sorted events to themenEvents
+          matchedEvents.forEach((event) {
+            themenEvents.add(card(event));
+          });
         }
+
 
         themeMap[currentTheme.themeName!] = themenEvents;
         DateTime themeDate = DateTime.parse(currentTheme.dates![0]);
@@ -128,30 +144,8 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   }
 
   void populateCards(ScheduleModel schedule) {
+
     if (schedule.data != null) {
-      schedule.data!.sort((a, b) {
-        DateTime dateA = DateTime.parse(a.eventDate!);
-        DateTime dateB = DateTime.parse(b.eventDate!);
-
-        // If the eventDate is the same, compare the startTime
-        if (dateA.compareTo(dateB) == 0) {
-          // Compare start times if eventDate is the same
-          TimeOfDay timeA = TimeOfDay(
-            hour: int.parse(a.startTime!.split(':')[0]),
-            minute: int.parse(a.startTime!.split(':')[1]),
-          );
-          TimeOfDay timeB = TimeOfDay(
-            hour: int.parse(b.startTime!.split(':')[0]),
-            minute: int.parse(b.startTime!.split(':')[1]),
-          );
-          return timeA.hour == timeB.hour
-              ? timeA.minute.compareTo(timeB.minute)
-              : timeA.hour.compareTo(timeB.hour);
-        }
-
-        // Compare event dates
-        return dateA.compareTo(dateB);
-      });
       for (CardData event in schedule.data!) {
         DateTime eventDate = DateTime.parse(event.eventDate!);
         cards.putIfAbsent(eventDate, () => []);
@@ -165,7 +159,6 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
   void filterCardsForDay(int selectedIndex) {
     DateTime selectedDay = days[selectedIndex];
-
     setState(() {
       if(finalMap[selectedDay] != null) {
         currentMap = finalMap[selectedDay]!;
@@ -175,12 +168,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
           ..sort((a, b) {
             // Extract numbers from the theme names and sort based on that
             Map<String, Object> extractNumber(String themeName) {
-              List<ThemesAndSessions> themes = schedule!.themesAndSessions!.where((e)=> e.themeName == themeName).toList();
+              List<ThemesAndSessions> themes = schedule!.themesAndSessions!.where((e)=> (e.themeName == themeName && e.dates != null && e.dates!.isNotEmpty && e.dates!.first == selectedDay.toString().split(" ")[0])).toList();
               String t = "";
               int time = 0;
               if(themes.isNotEmpty && themes.first.times != null && themes.first.times!.isNotEmpty){
                 ThemesAndSessions theme = themes.first;
                 t = theme.times!.first;
+                print("debug schedule ${theme.themeName} ${theme.times}");
                 time = int.parse(t.split(':')[0]);
               }
               final match = RegExp(r'\d+').firstMatch(themeName);
@@ -193,8 +187,6 @@ class _ScheduleScreenState extends State<ScheduleScreen>
             }
             return aMap["time"].compareTo(bMap["time"]);
           });
-
-        print("sortedKeys $sortedKeys");
 
         // Update state variable 'keys' with sorted list
         Sortedkeys = sortedKeys;
@@ -313,7 +305,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                                       return Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          key == "Open Events"?Container():Container(
+                                          (key.contains("Open Events") || key.contains("Break"))?Container():Container(
                                             padding: const EdgeInsets.all(8.0),
                                             margin: EdgeInsets.only(top: 10),
                                             decoration: BoxDecoration(

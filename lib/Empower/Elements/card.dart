@@ -90,7 +90,7 @@ class card extends StatelessWidget {
     return GestureDetector(
       onTap: ()
     {
-      if (!data.eventName!.contains("Lunch")) {
+      if (!data.eventName!.contains("Break")) {
         if(openInDialoge){
           showDialog(
             context: context,
@@ -155,7 +155,7 @@ class card extends StatelessWidget {
 
     }
       },
-      child: data.eventName!.contains("Lunch")?
+      child: data.eventName!.contains("Break")?
       Container(height: 121,
         width: screenWidth,
         margin: EdgeInsets.only(top: 16),

@@ -6232,10 +6232,19 @@ cachedPolygon.clear();
     List<Widget> events = [];
     if(schedule != null && schedule!.groupedDataByVenue != null && schedule!.groupedDataByVenue![SingletonFunctionController.building.selectedLandmarkID] != null){
       schedule!.groupedDataByVenue![SingletonFunctionController.building.selectedLandmarkID]!.forEach((cardData){
-        events.add(Padding(
-          padding: const EdgeInsets.only(left:12,right:12),
-          child: card(cardData, openInDialoge: true,hideDirectionButton: true,),
-        ));
+        DateTime today = DateTime.now();
+        DateTime dateToCheck = DateTime.parse(cardData.eventDate!);
+
+        // Check if the date is today
+        bool isToday = dateToCheck.year == today.year &&
+            dateToCheck.month == today.month &&
+            dateToCheck.day == today.day;
+        if(isToday){
+          events.add(Padding(
+            padding: const EdgeInsets.only(left:12,right:12),
+            child: card(cardData, openInDialoge: true,hideDirectionButton: true,),
+          ));
+        }
       });
     }
 

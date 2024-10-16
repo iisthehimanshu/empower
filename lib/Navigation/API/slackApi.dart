@@ -4,9 +4,9 @@ import 'package:http/http.dart' as http;
 // Replace with your Slack webhook URL
 const String slackWebhookUrl = 'https://hooks.slack.com/services/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';
 
-void sendErrorToSlack(String error, StackTrace? stackTrace) async {
+void sendErrorToSlack(dynamic error, StackTrace? stackTrace) async {
   final message = {
-    'text': 'An error occurred in Iwaymaps: $error\n\nStackTrace:\n$stackTrace\n\n\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++',
+    'text': error,
   };
 
   final response = await http.post(
