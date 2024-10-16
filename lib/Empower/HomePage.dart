@@ -7,6 +7,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:empower/Empower/APIModel/ConferenceAllAPIModel.dart';
 import 'package:empower/Empower/CommiteeScreen.dart';
 import 'package:empower/Empower/SpeakerScreen.dart';
+import 'package:empower/Empower/websocket/NotifIcationSocket.dart';
+import 'package:empower/Empower/websocket/UserLog.dart';
 import 'package:empower/Navigation/Elements/HelperClass.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,6 @@ import 'package:intl/intl.dart';
 import '../Navigation/API/buildingAllApi.dart';
 import '../Navigation/Navigation.dart';
 import '../Navigation/singletonClass.dart';
-import '../Navigation/websocket/NotifIcationSocket.dart';
 import 'API/ConferenceAllAPI.dart';
 import 'API/ScheduleAPI.dart';
 import 'NotificationScreen.dart';
@@ -64,6 +65,9 @@ class _HomePageState extends State<HomePage>{
   void initState() {
     super.initState();
     NotificationSocket.receiveMessage();
+    wsocket.message["AppInitialization"]["BID"]="66f3dd94da553117a972caab";
+    wsocket.message["AppInitialization"]["buildingName"]="NISH";
+
     fetchEventData();
     SingletonFunctionController().executeFunction(buildingAllApi.allBuildingID);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);

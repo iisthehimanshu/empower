@@ -143,6 +143,7 @@ class _SettingScreenState extends State<SettingScreen> {
         _updateAvailable = status != null && status.canUpdate;
         _checkingForUpdate = false;
       });
+
     } catch (e) {
       print('Error checking for updates: $e');
       setState(() {

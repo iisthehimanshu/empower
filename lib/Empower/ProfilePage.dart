@@ -157,6 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
     await Hive.box('SignInDatabase').clear();
     await Hive.box('LocationPermission').clear();
     await Hive.box('VersionData').clear();
+
   }
 
   Future<void> refreshTokenAndRetryForGetUserDetails(String baseUrl) async {
