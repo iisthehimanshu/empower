@@ -367,8 +367,8 @@ class _SettingScreenState extends State<SettingScreen> {
                         onTap: () async {
                           final url = Theme.of(context).platform ==
                               TargetPlatform.iOS
-                              ? 'https://apps.apple.com/in/app/accessible-ashoka/id6553976574'
-                              : 'https://play.google.com/store/apps/details?id=com.iwayplus.accessibleashoka';
+                              ? 'https://apps.apple.com/in/app/empower-2024/id6736653512'
+                              : 'https://play.google.com/store/apps/details?id=com.iwayplus.empower24';
                           if (await canLaunch(url)) {
                             await launch(url);
                           } else {
