@@ -104,7 +104,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late AppLinks _appLinks;
-  wsocket soc = wsocket('com.iwaypus.empower');
+  wsocket soc = wsocket('com.iwayplus.empower');
   final FlutterLocalization localization = FlutterLocalization.instance;
   void ontranslatedLanguage(Locale? locale){
     setState(() {

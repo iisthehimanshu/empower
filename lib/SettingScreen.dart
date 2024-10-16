@@ -130,7 +130,7 @@ class _SettingScreenState extends State<SettingScreen> {
   String? currentVersion = "";
   Future<void> checkForUpdate() async {
     final newVersion = NewVersionPlus(
-      androidId: 'com.iwayplus.empower24',
+      androidId: 'com.iwayplus.empower',
       iOSId: 'com.iwayplus.empower',
     );
 
@@ -369,7 +369,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           final url = Theme.of(context).platform ==
                               TargetPlatform.iOS
                               ? 'https://apps.apple.com/in/app/empower-2024/id6736653512'
-                              : 'https://play.google.com/store/apps/details?id=com.iwayplus.empower24';
+                              : 'https://play.google.com/store/apps/details?id=com.iwayplus.empower';
                           if (await canLaunch(url)) {
                             await launch(url);
                           } else {

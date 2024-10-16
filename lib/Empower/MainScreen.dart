@@ -128,6 +128,7 @@ class _MainScreenState extends State<MainScreen> {
       PolyLineBox.clear();
       WayPointBox.clear();
       OutBuildingBox.clear();
+      print("clearedafterupdate");
 
 
 
