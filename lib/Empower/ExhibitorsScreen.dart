@@ -194,7 +194,7 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                         onTap: (){
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => IndivisualExhibitor(name: exhibitor.companyName??"", designation: exhibitor.website??"", description: exhibitor.about??"", fromCommiteePage: false, fileName: exhibitor.filename, linkedin: exhibitor.linkedIn, venueId: exhibitor.venueId,)
+                            MaterialPageRoute(builder: (context) => IndivisualExhibitor(name: exhibitor.companyName??"", designation: exhibitor.website??"", description: exhibitor.about??"", fromCommiteePage: false, fileName: exhibitor.filename, linkedin: exhibitor.linkedIn, venueId: exhibitor.venueId, exhibitor: exhibitor,)
                           ));
                         },
                         child: Padding(
