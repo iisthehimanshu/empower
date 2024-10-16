@@ -13,7 +13,7 @@ class SignUpAPI{
       "name": name,
       "password": password,
       "otp": OTP,
-      "appId":"com.iwayplus.empower"
+      "appId":"com.iwayplus.empower24"
     };
 
     final response = await http.post(

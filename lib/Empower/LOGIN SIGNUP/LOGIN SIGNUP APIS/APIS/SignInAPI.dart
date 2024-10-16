@@ -19,7 +19,7 @@ class SignInAPI{
     final Map<String, dynamic> data = {
       "username": username,
       "password": password,
-      "appId":"com.iwayplus.empower"
+      "appId":"com.iwayplus.empower24"
     };
 
     final response = await http.post(
@@ -84,7 +84,7 @@ class SignInAPI{
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
         'POST', Uri.parse('https://maps.iwayplus.in/auth/otp/username'));
-    request.body = json.encode({"username": "${user}", "digits":4,"appId":"com.iwayplus.empower"});
+    request.body = json.encode({"username": "${user}", "digits":4,"appId":"com.iwayplus.empower24"});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -108,7 +108,7 @@ class SignInAPI{
       "username": "$user",
       "password": "$pass",
       "otp": "$otp",
-      "appId":"com.iwayplus.empower"
+      "appId":"com.iwayplus.empower24"
 
     });
     request.headers.addAll(headers);

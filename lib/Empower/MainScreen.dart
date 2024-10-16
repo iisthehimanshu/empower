@@ -84,8 +84,8 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> checkForUpdate() async {
     final newVersion = NewVersionPlus(
-      androidId: 'com.iwayplus.empower',
-      iOSId: 'com.iwayplus.empower',
+      androidId: 'com.iwayplus.empower24',
+      iOSId: 'com.iwayplus.empower24',
     );
 
     try {
