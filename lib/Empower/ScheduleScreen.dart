@@ -63,7 +63,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
   void getThemes(ScheduleModel schedule){
 
-    if(schedule.data != null){
+    if (schedule.data != null) {
       schedule.data!.sort((a, b) {
         DateTime dateA = DateTime.parse(a.eventDate!);
         DateTime dateB = DateTime.parse(b.eventDate!);
@@ -79,6 +79,28 @@ class _ScheduleScreenState extends State<ScheduleScreen>
             hour: int.parse(b.startTime!.split(':')[0]),
             minute: int.parse(b.startTime!.split(':')[1]),
           );
+
+          if (timeA.hour == timeB.hour && timeA.minute == timeB.minute) {
+            // If both time and date are same, compare event names
+            RegExp sessionPattern = RegExp(r'(\d+)([A-Z])');
+
+            Match? matchA = sessionPattern.firstMatch(a.eventName!);
+            Match? matchB = sessionPattern.firstMatch(b.eventName!);
+
+            if (matchA != null && matchB != null) {
+              // Compare the numeric part first
+              int sessionNumA = int.parse(matchA.group(1)!);
+              int sessionNumB = int.parse(matchB.group(1)!);
+
+              if (sessionNumA == sessionNumB) {
+                // If numeric parts are the same, compare the alphabet part
+                return matchA.group(2)!.compareTo(matchB.group(2)!);
+              }
+              return sessionNumA.compareTo(sessionNumB);
+            }
+          }
+
+          // Compare the hour or minute if not equal
           return timeA.hour == timeB.hour
               ? timeA.minute.compareTo(timeB.minute)
               : timeA.hour.compareTo(timeB.hour);
@@ -88,6 +110,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
         return dateA.compareTo(dateB);
       });
     }
+
 
     if(schedule.themesAndSessions != null){
       List<ThemesAndSessions> themeAndSession = schedule.themesAndSessions!;

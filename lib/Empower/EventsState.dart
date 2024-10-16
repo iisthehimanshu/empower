@@ -17,7 +17,7 @@ class Eventsstate{
   static checkForUpdate()async{
     var s = await fetchSchedule();
     if(s != null){
-      if(DateTime.parse(s.timeFetchedat!).difference(DateTime.now()).inMinutes.abs() >= 15){
+      if(s.timeFetchedat == null || DateTime.parse(s.timeFetchedat!).difference(DateTime.now()).inMinutes.abs() >= 15){
         schedule = await ScheduleAPI.fetchschedule(fetchFromInternet: true);
         schedule = null;
       }

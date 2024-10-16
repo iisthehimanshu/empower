@@ -46,6 +46,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
             localname = item.name!;
             localdesignation = item.designation!;
             localdescription = item.about!;
+            widget.fileName = item.filename;
           }
         }
       }
