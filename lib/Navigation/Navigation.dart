@@ -10,6 +10,8 @@ import 'dart:ui';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import '../Empower/APIModel/Schedulemodel.dart';
+import '../Empower/Elements/card.dart';
+import '../Empower/EventsState.dart';
 import '../Empower/websocket/UserLog.dart';
 import '../Navigation/singletonClass.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
@@ -3349,6 +3351,11 @@ double? minDistance;
   SingletonFunctionController controller = SingletonFunctionController();
   void apiCalls(context) async {
     try{
+      schedule = await Eventsstate.fetchSchedule();
+    }catch(e){
+      print("error while fetching schedule in navigation $e");
+    }
+    try{
     await DataVersionApi()
         .fetchDataVersionApiData(buildingAllApi.selectedBuildingID);
     }catch(e){
@@ -6222,8 +6229,15 @@ cachedPolygon.clear();
             .url !=
             null));
 
-    const List<Widget> events = [];
-
+    List<Widget> events = [];
+    if(schedule != null && schedule!.groupedDataByVenue != null && schedule!.groupedDataByVenue![SingletonFunctionController.building.selectedLandmarkID] != null){
+      schedule!.groupedDataByVenue![SingletonFunctionController.building.selectedLandmarkID]!.forEach((cardData){
+        events.add(Padding(
+          padding: const EdgeInsets.only(left:12,right:12),
+          child: card(cardData, openInDialoge: true,hideDirectionButton: true,),
+        ));
+      });
+    }
 
     return Stack(
       children: [
@@ -6337,13 +6351,13 @@ cachedPolygon.clear();
             ),
           ],
           minHeight:  startTime? 220:185,
-          maxHeight: contactDetail&&microService?0.73:(contactDetail
+          maxHeight: events.isNotEmpty?screenHeight:(contactDetail&&microService?0.73:(contactDetail
               ? (screenHeight * 0.45)
               : (microService
               ? (screenHeight * 0.28)
               : (startTime
               ? 220
-              : 185)))
+              : 185))))
           ,
           snapPoint: 0.6,
           panel: () {
@@ -6898,7 +6912,7 @@ cachedPolygon.clear();
                           ],
                         ),
                       ) : Container(),
-                      Semantics(
+                      events.isNotEmpty?Semantics(
                         label: "Events Happening Here",
                         excludeSemantics: true,
                         child: Container(
@@ -6915,8 +6929,8 @@ cachedPolygon.clear();
                             textAlign: TextAlign.left,
                           ),
                         ),
-                      ),
-
+                      ):Container(),
+                      Column(children: events,)
 
                     ],
                   ),
