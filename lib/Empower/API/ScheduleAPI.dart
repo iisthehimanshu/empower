@@ -91,6 +91,7 @@ class ScheduleAPI {
     if (response.statusCode == 200) {
       print("SCHEDULE DATA FROM API ");
       Map<String, dynamic> responseBody = json.decode(response.body);
+      responseBody["timeFetchedat"] = DateTime.now().toString();
 
       final scheduleData = ScheduleApiModel(responseBody: responseBody);
       ScheduleBox.put("66f3dd94da553117a972caab", scheduleData);

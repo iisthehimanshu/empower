@@ -63,6 +63,32 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
   void getThemes(ScheduleModel schedule){
 
+    if(schedule.data != null){
+      schedule.data!.sort((a, b) {
+        DateTime dateA = DateTime.parse(a.eventDate!);
+        DateTime dateB = DateTime.parse(b.eventDate!);
+
+        // If the eventDate is the same, compare the startTime
+        if (dateA.compareTo(dateB) == 0) {
+          // Compare start times if eventDate is the same
+          TimeOfDay timeA = TimeOfDay(
+            hour: int.parse(a.startTime!.split(':')[0]),
+            minute: int.parse(a.startTime!.split(':')[1]),
+          );
+          TimeOfDay timeB = TimeOfDay(
+            hour: int.parse(b.startTime!.split(':')[0]),
+            minute: int.parse(b.startTime!.split(':')[1]),
+          );
+          return timeA.hour == timeB.hour
+              ? timeA.minute.compareTo(timeB.minute)
+              : timeA.hour.compareTo(timeB.hour);
+        }
+
+        // Compare event dates
+        return dateA.compareTo(dateB);
+      });
+    }
+
     if(schedule.themesAndSessions != null){
       List<ThemesAndSessions> themeAndSession = schedule.themesAndSessions!;
       HashSet<String> eventsWithThemes = HashSet(); // To track events that are part of a theme
@@ -208,6 +234,14 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
     if (connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi)) {
       await ScheduleAPI.fetchschedule(fetchFromInternet: true);
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) => ScheduleScreen(),
+          transitionDuration: Duration(milliseconds: 500), // No animation
+        ),
+      );
+
     }
   }
 
@@ -304,36 +338,49 @@ class _ScheduleScreenState extends State<ScheduleScreen>
                                     itemBuilder: (context, index) {
                                       String key = Sortedkeys[index];  // Use the sorted keys
                                       List<Widget> widgets = currentMap[key] ?? []; // Get the widgets for the current key
-                    
+
                                       return Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          (key.contains("Open Events") || key.contains("Break"))?Container():Container(
-                                            padding: const EdgeInsets.all(8.0),
-                                            margin: EdgeInsets.only(top: 10),
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffEBEBEB),
-                                              border: Border.all(color: Color(0xff777777), width: 0.5),
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            child: Text(
-                                              key,  // Render the sorted key (theme name)
-                                              style: const TextStyle(
-                                                fontFamily: "Roboto",
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff000000),
-                                                height: 23/16,
+                                          // If the key contains "Open Events" or "Break", just display the widgets without any heading
+                                          (key.contains("Open Events") || key.contains("BREAK"))
+                                              ? Column(
+                                            children: widgets,  // Directly render the list of widgets under the key
+                                          )
+                                              : ExpansionTile(
+                                            tilePadding: EdgeInsets.zero,
+                                            childrenPadding: EdgeInsets.zero,
+                                            initiallyExpanded: false,
+                                            title: Container(
+                                              padding: const EdgeInsets.all(8.0),
+                                              margin: const EdgeInsets.only(top: 10),
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xffEBEBEB),
+                                                border: Border.all(color: const Color(0xff777777), width: 0.5),
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: Text(
+                                                key,  // Render the sorted key (theme name)
+                                                style: const TextStyle(
+                                                  fontFamily: "Roboto",
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color(0xff000000),
+                                                  height: 23 / 16,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Column(
-                                            children: widgets, // Render the list of widgets under the key
+                                            children: [
+                                              Column(
+                                                children: widgets, // Render the list of widgets under the key
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       );
                                     },
-                                  ),
+                                  )
+                                  ,
                                 ),
                               ),
                             ],

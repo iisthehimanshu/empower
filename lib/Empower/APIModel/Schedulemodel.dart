@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'CardData.dart';
 
 class ScheduleModel {
+  String? timeFetchedat;
   List<CardData>? data;
   bool? status;
   List<Speakers>? speakers;
@@ -13,10 +14,11 @@ class ScheduleModel {
   Map<String,List<CardData>>? groupedDataByVenue;
 
 
-  ScheduleModel({this.data, this.status, this.speakers, this.commiteeMembers,this.themesAndSessions,this.organizationTeam,
+  ScheduleModel({this.timeFetchedat,this.data, this.status, this.speakers, this.commiteeMembers,this.themesAndSessions,this.organizationTeam,
     this.exhibitors, this.groupedDataByVenue});
 
   ScheduleModel.fromJson(Map<dynamic, dynamic> json) {
+    timeFetchedat = json['timeFetchedat'];
     if (json['data'] != null) {
       data = <CardData>[];
       json['data'].forEach((v) {
@@ -55,6 +57,7 @@ class ScheduleModel {
 
   Map<dynamic, dynamic> toJson() {
     final Map<dynamic, dynamic> data = <dynamic, dynamic>{};
+    data['timeFetchedat'] = this.timeFetchedat;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }

@@ -12,6 +12,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
+import 'Empower/EventsState.dart';
 import 'Empower/LOGIN SIGNUP/SignIn.dart';
 import 'Empower/MainScreen.dart';
 import 'Empower/websocket/NotifIcationSocket.dart';
@@ -120,6 +121,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     configureLocalization();
+    Eventsstate.checkForUpdate();
     super.initState();
   }
 
