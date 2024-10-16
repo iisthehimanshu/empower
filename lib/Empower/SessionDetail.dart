@@ -889,8 +889,9 @@ class SessionDetailState extends State<SessionDetail> {
                                 // ):
                                 GestureDetector(
                                   onTap: () {
-                                    if (widget.speakerID! != "" ||
-                                        widget.speakerID! != null) {
+                                    print("widget.speakerI");
+                                    print(widget.speakerID);
+                                    if (widget.speakerID != "" && widget.speakerID != null) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -904,6 +905,9 @@ class SessionDetailState extends State<SessionDetail> {
                                                         widget.speakerID!,
                                                     fileName: null,
                                                   )));
+                                    }else{
+
+
                                     }
                                   },
                                   child: Container(

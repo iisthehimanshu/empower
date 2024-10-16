@@ -24,7 +24,7 @@ class LocalNotificationAPI{
   Future<List<NotificationsInLocalNotificationModule>> getNotifications()async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     bool deviceConnected = false;
-    print("connectivityResult");
+
     if(connectivityResult.contains(ConnectivityResult.mobile)){
       deviceConnected = true;
     }else if(connectivityResult.contains(ConnectivityResult.wifi) ){

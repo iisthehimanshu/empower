@@ -6,20 +6,21 @@ import 'APIModel/CardData.dart';
 import 'APIModel/Schedulemodel.dart';
 import 'SessionDetail.dart';
 
-class SpeakerProfileScreen extends StatefulWidget {
+class CommiteeProfileScreen extends StatefulWidget {
   String name;
   String designation;
   String description;
   bool fromCommiteePage;
   String speakerID;
   String? fileName;
-  SpeakerProfileScreen({required this.name,required this.designation,required this.description,required this.fromCommiteePage,required this.fileName,this.speakerID= ''});
+
+  CommiteeProfileScreen({required this.name,required this.designation,required this.description,required this.fromCommiteePage,required this.fileName,required this.speakerID});
 
   @override
-  State<SpeakerProfileScreen> createState() => _SpeakerProfileScreenState();
+  State<CommiteeProfileScreen> createState() => _CommiteeProfileScreenState();
 }
 
-class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
+class _CommiteeProfileScreenState extends State<CommiteeProfileScreen> {
   ScheduleModel? schedule;
   bool isLoading = true;
   List<CardData> speakerEventList = [];
@@ -41,7 +42,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
       });
       if(widget.speakerID!=""){
         print("YESSSSSSSSSS");
-        for (var item in schedule!.speakers!) {
+        for (var item in schedule!.commiteeMembers!) {
           if(item.sId == widget.speakerID){
             localname = item.name!;
             localdesignation = item.designation!;
@@ -58,14 +59,11 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
   void makerSpeakerList(ScheduleModel schedule) {
     if (schedule.data != null) {
       for (var item in schedule.data!) {
-        if(widget.speakerID!=""){
-          if (item.speakerName == localname) {
-            speakerEventList.add(item);
-          }
-        }else {
-          if (item.speakerName == widget.name) {
-            speakerEventList.add(item);
-          }
+
+        if (item.speakerName == localname) {
+          print("EventsComet");
+          print(item.sId);
+          speakerEventList.add(item);
         }
       }
     }
@@ -94,7 +92,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
         ), // Set your desired background color
         title: Container(
           child: Text(
-            (widget.fromCommiteePage)?'Committee Profile':'Speaker Profile',
+            'Committee Profile',
             style: TextStyle(
               fontFamily: 'Roboto',
               fontSize: 16,
@@ -158,11 +156,11 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    widget.speakerID!=""? localname : widget.name,
+                    widget.name,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    widget.speakerID!=""? localdesignation : widget.designation,
+                    widget.designation,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
@@ -187,7 +185,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
             Container(
               margin: EdgeInsets.only(left: 20, top: 20, right: 20),
               child: Text(
-                widget.speakerID!=""? localdescription : widget.description,
+                widget.description,
                 style: const TextStyle(
                   fontFamily: "Roboto",
                   fontSize: 16,
@@ -211,7 +209,7 @@ class _SpeakerProfileScreenState extends State<SpeakerProfileScreen> {
                     onTap: (){
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context)=>SessionDetail(title: speaker.eventName??"", date: speaker.eventDate??"", startDate: "", endDate: "", time: speaker.startTime??"", loc: speaker.venueName??"", hash: [""], seats: "", eventid: speaker.sId??"", category: speaker.categories??"", subevents: speaker.subEvents?? <dynamic>[]
-                            , filename: speaker.filename??"", eventType: speaker.eventType??"", bookingType: speaker.bookingType??"", description:speaker.eventDetails, moderator: speaker.moderator??"",speakerName: speaker.speakerName,speakerID: speaker.speakerId,dataForHiveStorageAndFurtherUse: speaker, venueId: speaker.venueId,))
+                            , filename: speaker.filename??"", eventType: speaker.eventType??"", bookingType: speaker.bookingType??"", description:speaker.eventDetails, moderator: speaker.moderator??"",speakerName: speaker.speakerName,speakerID: speaker.sId,dataForHiveStorageAndFurtherUse: speaker, venueId: speaker.venueId,))
                       );
 
                     },

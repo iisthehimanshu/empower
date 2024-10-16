@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 import '../Navigation/API/LocalNotificationAPI.dart';
@@ -33,6 +34,17 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
+  Future<void> _refreshPage() async {
+    notificationsList = await LocalNotificationAPI().getNotifications();
+    setState(() {});
+    // var connectivityResult = await (Connectivity().checkConnectivity());
+    // print("Connectivity Result: $connectivityResult");
+    //
+    // if (connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi)) {
+    //
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,13 +73,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
       ),
 
 
-      body: Container(
-        height: MediaQuery.of(context).size.height * 0.9,
-        child: isLoading
-            ? Center(child: CircularProgressIndicator(color: Colors.teal,))
-            : notificationsList.isEmpty
-            ? _buildEmptyNotificationView()
-            : _buildNotificationList(),
+      body: RefreshIndicator(
+        onRefresh: _refreshPage,
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: isLoading
+              ? Center(child: CircularProgressIndicator(color: Colors.teal,))
+              : notificationsList.isEmpty
+              ? _buildEmptyNotificationView()
+              : _buildNotificationList(),
+        ),
       ),
     );
   }

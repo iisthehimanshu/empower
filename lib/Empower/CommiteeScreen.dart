@@ -6,6 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'API/ScheduleAPI.dart';
 import 'APIModel/Schedulemodel.dart';
+import 'CommiteeProfileScreen.dart';
 import 'SpeakerProfileScreen.dart';
 
 class Commiteescreen extends StatefulWidget {
@@ -186,7 +187,7 @@ class _CommiteescreenState extends State<Commiteescreen> {
                       onTap: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SpeakerProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,description: speakerDataList[index].about!, fromCommiteePage: true, fileName: speakerDataList[index].filename,)),
+                          MaterialPageRoute(builder: (context) => CommiteeProfileScreen(name: speakerDataList[index].name!,designation: speakerDataList[index].designation!,description: speakerDataList[index].about!, fromCommiteePage: true, fileName: speakerDataList[index].filename,speakerID: speakerDataList[index].sId!,)),
                         );
                       },
                       child: Container(

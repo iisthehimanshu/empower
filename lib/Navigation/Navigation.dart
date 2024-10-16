@@ -3346,11 +3346,13 @@ double? minDistance;
 
   SingletonFunctionController controller = SingletonFunctionController();
   void apiCalls(context) async {
+    print("apiCallsprint");
+
     try{
-    await DataVersionApi()
-        .fetchDataVersionApiData(buildingAllApi.selectedBuildingID);
+      await DataVersionApi()
+          .fetchDataVersionApiData(buildingAllApi.selectedBuildingID);
     }catch(e){
-      print(" APICALLS DataVersionApi API TRY-CATCH");
+      print("APICALLS DataVersionApi API TRY-CATCH");
     }
     _updateProgress();
     print("apicalls testing 1");
@@ -3538,7 +3540,9 @@ double? minDistance;
       if (key != buildingAllApi.getSelectedBuildingID()) {
         try {
           await DataVersionApi().fetchDataVersionApiData(key);
-        } catch (e) {}
+        } catch (e) {
+          print("DataVersionApi catch ");
+        }
         print("apicalls testing 3 for $key");
         var patchData = await patchAPI().fetchPatchData(id: key);
         Building.buildingData ??= Map();
