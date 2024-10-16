@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_links/app_links.dart';
 import 'package:empower/Empower/DATABASE/DATABASEMODEL/ConferenceAllDataBaseModel.dart';
 import 'package:empower/Empower/DATABASE/DATABASEMODEL/ScheduleApiModel.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,6 +29,7 @@ import 'Navigation/DATABASE/DATABASEMODEL/PatchAPIModel.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/PolyLineAPIModel.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/SignINAPIModel.dart';
 import 'Navigation/DATABASE/DATABASEMODEL/WayPointModel.dart';
+import 'Navigation/Elements/deeplinks.dart';
 import 'Navigation/Elements/locales.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -101,7 +103,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
+  late AppLinks _appLinks;
   wsocket soc = wsocket('com.iwaypus.empower');
   final FlutterLocalization localization = FlutterLocalization.instance;
   void ontranslatedLanguage(Locale? locale){
@@ -119,6 +121,14 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     configureLocalization();
     super.initState();
+  }
+
+  void _initDeepLinkListener(BuildContext c) async {
+    _appLinks = AppLinks();
+    _appLinks.uriLinkStream.listen((Uri? uri) {
+      print("URI ${uri.toString()}");
+      Deeplink.deeplinkConditions(uri, c);
+    });
   }
 
   @override

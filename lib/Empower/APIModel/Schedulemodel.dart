@@ -10,10 +10,11 @@ class ScheduleModel {
   List<ThemesAndSessions>? themesAndSessions;
   List<String>? organizationTeam;
   List<Exhibitors>? exhibitors;
+  Map<String,List<CardData>>? groupedDataByVenue;
 
 
   ScheduleModel({this.data, this.status, this.speakers, this.commiteeMembers,this.themesAndSessions,this.organizationTeam,
-    this.exhibitors});
+    this.exhibitors, this.groupedDataByVenue});
 
   ScheduleModel.fromJson(Map<dynamic, dynamic> json) {
     if (json['data'] != null) {
@@ -21,6 +22,7 @@ class ScheduleModel {
       json['data'].forEach((v) {
         data!.add(CardData.fromJson(v));
       });
+      groupedDataByVenue = groupByVenueId(data!);
     }
     status = json['status'];
     if (json['speakers'] != null) {
@@ -73,6 +75,27 @@ class ScheduleModel {
     }
     return data;
   }
+
+  Map<String, List<CardData>> groupByVenueId(List<CardData> cardDataList) {
+    Map<String, List<CardData>> venueMap = {};
+
+    for (var cardData in cardDataList) {
+      // Check if the venueId exists in the map
+      if (cardData.venueId != null) {
+        if (venueMap.containsKey(cardData.venueId)) {
+          // If venueId already exists, add the card to the list
+          venueMap[cardData.venueId]!.add(cardData);
+        } else {
+          // If venueId doesn't exist, create a new list with this card
+          venueMap[cardData.venueId!] = [cardData];
+        }
+      }
+    }
+
+    return venueMap;
+  }
+
+
 }
 
 class Speakers {

@@ -94,7 +94,28 @@ class _MyScheduleScreenState extends State<MyScheduleScreen>{
             color: Color(0xffB2EFE4),
             size: screenHeight*0.18,
           ),// Show a loader
-        ) : Column(
+        ) : bookmarkedListWidget.isEmpty?Container(
+          height: screenHeight,
+          width: screenWidth,
+          color: Colors.white,
+          child: Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/noFavourite.png',
+                width: 150,
+                height: 150,
+              ),
+              Text("No Favorites Yet",style: TextStyle(
+                color: Color(0xFF18181B),
+                fontSize: 18,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+              ),)
+            ],
+          ),),
+        ):Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(

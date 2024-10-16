@@ -9,6 +9,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:geolocator/geolocator.dart';
+import '../Empower/APIModel/Schedulemodel.dart';
 import '../Empower/websocket/UserLog.dart';
 import '../Navigation/singletonClass.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
@@ -182,6 +183,7 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
   pac.PriorityQueue<MapEntry<String, double>> debugPQ = new pac.PriorityQueue();
   late final Uint8List userloc;
   late final Uint8List userlocdebug;
+  static ScheduleModel? schedule;
 
   // HashMap<String, beacon> SingletonFunctionController.apibeaconmap = HashMap();
   late FlutterTts flutterTts;
@@ -3647,6 +3649,7 @@ double? minDistance;
       print("apicalls testing 15");
     }
 
+
   }
 
   final DataVersionLocalModelBox = DataVersionLocalModelBOX.getData();
@@ -6219,6 +6222,9 @@ cachedPolygon.clear();
             .url !=
             null));
 
+    const List<Widget> events = [];
+
+
     return Stack(
       children: [
         Positioned(
@@ -6891,8 +6897,27 @@ cachedPolygon.clear();
                             ),
                           ],
                         ),
-                      )
-                          : Container(),
+                      ) : Container(),
+                      Semantics(
+                        label: "Events Happening Here",
+                        excludeSemantics: true,
+                        child: Container(
+                          margin: EdgeInsets.only(left: 17, top: 20),
+                          child: Text(
+                            "Events Happening Here",
+                            style: const TextStyle(
+                              fontFamily: "Roboto",
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xff000000),
+                              height: 21 / 18,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+
+
                     ],
                   ),
                 );
