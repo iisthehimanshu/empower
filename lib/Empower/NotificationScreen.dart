@@ -119,84 +119,87 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Widget _buildNotificationList() {
 
-    return ListView.builder(
-      itemCount: notificationsList.length,
-      padding: EdgeInsets.all(16),
-      itemBuilder: (context, index) {
-        final notification = notificationsList[notificationsList.length-index-1];
-        print(notification.appId.runtimeType);
-        if(notification.appId == 'com.iwayplus.empower') {
-          return Container(
-            margin: EdgeInsets.only(top: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: Color(0xffEBEBEB),
+    return Container(
+      color: Colors.white,
+      child: ListView.builder(
+        itemCount: notificationsList.length,
+        padding: EdgeInsets.all(16),
+        itemBuilder: (context, index) {
+          final notification = notificationsList[notificationsList.length-index-1];
+          print(notification.appId.runtimeType);
+          if(notification.appId == 'com.iwayplus.empower') {
+            return Container(
+              margin: EdgeInsets.only(top: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Color(0xffEBEBEB),
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 8),
-                  padding: EdgeInsets.all(7),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xffF5F5F5),
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 8),
+                    padding: EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xffF5F5F5),
+                    ),
+                    child: Icon(
+                      Icons.notifications_none,
+                      color: Color(0xff000000),
+                      size: 25,
+                    ),
                   ),
-                  child: Icon(
-                    Icons.notifications_none,
-                    color: Color(0xff000000),
-                    size: 25,
-                  ),
-                ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 12, left: 18),
-                            child: Text(
-                              notification.title!,
-                              style: const TextStyle(
-                                fontFamily: "Roboto",
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff000000),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 12, left: 18),
+                              child: Text(
+                                notification.title!,
+                                style: const TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff000000),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 3, bottom: 14, left: 18),
-                            child: Text(
-                              HelperClass.truncateString(notification.body!, 40),
-                              style: const TextStyle(
-                                fontFamily: "Roboto",
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff8d8c8c),
+                            Container(
+                              margin: EdgeInsets.only(top: 3, bottom: 14, left: 18),
+                              child: Text(
+                                HelperClass.truncateString(notification.body!, 40),
+                                style: const TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff8d8c8c),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
 
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          );
-        }else{
-          print("tileelse");
-        }
-      },
+                ],
+              ),
+            );
+          }else{
+            print("tileelse");
+          }
+        },
+      ),
     );
   }
 

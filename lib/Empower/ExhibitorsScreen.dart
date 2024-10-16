@@ -205,10 +205,18 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen>{
                                 radius: 30,
                                 backgroundImage: AssetImage('assets/speaker_image.jpg'),
                               ):
-                              CircleAvatar(
-                                radius: 30, // Larger size for the pop out image
-                                backgroundColor: Color(0xffB2EFE4),
-                                backgroundImage: NetworkImage("https://maps.iwayplus.in/uploads/${exhibitor.filename}"),
+                              ClipOval(
+                                child: Container(
+                                  color: Color(0xffffffff), // Background color
+                                  child: FittedBox(
+                                    fit: BoxFit.cover, // Ensures the image fits within the CircleAvatar
+                                    child: Image.network(
+                                      "https://maps.iwayplus.in/uploads/${exhibitor.filename}",
+                                      width: 60, // Set this to match the diameter (2 * radius)
+                                      height: 60,
+                                    ),
+                                  ),
+                                ),
                               ),
                               SizedBox(width: 12),
                               Expanded(
