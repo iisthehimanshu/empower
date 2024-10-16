@@ -120,6 +120,8 @@ mixin LocaleData {
   static const String waytogo="Where you want to go?";
   static const String scanQr="Scan nearby QR to know your location";
   static const String reroute="You are going away from the path. Rerouting you to the destination";
+  static const String upToDate ='upToDate';
+
 
   static Map<String, String> get properties => {
     'Slight Right': tsslightright,
@@ -346,6 +348,7 @@ mixin LocaleData {
     'Where you want to go?':'Where you want to go?',
     'Scan nearby QR to know your location':'Scan nearby QR to know your location',
     'You are going away from the path. Rerouting you to the destination':'You are going away from the path. Rerouting you to the destination',
+    'upToDate':'Up to date',
 
 
 
@@ -470,6 +473,7 @@ mixin LocaleData {
     'Where you want to go?':'आप कहाँ जाना चाहते हैं?',
     'Scan nearby QR to know your location':'अपना स्थान जानने के लिए नजदिकी QR को स्कैन करें',
     'You are going away from the path. Rerouting you to the destination':'आप रास्ते से दूर जा रहे हैं। आपको आपकी मंजिल की दिशा में रीरूट किया जाया जा रहा है',
+    'upToDate':'अप टू डेट',
   };
 
   static const Map<String, dynamic> TA = {

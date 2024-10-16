@@ -130,7 +130,7 @@ class _SettingScreenState extends State<SettingScreen> {
   String? currentVersion = "";
   Future<void> checkForUpdate() async {
     final newVersion = NewVersionPlus(
-      androidId: 'com.iwayplus.empower',
+      androidId: 'com.iwayplus.empower24',
       iOSId: 'com.iwayplus.empower',
     );
 
@@ -344,39 +344,86 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                     ),
                     Spacer(),
-
-                    // if (_checkingForUpdate)
-                    //   CircularProgressIndicator(
-                    //     strokeWidth: 2,
-                    //     valueColor:
-                    //     AlwaysStoppedAnimation<Color>(Color(0xffEF526A)),
-                    //   )
-                    // else if (_updateAvailable)
-                    GestureDetector(
-                      onTap: ()async{
-                        // final url = Theme.of(context).platform ==
-                        //     TargetPlatform.iOS
-                        //     ? 'https://apps.apple.com/in/app/accessible-ashoka/id6553976574'
-                        //     : 'https://play.google.com/store/apps/details?id=com.iwayplus.accessibleashoka';
-                        // if (await canLaunch(url)) {
-                        // await launch(url);
-                        // } else {
-                        // print('Could not launch $url');
-                        // }
-                      },
-                      child: Text(
-                        // 'Update Available',
-                        LocaleData.updateAvailable.getString(context),
-
-                        style: TextStyle(
-                          color: Color(0xFF0B6B94),
-                          fontSize: 14,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                          height: 0.10,
+                    // Text(
+                    //   // 'Update Available',
+                    //   LocaleData.updateAvailable.getString(context),
+                    //
+                    //   style: TextStyle(
+                    //     color: Color(0xFF0B6B94),
+                    //     fontSize: 14,
+                    //     fontFamily: 'Roboto',
+                    //     fontWeight: FontWeight.w400,
+                    //     height: 0.10,
+                    //   ),
+                    // )
+                    if (_checkingForUpdate)
+                      CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor:
+                        AlwaysStoppedAnimation<Color>(Color(0xffEF526A)),
+                      )
+                    else if (_updateAvailable)
+                      GestureDetector(
+                        onTap: () async {
+                          final url = Theme.of(context).platform ==
+                              TargetPlatform.iOS
+                              ? 'https://apps.apple.com/in/app/accessible-ashoka/id6553976574'
+                              : 'https://play.google.com/store/apps/details?id=com.iwayplus.accessibleashoka';
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            print('Could not launch $url');
+                          }
+                        },
+                        child: Text(
+                          LocaleData.updateAvailable.getString(context),
+                          style: TextStyle(
+                            color: Color(0xFF0B6B94),
+                            fontSize: 14,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
+                      )
+                    // InkWell(
+                    //   onTap: () {
+                    //
+                    //     _launchURL('https://play.google.com/store/apps/details?id=com.iwayplus.ashokanavigation');
+                    //   },
+                    //   child: Text(
+                    //     LocaleData.updateAvailable.getString(context),
+                    //     style: TextStyle(
+                    //       color: Color(0xFF0B6B94),
+                    //       fontSize: 14,
+                    //       fontFamily: 'Roboto',
+                    //       fontWeight: FontWeight.w400,
+                    //     ),
+                    //   ),
+                    // )
+                    else
+                      Row(
+                        children: [
+                          Text(
+                            LocaleData.upToDate.getString(context),
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 14,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                              height: 0.10,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "(${currentVersion!})",
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
                       ),
-                    )
                   ],
                 ),
               ),

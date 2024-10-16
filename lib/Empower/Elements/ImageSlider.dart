@@ -45,52 +45,25 @@ class _ImageSliderState extends State<ImageSlider> {
               builder: (BuildContext context) {
                 return Semantics(
                   label: "Header Image",
-                  child: GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return Dialog(
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: Semantics(
-                                label: widget.imagesSemantics[_ImageIndex],
-                                child: Container(
-                                  width: MediaQuery.of(dialogContext).size.width,
-                                  height: MediaQuery.of(dialogContext).size.width / 14 * 9,
-                                  child: PhotoView(
-                                    imageProvider: NetworkImage(item),
-                                    minScale: PhotoViewComputedScale.contained * 0.8,
-                                    maxScale: PhotoViewComputedScale.covered * 2.0,
-                                    initialScale: PhotoViewComputedScale.contained,
-                                  ),
-                                ),
-                              ),
-                            ),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.95,
+                    margin: EdgeInsets.symmetric(horizontal: 0.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white54,
+                      borderRadius: BorderRadius.circular(8.0), // Add rounded corners here
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0), // Clip the image to rounded corners
+                      child: Image.network(
+                        item,
+                        fit: BoxFit.fitHeight,
+                        errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                          // Return the default image when an error occurs
+                          return Image.asset(
+                            'assets/maxresdefault.jpg', // Provide the path to your default image here
+                            fit: BoxFit.cover,
                           );
                         },
-                      );
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      margin: EdgeInsets.symmetric(horizontal: 0.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white54,
-                        borderRadius: BorderRadius.circular(8.0), // Add rounded corners here
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0), // Clip the image to rounded corners
-                        child: Image.network(
-                          item,
-                          fit: BoxFit.fitHeight,
-                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                            // Return the default image when an error occurs
-                            return Image.asset(
-                              'assets/maxresdefault.jpg', // Provide the path to your default image here
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
                       ),
                     ),
                   ),
