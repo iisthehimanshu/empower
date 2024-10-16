@@ -51,9 +51,11 @@ class SessionDetail extends StatefulWidget {
   late String? speakerName;
   late CardData? dataForHiveStorageAndFurtherUse;
   late String? speakerID;
+  bool hideDirectionButton;
 
   SessionDetail(
-      {required this.title,
+      {this.hideDirectionButton = false,
+        required this.title,
       required this.date,
       required this.startDate,
       required this.endDate,
@@ -498,6 +500,9 @@ class SessionDetailState extends State<SessionDetail> {
     print("testBox${testBox.containsKey(widget.eventid)}");
     print(widget.eventid);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    if(!widget.hideDirectionButton){
+      widget.hideDirectionButton = (widget.hideDirectionButton && (widget.venueId == null || widget.venueId!.isEmpty));
+    }
   }
 
   @override
@@ -995,7 +1000,7 @@ class SessionDetailState extends State<SessionDetail> {
                     ),
                   ]),
             ),
-            (widget.venueId == null || widget.venueId!.isEmpty) ?Container():ElevatedButton(
+            (widget.hideDirectionButton ) ?Container():ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xffECC113), // Button background color
                 fixedSize: Size(screenWidth, 72), // Width and height

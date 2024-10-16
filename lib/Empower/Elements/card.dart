@@ -8,7 +8,9 @@ import '../SessionDetail.dart';
 
 class card extends StatelessWidget {
   final CardData data;
-  card(this.data, {super.key});
+  bool openInDialoge;
+  bool hideDirectionButton;
+  card(this.data, {this.openInDialoge = false, this.hideDirectionButton = false, super.key});
 
   List<Widget> getGenere() {
     List<Widget> widgets = [];
@@ -89,33 +91,67 @@ class card extends StatelessWidget {
       onTap: ()
     {
       if (!data.eventName!.contains("Lunch")) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SessionDetail(
-              title: data.eventName ?? "",
-              date: data.eventDate ?? "",
-              startDate: "",
-              endDate: "",
-              time: data.startTime ?? "",
-              loc: data.venueName ?? "",
-              hash: [""],
-              seats: "",
-              eventid: data.sId!,
-              category: data.categories ?? "",
-              subevents: data.subEvents ?? <dynamic>[],
-              filename: data.filename ?? "",
-              eventType: data.eventType ?? "",
-              bookingType: data.bookingType ?? "",
-              description: data.eventDetails,
-              moderator: data.moderator ?? "",
-              speakerName: data.speakerName,
-              speakerID: data.speakerId,
-              dataForHiveStorageAndFurtherUse: data, venueId: data.venueId,
+        if(openInDialoge){
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Dialog(
+                child: SessionDetail(
+                  title: data.eventName ?? "",
+                  date: data.eventDate ?? "",
+                  startDate: "",
+                  endDate: "",
+                  time: data.startTime ?? "",
+                  loc: data.venueName ?? "",
+                  hash: [""],
+                  seats: "",
+                  eventid: data.sId!,
+                  category: data.categories ?? "",
+                  subevents: data.subEvents ?? <dynamic>[],
+                  filename: data.filename ?? "",
+                  eventType: data.eventType ?? "",
+                  bookingType: data.bookingType ?? "",
+                  description: data.eventDetails,
+                  moderator: data.moderator ?? "",
+                  speakerName: data.speakerName,
+                  speakerID: data.speakerId,
+                  dataForHiveStorageAndFurtherUse: data,
+                  venueId: data.venueId,
+                  hideDirectionButton: hideDirectionButton,
+                ),
+              );
+            },
+          );
+        }else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  SessionDetail(
+                    title: data.eventName ?? "",
+                    date: data.eventDate ?? "",
+                    startDate: "",
+                    endDate: "",
+                    time: data.startTime ?? "",
+                    loc: data.venueName ?? "",
+                    hash: [""],
+                    seats: "",
+                    eventid: data.sId!,
+                    category: data.categories ?? "",
+                    subevents: data.subEvents ?? <dynamic>[],
+                    filename: data.filename ?? "",
+                    eventType: data.eventType ?? "",
+                    bookingType: data.bookingType ?? "",
+                    description: data.eventDetails,
+                    moderator: data.moderator ?? "",
+                    speakerName: data.speakerName,
+                    speakerID: data.speakerId,
+                    dataForHiveStorageAndFurtherUse: data,
+                    venueId: data.venueId,
+                  ),
             ),
-          ),
-        );
-
+          );
+        }
 
     }
       },

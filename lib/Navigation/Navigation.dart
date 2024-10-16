@@ -9,6 +9,9 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:geolocator/geolocator.dart';
+import '../Empower/APIModel/Schedulemodel.dart';
+import '../Empower/Elements/card.dart';
+import '../Empower/EventsState.dart';
 import '../Empower/websocket/UserLog.dart';
 import '../Navigation/singletonClass.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
@@ -182,6 +185,7 @@ class _NavigationState extends State<Navigation> with TickerProviderStateMixin {
   pac.PriorityQueue<MapEntry<String, double>> debugPQ = new pac.PriorityQueue();
   late final Uint8List userloc;
   late final Uint8List userlocdebug;
+  static ScheduleModel? schedule;
 
   // HashMap<String, beacon> SingletonFunctionController.apibeaconmap = HashMap();
   late FlutterTts flutterTts;
@@ -3349,8 +3353,13 @@ double? minDistance;
     print("apiCallsprint");
 
     try{
-      await DataVersionApi()
-          .fetchDataVersionApiData(buildingAllApi.selectedBuildingID);
+      schedule = await Eventsstate.fetchSchedule();
+    }catch(e){
+      print("error while fetching schedule in navigation $e");
+    }
+    try{
+    await DataVersionApi()
+        .fetchDataVersionApiData(buildingAllApi.selectedBuildingID);
     }catch(e){
       print("APICALLS DataVersionApi API TRY-CATCH");
     }
@@ -3650,6 +3659,7 @@ double? minDistance;
       });
       print("apicalls testing 15");
     }
+
 
   }
 
@@ -6223,6 +6233,16 @@ cachedPolygon.clear();
             .url !=
             null));
 
+    List<Widget> events = [];
+    if(schedule != null && schedule!.groupedDataByVenue != null && schedule!.groupedDataByVenue![SingletonFunctionController.building.selectedLandmarkID] != null){
+      schedule!.groupedDataByVenue![SingletonFunctionController.building.selectedLandmarkID]!.forEach((cardData){
+        events.add(Padding(
+          padding: const EdgeInsets.only(left:12,right:12),
+          child: card(cardData, openInDialoge: true,hideDirectionButton: true,),
+        ));
+      });
+    }
+
     return Stack(
       children: [
         Positioned(
@@ -6335,13 +6355,13 @@ cachedPolygon.clear();
             ),
           ],
           minHeight:  startTime? 220:185,
-          maxHeight: contactDetail&&microService?0.73:(contactDetail
+          maxHeight: events.isNotEmpty?screenHeight:(contactDetail&&microService?0.73:(contactDetail
               ? (screenHeight * 0.45)
               : (microService
               ? (screenHeight * 0.28)
               : (startTime
               ? 220
-              : 185)))
+              : 185))))
           ,
           snapPoint: 0.6,
           panel: () {
@@ -6895,8 +6915,27 @@ cachedPolygon.clear();
                             ),
                           ],
                         ),
-                      )
-                          : Container(),
+                      ) : Container(),
+                      events.isNotEmpty?Semantics(
+                        label: "Events Happening Here",
+                        excludeSemantics: true,
+                        child: Container(
+                          margin: EdgeInsets.only(left: 17, top: 20),
+                          child: Text(
+                            "Events Happening Here",
+                            style: const TextStyle(
+                              fontFamily: "Roboto",
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xff000000),
+                              height: 21 / 18,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ):Container(),
+                      Column(children: events,)
+
                     ],
                   ),
                 );

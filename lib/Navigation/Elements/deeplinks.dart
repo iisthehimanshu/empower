@@ -28,6 +28,8 @@ class Deeplink{
         await rgciDeepLink(uri, context, "rgci.com");
       }else if(uri.toString().contains("iwaymaps.com")){
         await iwaymapsDeepLink(uri, context, "iwaymaps.com");
+      }else{
+        await iwaymapsDeepLink(uri, context, "iwaymaps.com");
       }
 
     }

@@ -82,11 +82,15 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           print(qrCode);
 
           List<QRDataAPIModel>? qrData = await QRDataAPI().fetchQRData(buildingAllApi.allBuildingID.keys.toList());
+          print("qrdata from api $qrData");
           qrData?.forEach((e){
+            print("qrdata from api ${e.landmarkName}");
             if(e.code == qrCode){
               if(e.landmarkId == null){
+                print("not found in landmarks");
                 HelperClass.launchURL(scanData.code!);
               }else{
+                print("found in landmarks");
                 Navigator.push(
                   context,
                   MaterialPageRoute(

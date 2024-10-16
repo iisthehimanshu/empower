@@ -7,6 +7,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'API/ScheduleAPI.dart';
 import 'APIModel/Schedulemodel.dart';
+import 'ScheduleScreen.dart';
 
 
 class MyScheduleScreen extends StatefulWidget {
@@ -38,7 +39,10 @@ class _MyScheduleScreenState extends State<MyScheduleScreen>{
     testBox.keys.forEach((currentValue){
       for(var currentScheduleData in schedule!.data!){
         if(currentScheduleData.sId == currentValue){
-          bookmarkedListWidget.add(card(currentScheduleData));
+          bookmarkedListWidget.add(Padding(
+            padding: const EdgeInsets.only(left: 12,right: 12),
+            child: card(currentScheduleData),
+          ));
           setState(() {
           });
         }
@@ -94,7 +98,49 @@ class _MyScheduleScreenState extends State<MyScheduleScreen>{
             color: Color(0xffB2EFE4),
             size: screenHeight*0.18,
           ),// Show a loader
-        ) : Column(
+        ) : bookmarkedListWidget.isEmpty?Container(
+          height: screenHeight,
+          width: screenWidth,
+          color: Colors.white,
+          child: Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/noFavourite.png',
+                width: 150,
+                height: 150,
+              ),
+              Text("No Favorites Yet",style: TextStyle(
+                color: Color(0xFF18181B),
+                fontSize: 18,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+              ),),
+              SizedBox(
+                height: 6,
+              ),
+              InkWell(
+                onTap: (){
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context)=> ScheduleScreen()));
+                },
+                child:Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Explore Schedule",style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 12,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w700,
+                    ),),
+                    Icon(Icons.arrow_forward_rounded,color: Colors.orange,size: 12,)
+                  ],
+                ) ,
+              )
+            ],
+          ),),
+        ):Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(

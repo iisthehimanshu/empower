@@ -31,6 +31,7 @@ class QRDataAPI{
       },
     );
 
+    print("response ${response.statusCode}   ${response.body}");
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = jsonDecode(response.body);
       print("QRDataAPI DATA FROM API");
