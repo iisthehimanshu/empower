@@ -37,8 +37,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>{
+  List<CarouselImages> carouselImages = [];
   List<String> images = [
-    'https://i.ytimg.com/vi/9hUqhunGsUM/maxresdefault.jpg'
+    'https://www.empower24.in/img/pitch.png'
   ];
   List<String> imagesSemantic = [
     'Corousal Image'
@@ -79,6 +80,7 @@ class _HomePageState extends State<HomePage>{
         email = e.email ?? "";
         phone = e.mobile ?? "";
         location = e.location ?? "";
+        carouselImages = e.carouselImages!;
         // Parse the strings to DateTime
         if (e.startDate != null && e.endDate != null) {
           DateTime startDate = DateTime.parse(e.startDate!);
@@ -108,6 +110,12 @@ class _HomePageState extends State<HomePage>{
       }
     });
     setState(() {
+      carouselImages.forEach((current){
+        images.add("https://maps.iwayplus.in/uploads/${current.filename}");
+      });
+    });
+
+    setState(() {
 
     });
   }
@@ -134,7 +142,7 @@ class _HomePageState extends State<HomePage>{
                         child: Semantics(
                             label: "Empower 2024",
                             excludeSemantics: true,
-                            child: Image.asset("assets/download.png",scale: 4,)
+                            child: Image.asset("assets/download.png",scale:2,)
                         )
                     ),
                   ),

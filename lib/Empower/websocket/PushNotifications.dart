@@ -90,7 +90,7 @@ class PushNotifications {
     required String payload,
     required String imageUrl,
   }) async {
-    String? filePath = await _downloadAndSaveImage("https://dev.iwayplus.in/uploads/$imageUrl", 'notification_image');
+    String? filePath = await _downloadAndSaveImage("https://maps.iwayplus.in/uploads/$imageUrl", 'notification_image');
 
     // Android notification with image
     final BigPictureStyleInformation bigPictureStyleInformation = BigPictureStyleInformation(
