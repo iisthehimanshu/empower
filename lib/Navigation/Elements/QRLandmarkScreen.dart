@@ -147,30 +147,40 @@ class _QRViewExampleState extends State<QRViewExample> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) async {
+    try {
       setState(() {
-        result = scanData;
+        this.controller = controller;
       });
-      print("result");
-      print(result!.code);
-      if(result != null && result!.code != null){
-        final uri = Uri.parse(result!.code ?? '');
-        String qrCode = uri.fragment.split('/').last;
-        List<QRDataAPIModel>? qrData = await QRDataAPI().fetchQRData(buildingAllApi.allBuildingID.keys.toList());
-        qrData?.forEach((e){
-          if(e.code == qrCode){
-            if(e.landmarkId == null){
-              HelperClass.launchURL(result!.code!);
-            }else{
-              Navigator.pop(context,e.landmarkId);
+      controller.scannedDataStream.listen((scanData) async {
+        setState(() {
+          result = scanData;
+        });
+        print("result");
+        print(result!.code);
+        if (result != null && result!.code != null) {
+          final uri = Uri.parse(result!.code ?? '');
+          String qrCode = uri.fragment
+              .split('/')
+              .last;
+          List<QRDataAPIModel>? qrData = await QRDataAPI().fetchQRData(
+              buildingAllApi.allBuildingID.keys.toList());
+          if(qrData != null){
+            for(var e in qrData){
+              if (e.code == qrCode) {
+                if (e.landmarkId == null) {
+                  HelperClass.launchURL(result!.code!);
+                } else {
+                  Navigator.pop(context, e.landmarkId);
+                  return;
+                }
+              }
             }
           }
-        });
-      }
-    });
+        }
+      });
+    }catch(e){
+      print("error in qr $e");
+    }
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
@@ -184,7 +194,7 @@ class _QRViewExampleState extends State<QRViewExample> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    //controller?.dispose();
     super.dispose();
   }
 }

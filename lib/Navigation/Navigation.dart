@@ -3768,7 +3768,7 @@ double? minDistance;
             if (value < 0) {
               value = value * -1;
             }
-            if (value > highestweight) {
+            if (value >= highestweight) {
               highestweight = value;
               nearestBeacon = key;
             }
