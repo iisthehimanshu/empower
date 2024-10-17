@@ -153,6 +153,39 @@ class CardData {
     return now.isAfter(parsedStartDateTime) && now.isBefore(parsedEndDateTime);
   }
 
+  bool isCurrentDateTimePast(String startTime, String endTime, String date) {
+    // Define the time and date format
+    final timeFormat = DateFormat('HH:mm');
+    final dateFormat = DateFormat('yyyy-MM-dd');
+
+    // Parse the date to get the DateTime object
+    DateTime parsedDate = dateFormat.parse(date);
+
+    // Create start and end DateTime objects by combining date with start and end times
+    DateTime parsedStartDateTime = DateTime(
+      parsedDate.year,
+      parsedDate.month,
+      parsedDate.day,
+      timeFormat.parse(startTime).hour,
+      timeFormat.parse(startTime).minute,
+    );
+
+    DateTime parsedEndDateTime = DateTime(
+      parsedDate.year,
+      parsedDate.month,
+      parsedDate.day,
+      timeFormat.parse(endTime).hour,
+      timeFormat.parse(endTime).minute,
+    );
+
+    // Get the current date-time
+    final now = DateTime.now();
+
+    // Check if the current date-time is past the end date-time
+    return now.isAfter(parsedEndDateTime);
+  }
+
+
   bool isEventHappeningNow() {
     print("isEventHappeningNow");
     // Get today's date in 'yyyy-MM-dd' format

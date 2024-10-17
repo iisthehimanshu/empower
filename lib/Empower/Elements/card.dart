@@ -160,10 +160,12 @@ class card extends StatelessWidget {
         width: screenWidth,
         margin: EdgeInsets.only(top: 16),
         decoration: BoxDecoration(
-          color: data.isCurrentDateTimeBetween(
-              data.startTime!, data.endTime!, data.eventDate!)
+          color: data.isCurrentDateTimeBetween(data.startTime!, data.endTime!, data.eventDate!)
               ? Color(0xffF1FFFE)
+              : data.isCurrentDateTimePast(data.startTime!, data.endTime!, data.eventDate!)
+              ? Colors.grey.withOpacity(0.2)
               : Colors.white,
+
           borderRadius: BorderRadius.circular(8.0),
           border: Border.all(
             color: Colors.black12,
@@ -224,11 +226,10 @@ class card extends StatelessWidget {
         width: screenWidth,
         margin: EdgeInsets.only(top: 16),
         decoration: BoxDecoration(
-          color: data.isCurrentDateTimeBetween(
-              data.startTime!, data.endTime!, data.eventDate!)
-              ? Color(0xffB4F1EE)
-              : data.eventName!.contains("Lunch")
-              ? Color(0xffBDBDBD)
+          color: data.isCurrentDateTimeBetween(data.startTime!, data.endTime!, data.eventDate!)
+              ? Color(0xffF1FFFE)
+              : data.isCurrentDateTimePast(data.startTime!, data.endTime!, data.eventDate!)
+              ? Colors.grey.withOpacity(0.2)
               : Colors.white,
           borderRadius: BorderRadius.circular(8.0),
           border: Border.all(

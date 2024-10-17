@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../Navigation/Elements/HelperClass.dart';
+import '../API/QRDataAPI.dart';
+import '../API/buildingAllApi.dart';
+import '../ApiModels/QRDataAPIModel.dart';
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
@@ -147,20 +150,25 @@ class _QRViewExampleState extends State<QRViewExample> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       setState(() {
         result = scanData;
       });
       print("result");
       print(result!.code);
-      if(result != null){
-        String polyValue = HelperClass.extractLandmark(result!.code!);
-        print("polyValue $polyValue");
-        if(polyValue != ""){
-          Navigator.pop(context,polyValue);
-        }else{
-          HelperClass.showToast("Invalid QR");
-        }
+      if(result != null && result!.code != null){
+        final uri = Uri.parse(result!.code ?? '');
+        String qrCode = uri.fragment.split('/').last;
+        List<QRDataAPIModel>? qrData = await QRDataAPI().fetchQRData(buildingAllApi.allBuildingID.keys.toList());
+        qrData?.forEach((e){
+          if(e.code == qrCode){
+            if(e.landmarkId == null){
+              HelperClass.launchURL(result!.code!);
+            }else{
+              Navigator.pop(context,e.landmarkId);
+            }
+          }
+        });
       }
     });
   }
