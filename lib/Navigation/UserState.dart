@@ -346,11 +346,8 @@ class UserState {
 
       //lift check
       
-      
 
-      if (floor != pathobj.destinationFloor &&
-          pathobj.connections[Bid]?[floor] ==
-              (showcoordY * cols + showcoordX)) {
+      if (floor != pathobj.destinationFloor && pathobj.connections[Bid] != null && pathobj.connections[Bid]![floor] != null && tools.calculateDistance([pathobj.connections[Bid]![floor]! %cols, pathobj.connections[Bid]![floor]! ~/cols], [showcoordX,showcoordY])<=4) {
         // UserState.reachedLift=true;
         onConnection = true;
         createCircle(lat, lng);

@@ -1349,7 +1349,7 @@ class tools {
     return [row, col];
   }
 
-  static double calculateDistance(List<int> p1, List<int> p2) {
+  static double calculateDistance(List<int> p1, List<int> p2, {bool p = false}) {
     return sqrt(pow(p1[0] - p2[0], 2) + pow(p1[1] - p2[1], 2));
   }
 
