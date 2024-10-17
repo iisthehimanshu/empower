@@ -14,7 +14,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:new_version_plus/new_version_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Navigation/API/buildingAllApi.dart';
 import '../Navigation/Navigation.dart';
@@ -59,11 +62,14 @@ class _HomePageState extends State<HomePage>{
   String phone="";
   String location="";
   String date="";
+  var userInfoBox=Hive.box('UserInformation');
+
 
 
   @override
   void initState() {
     super.initState();
+    checkForUpdate();
     NotificationSocket.receiveMessage();
     wsocket.message["AppInitialization"]["BID"]="66f3dd94da553117a972caab";
     wsocket.message["AppInitialization"]["buildingName"]="NISH";
@@ -71,6 +77,75 @@ class _HomePageState extends State<HomePage>{
     fetchEventData();
     SingletonFunctionController().executeFunction(buildingAllApi.allBuildingID);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
+
+  bool _updateAvailable = false;
+  bool _checkingForUpdate = true;
+  String? currentVersion = "";
+
+  Future<void> checkForUpdate() async {
+    final newVersion = NewVersionPlus(
+      androidId: 'com.iwayplus.empower',
+      iOSId: 'com.iwayplus.empower',
+    );
+
+    try {
+      final status = await newVersion.getVersionStatus();
+      print("status");
+      print(status!.canUpdate);
+      setState(() {
+        currentVersion = status?.localVersion;
+        _updateAvailable = status != null && status.canUpdate;
+        _checkingForUpdate = false;
+      });
+
+      // Show dialog if update is available
+      if (_updateAvailable) {
+        _showUpdateDialog();
+      }
+
+    } catch (e) {
+      print('Error checking for updates: $e');
+      setState(() {
+        _checkingForUpdate = false;
+      });
+    }
+  }
+
+  // Function to show update dialog
+  void _showUpdateDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Update Available"),
+          content: Text("A new version of the app is available. Please update to the latest version."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Update Now"),
+              onPressed: () async {
+                // Add your app update logic here
+                final url = Theme.of(context).platform ==
+                    TargetPlatform.iOS
+                    ? 'https://apps.apple.com/in/app/empower-2024/id6736653512'
+                    : 'https://play.google.com/store/apps/details?id=com.iwayplus.empower';
+                if (await canLaunch(url)) {
+                await launch(url);
+                } else {
+                print('Could not launch $url');
+                }
+              },
+            ),
+            TextButton(
+              child: Text("Close"),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   late ConferenceAllAPIModel? eventData;
@@ -137,6 +212,7 @@ class _HomePageState extends State<HomePage>{
             children: [
               Row(
                 children: [
+
                   Container(
                       margin: EdgeInsets.only(top: 20,left: 20,bottom: 10),
                       child: Semantics(
