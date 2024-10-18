@@ -12,7 +12,7 @@ import '../DATABASE/DATABASEMODEL/LocalNotificationAPIDatabaseModel.dart';
 
 class LocalNotificationAPI{
 
-  final String baseUrl = kDebugMode? 'https://maps.iwayplus.in/secured/get-notifications?page=-1&appId=com.iwayplus.empower24' : 'https://maps.iwayplus.in/secured/get-notifications?page=-1&appId=com.iwayplus.empower24';
+  final String baseUrl = kDebugMode? 'https://maps.iwayplus.in/secured/get-notifications?page=-1&appId=com.iwayplus.empower' : 'https://maps.iwayplus.in/secured/get-notifications?page=-1&appId=com.iwayplus.empower';
   static var signInBox = Hive.box('SignInDatabase');
   String accessToken = signInBox.get("accessToken");
   String refreshToken = signInBox.get("refreshToken");
@@ -36,8 +36,8 @@ class LocalNotificationAPI{
     if(!deviceConnected){
       HelperClass.showToast("No Internet Connection!!");
       print("LocalNotificationAPI DATA FROM DATABASE");
-      if(NotifiBox.containsKey("com.iwayplus.empower24")){
-        Map<String, dynamic> responseBody = NotifiBox.get("com.iwayplus.empower24")!.responseBody;
+      if(NotifiBox.containsKey("com.iwayplus.empower")){
+        Map<String, dynamic> responseBody = NotifiBox.get("com.iwayplus.empower")!.responseBody;
         LocalNotificationAPIModel notificationData =LocalNotificationAPIModel.fromJson(responseBody);
         List<NotificationsInLocalNotificationModule> notificationsList = notificationData.notifications!;
         return notificationsList;
@@ -60,7 +60,7 @@ class LocalNotificationAPI{
       LocalNotificationAPIModel notificationData =LocalNotificationAPIModel.fromJson(responseBody);
       List<NotificationsInLocalNotificationModule> notificationsList = notificationData.notifications!;
       final notificationSaveData = LocalNotificationAPIDatabaseModel(responseBody: responseBody);
-      NotifiBox.put("com.iwayplus.empower24", notificationSaveData);
+      NotifiBox.put("com.iwayplus.empower", notificationSaveData);
       notificationSaveData.save();
       return notificationsList;
     }

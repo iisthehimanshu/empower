@@ -229,7 +229,7 @@ class _SignUpState extends State<SignUp> {
     };
     var request = http.Request(
         'POST', Uri.parse('https://maps.iwayplus.in/auth/username'));
-    request.body = json.encode({"username": username, "appId":"com.iwayplus.empower24"});
+    request.body = json.encode({"username": username, "appId":"com.iwayplus.empower"});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
