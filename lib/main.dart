@@ -166,9 +166,11 @@ class _MyAppState extends State<MyApp> {
             if(!SignInDatabasebox.containsKey("accessToken")){
               return SignIn();
             }else{
+              _initDeepLinkListener(context);
               return MainScreen(initialIndex: 0);
             } // Redirect to Sign-In screen if user is not authenticated
           } else {
+            _initDeepLinkListener(context);
             print("googleSignInUserName");
             return MainScreen(initialIndex: 0); // Redirect to MainScreen if user is authenticated
           }
