@@ -6420,7 +6420,7 @@ cachedPolygon.clear();
                                   autofocus: true,
                                   child: Semantics(
                                     child: Text(
-                                      snapshot
+                                      HelperClass.truncateString(snapshot
                                           .data!
                                           .landmarksMap![
                                       SingletonFunctionController
@@ -6434,7 +6434,8 @@ cachedPolygon.clear();
                                               .building
                                               .selectedLandmarkID]!
                                               .element!
-                                              .subType!,
+                                              .subType!, 25)
+                                      ,
                                       style: const TextStyle(
                                         fontFamily: "Roboto",
                                         fontSize: 22,
@@ -9908,7 +9909,7 @@ setState(() {
                           UserCredentials().getuserName(),
                           PathState.sourcePolyID,
                           PathState.destinationPolyID,
-                          "com.iwayplus.empower");
+                          "com.iwayplus.empower24");
 
                       if (_feedback.isNotEmpty) {}
                       showFeedback = false;
