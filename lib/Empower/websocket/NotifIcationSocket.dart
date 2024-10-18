@@ -11,7 +11,7 @@ class NotificationSocket{
     'autoConnect': false,
   });
   static void receiveMessage(){
-    channel.on("com.iwayplus.empower24", (value){
+    channel.on("com.iwayplus.empower", (value){
       NotificationData notification = NotificationData.fromJson(value);
       print("notification.filepath");
       print(notification.filepath);

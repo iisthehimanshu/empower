@@ -127,7 +127,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         itemBuilder: (context, index) {
           final notification = notificationsList[notificationsList.length-index-1];
           print(notification.appId.runtimeType);
-          if(notification.appId == 'com.iwayplus.empower24') {
+          if(notification.appId == 'com.iwayplus.empower') {
             return Container(
               margin: EdgeInsets.only(top: 10),
               decoration: BoxDecoration(

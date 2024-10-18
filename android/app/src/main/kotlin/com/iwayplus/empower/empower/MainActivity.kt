@@ -1,4 +1,4 @@
-package com.iwayplus.empower24
+package com.iwayplus.empower
 
 import io.flutter.embedding.android.FlutterActivity
 

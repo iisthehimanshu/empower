@@ -394,7 +394,6 @@ class UserState {
       }
 
       //lift check
-
       if (floor != pathobj.destinationFloor &&
           pathobj.connections[Bid] != null &&
           pathobj.connections[Bid]![floor] != null &&
@@ -406,7 +405,7 @@ class UserState {
                 showcoordY
               ]) <=
               5) {
-        try {
+        // try {
           // UserState.reachedLift=true;
           onConnection = true;
           createCircle(lat, lng);
@@ -422,6 +421,7 @@ class UserState {
                 pathobj.connections[Bid]![floor]! % cols,
                 pathobj.connections[Bid]![floor]! ~/ cols
               ]);
+          print("lift checker value $value");
           if (value < 45) {
             value = value + 45;
           }
@@ -439,7 +439,7 @@ class UserState {
                   ""),
               lngCode,
               prevpause: true);
-        } catch (e) {}
+        // } catch (e) {}
       }
 
       if (0 < pathobj.index &&
@@ -607,6 +607,8 @@ class UserState {
       } else {
         return "$destname की ओर आगे बढ़ते रहें";
       }
+    }else{
+      return msg;
     }
     return "";
   }

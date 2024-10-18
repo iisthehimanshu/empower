@@ -6577,7 +6577,7 @@ cachedPolygon.clear();
                               child: IconButton(
                                   onPressed: () {
                                     HelperClass.shareContent(
-                                        "https://maps.iwayplus.in/#/iway-apps/iwaymaps.com/landmark?bid=${buildingAllApi.getStoredString()}&landmark=${SingletonFunctionController.building.selectedLandmarkID!}&appStore=empower-2024/id6736653512&playStore=com.iwayplus.empower24");
+                                        "https://maps.iwayplus.in/#/iway-apps/iwaymaps.com/landmark?bid=${buildingAllApi.getStoredString()}&landmark=${SingletonFunctionController.building.selectedLandmarkID!}&appStore=empower-2024/id6736653512&playStore=com.iwayplus.empower");
                                   },
                                   icon: Semantics(
                                       label: "Share route information",
@@ -9909,7 +9909,7 @@ setState(() {
                           UserCredentials().getuserName(),
                           PathState.sourcePolyID,
                           PathState.destinationPolyID,
-                          "com.iwayplus.empower24");
+                          "com.iwayplus.empower");
 
                       if (_feedback.isNotEmpty) {}
                       showFeedback = false;
